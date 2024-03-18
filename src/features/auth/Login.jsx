@@ -45,7 +45,7 @@ function Login() {
         <CardHeader>
           <div className="text-center mb-3 text-sm text-muted-foreground flex justify-centerc:\Users\Yohannes\Desktop\SVG\logo.svg">
             <img
-              src="../../../../public/images/logo.svg"
+              src="../../../../images/logo.svg"
               alt=""
               className="h-6 mx-auto"
             />
