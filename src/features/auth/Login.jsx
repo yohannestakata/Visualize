@@ -7,32 +7,22 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
 
 import { RegisterSchema } from "../../schema/index";
+import { NavLink } from "react-router-dom";
 
 function Login() {
   const form = useForm({
@@ -42,6 +32,7 @@ function Login() {
       email: "",
       password: "",
       uniId: "",
+      department: "",
     },
   });
 
@@ -49,47 +40,25 @@ function Login() {
     console.log(values);
   }
   return (
-    <div className="flex h-screen justify-center items-center flex-col">
+    <div className="flex flex-col">
       <Card className="w-96">
         <CardHeader>
-          <div className="text-center mb-3 text-sm text-muted-foreground">
-            /* Visualize Logo Here */
+          <div className="text-center mb-3 text-sm text-muted-foreground flex justify-centerc:\Users\Yohannes\Desktop\SVG\logo.svg">
+            <img
+              src="../../../../public/images/logo.svg"
+              alt=""
+              className="h-6 mx-auto"
+            />
           </div>
-          <CardTitle className="text-center">Create an account</CardTitle>
+          <CardTitle className="text-center">Welcome Back</CardTitle>
           <CardDescription className="text-center">
-            Fill the form below to create your account.
+            Login to your existing account.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid w-full items-center gap-2">
-                <FormField
-                  control={form.control}
-                  name="nickname"
-                  render={({ field }) => (
-                    <FormItem>
-                      {/* <FormLabel>Nickname</FormLabel> */}
-                      <FormControl>
-                        <Input placeholder="Nickname" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      {/* <FormLabel>Email</FormLabel> */}
-                      <FormControl>
-                        <Input placeholder="Email" type="email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 <FormField
                   control={form.control}
                   name="uniId"
@@ -103,6 +72,7 @@ function Login() {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="password"
@@ -121,7 +91,7 @@ function Login() {
                   )}
                 />
                 <Button className="w-full" type="submit">
-                  Create account
+                  Login
                 </Button>
               </div>
             </form>
@@ -129,10 +99,10 @@ function Login() {
         </CardContent>
         <CardFooter>
           <span className="text-center text-sm w-full text-muted-foreground">
-            Already have an account?{" "}
-            <a href="" className="underline">
-              Login
-            </a>
+            Don*&apos;t have an account?{" "}
+            <NavLink to={"/auth/signup"} className="underline">
+              Signup
+            </NavLink>
           </span>
         </CardFooter>
       </Card>

@@ -7,4 +7,5 @@ export const RegisterSchema = z.object({
     .string()
     .min(8, { message: "Password needs to be atleast 8 characters" }),
   uniId: z.string().min(1, { message: "Please enter a valid University ID" }),
+  department: z.string().min(1, { message: "Please select a department" }),
 });
