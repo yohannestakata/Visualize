@@ -40,8 +40,8 @@ function Login() {
     console.log(values);
   }
   return (
-    <div className="flex flex-col">
-      <Card className="w-96">
+    <div className="flex flex-col w-full">
+      <Card className="w-full">
         <CardHeader>
           <div className="text-center mb-3 text-sm text-muted-foreground flex justify-centerc:\Users\Yohannes\Desktop\SVG\logo.svg">
             <img

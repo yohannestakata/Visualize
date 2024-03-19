@@ -122,17 +122,17 @@ function Signup() {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectItem value="accounting">
+                              <SelectItem value="Accounting">
                                 Accounting
                               </SelectItem>
-                              <SelectItem value="architecture">
+                              <SelectItem value="Architecture">
                                 Architecture
                               </SelectItem>
-                              <SelectItem value="computerScience">
+                              <SelectItem value="Computer Science">
                                 Computer Science
                               </SelectItem>
-                              <SelectItem value="health">Health</SelectItem>
-                              <SelectItem value="marketing">
+                              <SelectItem value="Health">Health</SelectItem>
+                              <SelectItem value="Marketing">
                                 Marketing
                               </SelectItem>
                             </SelectGroup>
