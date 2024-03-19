@@ -8,17 +8,13 @@ import { Vector3 } from "three";
 
 function Cube({ position, scale }) {
   const fbx = useLoader(FBXLoader, "../../../../3d_models/RubikCube.fbx");
-  const [cameraDelta, setCameraDelta] = useState(0);
-
   const meshRef = useRef();
+  const cameraDeltaRef = useRef(0);
 
   useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta / 8;
-    meshRef.current.rotation.x += delta / 8;
-    state.camera.position.x = Math.sin(cameraDelta / 5) * 10;
-    state.camera.position.z = Math.cos(cameraDelta / 5) * 10;
-
-    setCameraDelta((prev) => prev + delta);
+    meshRef.current.rotation.y += delta / 25;
+    meshRef.current.rotation.x += delta / 25;
+    cameraDeltaRef.current += delta;
   });
 
   return (
@@ -29,35 +25,51 @@ function Cube({ position, scale }) {
 }
 
 function CubeScene() {
-  function randomPosition() {
-    return [
-      Math.random() * 50 - 25,
-      Math.random() * 50 - 25,
-      Math.random() * 50 - 25,
-    ];
-  }
-
-  const [cubes, setCubes] = useState(
-    [...Array(50)].map(() => ({
-      position: new Vector3(...randomPosition()),
-      scale: Math.random() / 6,
-    }))
-  );
   return (
     <>
       <OrbitControls />
       <ambientLight intensity={15} />
       <pointLight position={[2, 1, 1]} color={"#22c55e"} intensity={5} />
+
+      <Cube scale={35} />
+    </>
+  );
+}
+
+function StarsScene() {
+  function randomPosition() {
+    return [
+      Math.random() * 100 - 50,
+      Math.random() * 100 - 50,
+      Math.random() * 100 - 50,
+    ];
+  }
+
+  const [cubes, setCubes] = useState(
+    [...Array(150)].map(() => ({
+      position: new Vector3(...randomPosition()),
+      scale: Math.random() / 4,
+    }))
+  );
+
+  const [cameraDelta, setCameraDelta] = useState(0);
+
+  useFrame((state, delta) => {
+    state.camera.position.x = Math.sin(cameraDelta / 10) * 25;
+    state.camera.position.z = Math.cos(cameraDelta / 10) * 25;
+    state.camera.lookAt(0, 0, 0);
+
+    setCameraDelta((prev) => prev + delta);
+  });
+
+  return (
+    <>
       {cubes.map((cube, index) => (
         <mesh key={index} {...cube}>
-          <pointsMaterial color="#15803d" size={0.015} sizeAttenuation />
+          <pointsMaterial color="#16a34a" size={0.015} sizeAttenuation />
           <sphereGeometry args={[1, 48, 48]} />
         </mesh>
       ))}
-      {/* {cubes.map((cube, index) => (
-        <Cube key={index} scale={20} />
-        ))} */}
-      <Cube scale={50} />
     </>
   );
 }
@@ -65,17 +77,17 @@ function CubeScene() {
 function AuthLayout() {
   return (
     <div className="flex items-center p-6 gap-20 h-screen justify-center w-full overflow-hidden ">
-      <div className="absolute top-0 right-0 m-3">
+      <div className="absolute top-0 right-0 m-3 z-10">
         <ModeToggle />
       </div>
-      <div className="flex-1 relative flex justify-center items-center h-full w-full ">
+      <div className="flex-1 z-10 relative flex justify-center items-center h-full w-full ">
         <div className="flex flex-col h-full w-full">
-          <div className="flex-1">
+          <div className="flex-1 ">
             <Canvas camera={{ position: [0, 0, 5] }}>
               <CubeScene />
             </Canvas>
           </div>
-          <div className="backdrop-blur-2xl rounded-md absolute bottom-0 w-full">
+          <div className="backdrop-blur-sm rounded-md absolute bottom-0 ">
             <h2 className="text-3xl text-primary font-semibold">
               Learn, Play, Excel.
             </h2>
@@ -87,8 +99,13 @@ function AuthLayout() {
           </div>
         </div>
       </div>
-      <div className="flex-1 flex justify-center">
+      <div className="flex-1 flex justify-center z-10">
         <Outlet />
+      </div>
+      <div className="absolute top-0 left-0 w-screen h-screen">
+        <Canvas>
+          <StarsScene />
+        </Canvas>
       </div>
     </div>
   );
