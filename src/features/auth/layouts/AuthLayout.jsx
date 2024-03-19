@@ -46,7 +46,7 @@ function StarsScene() {
   }
 
   const [cubes, setCubes] = useState(
-    [...Array(200)].map(() => ({
+    [...Array(50)].map(() => ({
       position: new Vector3(...randomPosition()),
       scale: Math.random() / 4,
     }))
