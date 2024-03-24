@@ -28,11 +28,15 @@ import {
 
 import { Input } from "@/components/ui/input";
 
-import { RegisterSchema } from "../../schema/index";
+import { RegisterSchema } from "../../../schema/index";
 import { SelectGroup } from "@radix-ui/react-select";
 import { NavLink } from "react-router-dom";
 
+import useSignup from "../hooks/useSignup";
+
 function Signup() {
+  const { data, isLoading, mutate } = useSignup();
+
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -45,8 +49,9 @@ function Signup() {
   });
 
   function onSubmit(values) {
-    console.log(values);
+    mutate(values);
   }
+
   return (
     <div className="flex flex-col">
       <Card className="w-96 backdrop-blur-sm bg-transparent">

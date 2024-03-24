@@ -21,7 +21,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 
-import { RegisterSchema } from "../../schema/index";
+import { RegisterSchema } from "../../../schema/index";
 import { NavLink } from "react-router-dom";
 
 function Login() {

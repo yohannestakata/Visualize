@@ -1,14 +1,15 @@
 import { Outlet } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useHelper } from "@react-three/drei";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { useRef, useState } from "react";
-import { Vector3 } from "three";
+import { PointLightHelper, Vector3 } from "three";
 
 function Cube({ position, scale }) {
-  const fbx = useLoader(FBXLoader, "../../../../3d_models/RubikCube.fbx");
+  const fbx = useLoader(FBXLoader, "../../../../3d_models/Earth.fbx");
   const meshRef = useRef();
+
   const cameraDeltaRef = useRef(0);
 
   useFrame((state, delta) => {
@@ -17,21 +18,48 @@ function Cube({ position, scale }) {
     cameraDeltaRef.current += delta;
   });
 
+  const fbxClone = fbx.clone();
+
   return (
     <mesh ref={meshRef} position={position}>
-      <primitive object={fbx} scale={scale} />
+      <primitive object={fbxClone} scale={scale} />
     </mesh>
   );
 }
 
 function CubeScene() {
+  const icoRef = useRef();
+  const coneRef = useRef();
+
+  useFrame((state, delta) => {
+    icoRef.current.rotation.y += delta / 5;
+    coneRef.current.rotation.y += delta / 5;
+  });
+
+  const pointLightRef = useRef();
+
+  // useHelper(pointLightRef, PointLightHelper, 1, "red");
+
   return (
     <>
       <OrbitControls />
-      <ambientLight intensity={15} />
-      <pointLight position={[2, 1, 1]} color={"#22c55e"} intensity={5} />
+      <ambientLight intensity={13} />
+      <pointLight
+        position={[-3, 0, 2]}
+        ref={pointLightRef}
+        color={"#22c55e"}
+        intensity={20}
+      />
 
-      <Cube scale={35} />
+      <mesh position={[3.25, 1.8, 0]} scale={0.54} ref={icoRef}>
+        <meshBasicMaterial color={"#22c55e"} wireframe />
+        <icosahedronGeometry args={[1, 0]} />
+      </mesh>
+      <Cube scale={28} position={[0, 0, 0]} />
+      <mesh position={[-3.25, -1.8, 0]} scale={0.06} ref={coneRef}>
+        <meshBasicMaterial color={"#22c55e"} wireframe />
+        <coneGeometry args={[5, 10, 6]} />
+      </mesh>
     </>
   );
 }
@@ -87,7 +115,7 @@ function AuthLayout() {
               <CubeScene />
             </Canvas>
           </div>
-          <div className="backdrop-blur-sm rounded-md absolute bottom-0 ">
+          {/* <div className="backdrop-blur-sm rounded-md absolute bottom-0 ">
             <h2 className="text-3xl text-primary font-semibold">
               Learn, Play, Excel.
             </h2>
@@ -96,7 +124,7 @@ function AuthLayout() {
               and rise to the top of the leaderboard for an unparalleled
               educational adventure.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex-1 flex justify-center z-10">
