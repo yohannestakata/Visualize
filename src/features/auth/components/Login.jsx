@@ -41,7 +41,7 @@ function Login() {
   }
   return (
     <div className="flex flex-col">
-      <Card className="w-96 backdrop-blur-sm bg-transparent">
+      <Card className="w-96">
         <CardHeader>
           <div className="text-center mb-3 text-sm text-muted-foreground flex justify-centerc:\Users\Yohannes\Desktop\SVG\logo.svg">
             <img

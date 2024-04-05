@@ -7,11 +7,8 @@ import { useRef, useState } from "react";
 import { PointLightHelper, TextureLoader, Vector3 } from "three";
 
 function Cube({ position, scale }) {
-  const fbx = useLoader(FBXLoader, "../../../../3d_models/Earth.fbx");
-  const texture = useLoader(
-    TextureLoader,
-    "../../../../3d_models/Earth_TEXTURE_CM.tga"
-  );
+  const fbx = useLoader(FBXLoader, "../../../../3d_models/RubikCube.fbx");
+
   const meshRef = useRef();
 
   const cameraDeltaRef = useRef(0);
@@ -27,7 +24,7 @@ function Cube({ position, scale }) {
   return (
     <mesh ref={meshRef} position={position}>
       <primitive object={fbxClone} scale={scale} />
-      {(meshRef.current.material.map = texture)}
+      <meshBasicMaterial />
     </mesh>
   );
 }

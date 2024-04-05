@@ -1,10 +1,16 @@
 import axios from "axios";
 
-export default async function signup(fields) {
+export async function signup(fields) {
   return axios({
     url: "http://localhost:3000/auth/signup",
     method: "post",
     data: fields,
-    withCredentials: true,
+  });
+}
+
+export async function verifyUser() {
+  return axios({
+    url: "http://localhost:3000/auth/signed-user",
+    method: "get",
   });
 }
