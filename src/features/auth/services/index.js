@@ -8,6 +8,14 @@ export async function signup(fields) {
   });
 }
 
+export async function login(fields) {
+  return axios({
+    method: "post",
+    url: "http://localhost:3000/auth/login",
+    data: fields,
+  });
+}
+
 export async function verifyUser() {
   return axios({
     url: "http://localhost:3000/auth/signed-user",

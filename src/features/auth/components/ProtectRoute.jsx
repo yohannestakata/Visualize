@@ -7,12 +7,15 @@ function ProtectRoutes({ children }) {
 
   const navigate = useNavigate();
 
-  console.log(data?.user);
+  const user = data?.user;
+  console.log(user);
 
   useEffect(() => {
     if (isLoading) return;
-    if (!data?.user) navigate("/auth/signup");
-  }, [data, isLoading]);
+    if (!user) navigate("/auth/signup");
+    if (user?.role === "Student") navigate("/learn");
+    if (user?.role === "Admin") navigate("/admin");
+  }, [user, isLoading, navigate]);
 
   return <div>{children}</div>;
 }

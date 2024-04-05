@@ -9,3 +9,8 @@ export const RegisterSchema = z.object({
   uniId: z.string().min(1, { message: "Please enter a valid University ID" }),
   department: z.string().min(1, { message: "Please select a department" }),
 });
+
+export const LoginSchema = z.object({
+  uniId: z.string().min(1, { message: "Please enter a valid University ID" }),
+  password: z.string().min(1, { message: "Please enter your password" }),
+});

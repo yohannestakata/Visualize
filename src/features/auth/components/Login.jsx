@@ -21,12 +21,15 @@ import {
 
 import { Input } from "@/components/ui/input";
 
-import { RegisterSchema } from "../../../schema/index";
+import { LoginSchema } from "../../../schema/index";
 import { NavLink } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 function Login() {
+  const { mutate } = useLogin();
+
   const form = useForm({
-    resolver: zodResolver(RegisterSchema),
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       nickname: "",
       email: "",
@@ -37,7 +40,7 @@ function Login() {
   });
 
   function onSubmit(values) {
-    console.log(values);
+    mutate(values);
   }
   return (
     <div className="flex flex-col">

@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { signup } from "../services/services";
+import { signup } from "../services";
 import { useNavigate } from "react-router-dom";
 
 function useSignup() {

@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { verifyUser } from "../services/services";
+import { verifyUser } from "../services";
 
 function useVerifyUser() {
   const { data, isLoading } = useQuery({
