@@ -22,19 +22,19 @@ const router = createBrowserRouter([
         path: "/learn",
         element: <div>Dashboard</div>,
       },
-    ],
-  },
-  {
-    path: "/auth",
-    element: <AuthLayout />,
-    children: [
       {
-        path: "/auth/signup",
-        element: <Signup />,
-      },
-      {
-        path: "/auth/login",
-        element: <Login />,
+        path: "/auth",
+        element: <AuthLayout />,
+        children: [
+          {
+            path: "/auth/signup",
+            element: <Signup />,
+          },
+          {
+            path: "/auth/login",
+            element: <Login />,
+          },
+        ],
       },
     ],
   },

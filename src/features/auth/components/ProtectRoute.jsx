@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import useVerifyUser from "../hooks/useVerifyUser";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function ProtectRoutes({ children }) {
   const { data, isLoading } = useVerifyUser();

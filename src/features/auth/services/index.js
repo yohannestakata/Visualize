@@ -17,6 +17,7 @@ export async function login(fields) {
 }
 
 export async function verifyUser() {
+  console.log("Verifying...");
   return axios({
     url: "http://localhost:3000/auth/signed-user",
     method: "get",
