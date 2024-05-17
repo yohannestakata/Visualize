@@ -7,6 +7,7 @@ import axios from "axios";
 import ProtectRoutes from "./features/auth/components/ProtectRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import LearnLayout from "./features/learn/layouts";
 
 axios.defaults.withCredentials = true;
 
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/learn",
-        element: <div>Dashboard</div>,
+        element: <LearnLayout />,
       },
       {
         path: "/auth",
@@ -46,7 +47,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen />
+      <ReactQueryDevtools initialIsOpen={false} />
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <RouterProvider router={router} />
       </ThemeProvider>
