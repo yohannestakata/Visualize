@@ -8,8 +8,7 @@ function useSignup() {
 
   const { data, isLoading, mutate } = useMutation({
     mutationFn: signup,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries(["user-verify"]);
       navigate("/");
     },

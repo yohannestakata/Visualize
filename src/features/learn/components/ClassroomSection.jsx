@@ -7,7 +7,7 @@ function ClassroomSection({ openCommand }) {
   return (
     <div>
       <Tabs defaultValue="classrooms" className="w-full ">
-        <div className="gap-4 items-start flex">
+        <div className="gap-4 items-start flex ">
           <TabsList className="">
             <TabsTrigger value="classrooms">
               <Boxes className="w-4 h-4 mr-2" /> Classrooms
