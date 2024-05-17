@@ -2,13 +2,14 @@ import { useEffect } from "react";
 import useVerifyUser from "../hooks/useVerifyUser";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 axios.defaults.withCredentials = true;
 
 function ProtectRoutes({ children }) {
-  const { data, isLoading } = useVerifyUser();
-
   const navigate = useNavigate();
+
+  const { data, isLoading } = useVerifyUser();
 
   const user = data?.user;
   console.log(user);
