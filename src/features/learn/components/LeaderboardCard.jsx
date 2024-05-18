@@ -9,7 +9,7 @@ import {
 
 function LeaderboardCard() {
   return (
-    <Card className="w-full bg-transparent">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-xl">Better luck next time!</CardTitle>
         {/* <CardDescription>Better luck next time!</CardDescription> */}

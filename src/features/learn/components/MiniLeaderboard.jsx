@@ -7,10 +7,10 @@ function MiniLeaderboard() {
       <div className="flex flex-col gap-2 mt-2">
         <span className="flex items-center gap-2">
           <Star className="w-4 h-4" /> Yohannes Takata
-        </span>{" "}
+        </span>
         <span className="flex items-center gap-2">
           <Star className="w-4 h-4" /> Yohannes Takata
-        </span>{" "}
+        </span>
         <span className="flex items-center gap-2">
           <Star className="w-4 h-4" /> Yohannes Takata
         </span>

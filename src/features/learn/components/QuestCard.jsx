@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 
 function QuestCard() {
   return (
-    <Card className="w-full bg-transparent">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-xl">Daily Quests</CardTitle>
         {/* <CardDescription>Better luck next time!</CardDescription> */}
