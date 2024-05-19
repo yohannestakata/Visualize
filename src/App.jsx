@@ -8,6 +8,7 @@ import ProtectRoutes from "./features/auth/components/ProtectRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import LearnLayout from "./features/learn/layouts";
+import { UserProvider } from "./context/UserContext";
 
 axios.defaults.withCredentials = true;
 
@@ -47,12 +48,14 @@ function App() {
 
   return (
     <div className="px-6 py-4 ">
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </QueryClientProvider>
+      <UserProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </UserProvider>
     </div>
   );
 }
