@@ -20,6 +20,10 @@
   src: url("/fonts/GeneralSans-Variable.ttf");
 }
 
+.active {
+  @apply text-secondary-foreground bg-secondary;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

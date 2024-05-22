@@ -1,4 +1,4 @@
-function ImageCard({ className }) {
+function ImageCard({ className, title, subtitle }) {
   return (
     <div
       className={`rounded-lg border bg-card text-card-foreground hover:cursor-pointer hover:bg-accent p-3 shadow-sm ${className}`}
@@ -14,8 +14,8 @@ function ImageCard({ className }) {
       </div>
 
       <div className="flex flex-col gap-1 text-card-foreground mt-3">
-        <span>Classroom Name</span>
-        <span className="text-muted-foreground text-sm">Sub title</span>
+        <span>{title}</span>
+        <span className="text-muted-foreground text-sm">{subtitle}</span>
       </div>
     </div>
   );

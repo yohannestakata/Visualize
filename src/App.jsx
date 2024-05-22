@@ -9,6 +9,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import LearnLayout from "./features/learn/layouts";
 import { UserProvider } from "./context/UserContext";
+import Teacher from "./pages/Teacher";
+import CreateClassroomLayout from "./features/create-classroom/Layout";
+import ClassroomList from "./features/learn/components/ClassroomList";
 
 axios.defaults.withCredentials = true;
 
@@ -24,6 +27,20 @@ const router = createBrowserRouter([
       {
         path: "/learn",
         element: <LearnLayout />,
+      },
+      {
+        path: "/teacher",
+        element: <Teacher />,
+        children: [
+          {
+            path: "/teacher/create-classroom",
+            element: <CreateClassroomLayout />,
+          },
+          {
+            path: "/teacher/classrooms",
+            element: <ClassroomList />,
+          },
+        ],
       },
       {
         path: "/auth",
