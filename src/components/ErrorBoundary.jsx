@@ -4,10 +4,10 @@ function ErrorBoundary() {
   let error = useRouteError();
 
   return (
-    <div className="flex items-start px-72 mx-auto justify-start mt-4 flex-col gap-2 h-screen">
-      <h1 className="text-5xl">{error.status}</h1>
+    <div className="flex items-center justify-center flex-col gap-2 h-full mt-4">
+      <h1 className="text-8xl text-center">{error.status}</h1>
       <h2>{error.data}</h2>
-      <p>{error.error.stack}</p>
+      {/* <p>{error.error.stack}</p> */}
     </div>
   );
 }
