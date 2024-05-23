@@ -12,12 +12,14 @@ import { UserProvider } from "./context/UserContext";
 import Teacher from "./pages/Teacher";
 import CreateClassroomLayout from "./features/create-classroom/Layout";
 import ClassroomList from "./features/learn/components/ClassroomList";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 axios.defaults.withCredentials = true;
 
 const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <ErrorBoundary />,
     element: (
       <ProtectRoutes>
         <Outlet />

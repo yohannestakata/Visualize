@@ -21,7 +21,7 @@ function ProtectRoutes({ children }) {
 
     if (user?.role === "Student") navigate("/learn");
     if (user?.role === "Admin") navigate("/admin");
-    if (user?.role === "Teacher") navigate("/teacher");
+    if (user?.role === "Teacher") navigate("/teacher/classrooms");
   }, [user, isLoading, navigate, dispatch]);
 
   return <div>{children}</div>;
