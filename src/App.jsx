@@ -13,6 +13,7 @@ import Teacher from "./pages/Teacher";
 import CreateClassroomLayout from "./features/create-classroom/Layout";
 import ClassroomList from "./features/learn/components/ClassroomList";
 import ErrorBoundary from "./components/ErrorBoundary";
+import UploadModelLayout from "./features/upload-model/layout";
 
 axios.defaults.withCredentials = true;
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: "/teacher/classrooms",
             element: <ClassroomList />,
+          },
+          {
+            path: "/teacher/upload-model",
+            element: <UploadModelLayout />,
           },
         ],
       },

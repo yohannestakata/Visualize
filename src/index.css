@@ -21,7 +21,7 @@
 }
 
 .active {
-  @apply text-secondary-foreground bg-secondary;
+  @apply text-foreground;
 }
 
 @layer base {

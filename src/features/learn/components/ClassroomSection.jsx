@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpenIcon, Boxes, Search } from "lucide-react";
+import { BookOpenIcon, Boxes, Search, Star } from "lucide-react";
 import ClassroomList from "./ClassroomList";
 import { Button } from "@/components/ui/button";
 
@@ -14,6 +14,9 @@ function ClassroomSection({ openCommand }) {
             </TabsTrigger>
             <TabsTrigger value="my-classrooms">
               <BookOpenIcon className="w-4 h-4 mr-2" /> My Classrooms
+            </TabsTrigger>
+            <TabsTrigger value="favorites">
+              <Star className="w-4 h-4 mr-2" /> Favorites
             </TabsTrigger>
           </TabsList>
           <Button
@@ -30,6 +33,9 @@ function ClassroomSection({ openCommand }) {
           <ClassroomList />
         </TabsContent>
         <TabsContent value="my-classrooms" className="mt-4">
+          <ClassroomList />
+        </TabsContent>
+        <TabsContent value="favorites" className="mt-4">
           <ClassroomList />
         </TabsContent>
       </Tabs>

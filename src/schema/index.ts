@@ -14,3 +14,5 @@ export const LoginSchema = z.object({
   uniId: z.string().min(1, { message: "Please enter a valid University ID" }),
   password: z.string().min(1, { message: "Please enter your password" }),
 });
+
+export const UploadModelSchema = z.object({});
