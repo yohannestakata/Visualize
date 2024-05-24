@@ -15,4 +15,8 @@ export const LoginSchema = z.object({
   password: z.string().min(1, { message: "Please enter your password" }),
 });
 
-export const UploadModelSchema = z.object({});
+export const UploadModelSchema = z.object({
+  modelTitle: z.string({ required_error: "Please enter a model title" }),
+  department: z.string({ required_error: "Please select a department" }),
+  course: z.string({ required_error: "Please select a course" }),
+});
