@@ -3,14 +3,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 import useUser from "../hooks/useUser";
 import { NavLink } from "react-router-dom";
-import {
-  BookOpen,
-  Boxes,
-  GitGraph,
-  Plus,
-  TrendingUp,
-  Upload,
-} from "lucide-react";
+import { Activity, BookOpen, Boxes, Plus, Upload } from "lucide-react";
 
 function TeacherNavigation() {
   const { user } = useUser();
@@ -33,10 +26,10 @@ function TeacherNavigation() {
           <div className="flex gap-6">
             <NavLink
               className={"flex items-center text-muted-foreground"}
-              to={"/teacher/stats"}
+              to={"/teacher/activity"}
             >
-              <TrendingUp className="w-4 h-4 mr-2" />
-              <span>Stats</span>
+              <Activity className="w-4 h-4 mr-2" />
+              <span>Activity</span>
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}

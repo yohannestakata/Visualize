@@ -55,7 +55,7 @@ function DragArea({
         <div className="pointer-events-none flex justify-center items-center flex-col gap-2 h-full">
           <FileBox />
           <h3>
-            Drag and drop a supported 3D file format or{" "}
+            Drag and drop a supported 3D file or{" "}
             <label
               htmlFor="select-file"
               className="text-primary underline hover:cursor-pointer pointer-events-auto"
