@@ -27,6 +27,9 @@ export const UploadModelSchema = z.object({
   department: z.string({ required_error: "Please select a department" }),
   course: z.string({ required_error: "Please select a course" }),
   thumbnail: z.instanceof(File).refine((file) => file.size < 7000000, {
-    message: 'Your resume must be less than 7MB.',
+    message: "Your resume must be less than 7MB.",
+  }),
+  model: z.instanceof(File).refine((file) => file.size < 7000000, {
+    message: "Your resume must be less than 7MB.",
   }),
 });

@@ -31,6 +31,8 @@ function UploadModelForm() {
     console.log(values);
   }
 
+  console.log(form.getValues());
+
   return (
     <div>
       <div className="mt-4">
@@ -42,7 +44,7 @@ function UploadModelForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <DragArea field={field} />
+                    <DragArea field={field} setValue={form.setValue} />
                   </FormControl>
                 </FormItem>
               )}
@@ -65,7 +67,7 @@ function UploadModelForm() {
               <FormField
                 control={form.control}
                 name="thumbnail"
-                render={({ field: { onChange, ...fieldProps } }) => {
+                render={({ field: { value, onChange, ...fieldProps } }) => {
                   return (
                     <FormItem>
                       <FormLabel>Thumbnail</FormLabel>
@@ -75,9 +77,11 @@ function UploadModelForm() {
                           placeholder="Model title"
                           type="file"
                           accept="application/pdf"
-                          onChange={(event) => {
-                            onChange(event.target?.files?.[0] ?? undefined);
-                          }}
+                          onChange={(event) =>
+                            onChange(
+                              event.target.files && event.target.files[0]
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
