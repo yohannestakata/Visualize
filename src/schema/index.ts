@@ -26,10 +26,20 @@ export const UploadModelSchema = z.object({
   modelTitle: z.string({ required_error: "Please enter a model title" }),
   department: z.string({ required_error: "Please select a department" }),
   course: z.string({ required_error: "Please select a course" }),
-  thumbnail: z.instanceof(File).refine((file) => file.size < 7000000, {
-    message: "Your resume must be less than 7MB.",
+  thumbnail: z.instanceof(File).refine((file) => file.size < 7 * 1000000, {
+    message: "Thumbnail must be less than 7MB.",
   }),
-  model: z.instanceof(File).refine((file) => file.size < 7000000, {
-    message: "Your resume must be less than 7MB.",
-  }),
+  model: z
+    .instanceof(File)
+    .refine((file) => file.size < 10 * 1000000, {
+      message: "The model must be less than 10MB.",
+    })
+    .refine((file) => validateFileType(file), {
+      message: "Invalid 3D file format. Supported formats: glTF, glb, OBJ",
+    }),
 });
+
+const validateFileType = (file: File) => {
+  const allowedMimeTypes = ["obj", "gltf", "glb", "fbx"];
+  return allowedMimeTypes.includes(file.name.split(".").at(-1));
+};

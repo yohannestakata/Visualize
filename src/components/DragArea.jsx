@@ -4,6 +4,9 @@ import { useState } from "react";
 function DragArea({ field: { value, onChange, ...fieldProps }, setValue }) {
   const [dragEnter, setDragEnter] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [error, setError] = useState(false);
+
+  const supportedFormats = ["obj", "gltf", "glb", "fbx"];
 
   function handleOnDrop(e) {
     e.preventDefault();
@@ -17,6 +20,9 @@ function DragArea({ field: { value, onChange, ...fieldProps }, setValue }) {
       onChange(droppedFile);
       setValue("model", droppedFile);
       setFileName(droppedFile.name);
+      const fileExtension = droppedFile.name.split(".").at(-1);
+      if (!supportedFormats.includes(fileExtension)) setError(true);
+      else setError(false);
     }
   }
 
@@ -35,10 +41,10 @@ function DragArea({ field: { value, onChange, ...fieldProps }, setValue }) {
     <div
       className={`aspect-video w-full border-2 rounded-lg border-dashed overflow-hidden  ${
         (fileName || dragEnter) && "border-primary"
-      }`}
+      } ${error && "border-destructive"}`}
       onDrop={handleOnDrop}
       onDragOver={handleOnDragOver}
-      onDragEnter={() => {
+      onDragEnter={(e) => {
         setDragEnter(true);
       }}
       onDragLeave={() => {
@@ -69,10 +75,21 @@ function DragArea({ field: { value, onChange, ...fieldProps }, setValue }) {
         </div>
       )}
 
-      {fileName && (
+      {fileName && !error && (
         <div className="flex h-full justify-center items-center">
-          <span className="text-primary">{fileName}</span>&nbsp; is ready for
-          upload
+          <span className="text-primary">{fileName}</span>&nbsp; is supported
+        </div>
+      )}
+
+      {error && (
+        <div className="flex flex-col gap-2 h-full justify-center items-center">
+          <div>
+            <span className="text-destructive">{fileName}</span>&nbsp; is not a
+            supported 3D file format
+          </div>
+          <span className="text-muted-foreground text-sm">
+            Follow the guideline for more information on supported file formats
+          </span>
         </div>
       )}
     </div>

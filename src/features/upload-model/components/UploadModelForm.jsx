@@ -46,6 +46,7 @@ function UploadModelForm() {
                   <FormControl>
                     <DragArea field={field} setValue={form.setValue} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
