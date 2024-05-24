@@ -10,10 +10,7 @@ function UploadModelLayout() {
         <Heading as="h1">Upload Model</Heading>
         <Separator className="mt-6" />
         <div className="mt-6">
-          <DragArea />
-          <div className="mt-5">
-            <UploadModelForm />
-          </div>
+          <UploadModelForm />
         </div>
       </div>
     </div>

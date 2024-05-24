@@ -19,19 +19,35 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Upload } from "lucide-react";
+import DragArea from "../../../components/DragArea";
 
 function UploadModelForm() {
-  const form = useForm({ resolver: zodResolver(UploadModelSchema) });
+  const form = useForm({
+    resolver: zodResolver(UploadModelSchema),
+    defaultValues: { modelTitle: "" },
+  });
 
   function onSubmit(values) {
     console.log(values);
   }
+
   return (
     <div>
-      <h2 className="font-semibold">Model Information</h2>
       <div className="mt-4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="model"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <DragArea field={field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <h2 className="font-semibold">Model Information</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -49,15 +65,25 @@ function UploadModelForm() {
               <FormField
                 control={form.control}
                 name="thumbnail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Thumbnail</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Model title" type="file" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field: { onChange, ...fieldProps } }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Thumbnail</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...fieldProps}
+                          placeholder="Model title"
+                          type="file"
+                          accept="application/pdf"
+                          onChange={(event) => {
+                            onChange(event.target?.files?.[0] ?? undefined);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">

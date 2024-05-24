@@ -15,8 +15,18 @@ export const LoginSchema = z.object({
   password: z.string().min(1, { message: "Please enter your password" }),
 });
 
+const ALLOWED_3D_EXTENSIONS = [".obj", ".stl", ".gltf", ".glb"];
+const ALLOWED_MIME_TYPES = {
+  ".pdf": "application/pdf",
+  // Add mime types for 3D formats (optional, can be redundant)
+};
+const MAX_FILE_SIZE = 5;
+
 export const UploadModelSchema = z.object({
   modelTitle: z.string({ required_error: "Please enter a model title" }),
   department: z.string({ required_error: "Please select a department" }),
   course: z.string({ required_error: "Please select a course" }),
+  thumbnail: z.instanceof(File).refine((file) => file.size < 7000000, {
+    message: 'Your resume must be less than 7MB.',
+  }),
 });
