@@ -23,23 +23,35 @@ const ALLOWED_MIME_TYPES = {
 const MAX_FILE_SIZE = 5;
 
 export const UploadModelSchema = z.object({
-  modelTitle: z.string({ required_error: "Please enter a model title" }),
+  modelTitle: z
+    .string({ required_error: "Please enter a model title" })
+    .min(1, { message: "Please enter a model title" }),
   department: z.string({ required_error: "Please select a department" }),
   course: z.string({ required_error: "Please select a course" }),
-  thumbnail: z.instanceof(File).refine((file) => file.size < 7 * 1000000, {
-    message: "Thumbnail must be less than 7MB.",
-  }),
+  thumbnail: z
+    .instanceof(File)
+    .refine((file) => file.size < 7 * 1000000, {
+      message: "Thumbnail must be less than 7MB.",
+    })
+    .refine((file) => validateImageFileType(file), {
+      message: "Invalid image format. Supported formats: jpeg, png, jpeg",
+    }),
   model: z
     .instanceof(File)
     .refine((file) => file.size < 10 * 1000000, {
       message: "The model must be less than 10MB.",
     })
-    .refine((file) => validateFileType(file), {
-      message: "Invalid 3D file format. Supported formats: glTF, glb, OBJ",
+    .refine((file) => validateModelFileType(file), {
+      message: "Invalid 3D file format. Supported formats: glTF, glb, OBJ, fbx",
     }),
 });
 
-const validateFileType = (file: File) => {
+const validateModelFileType = (file: File) => {
   const allowedMimeTypes = ["obj", "gltf", "glb", "fbx"];
+  return allowedMimeTypes.includes(file.name.split(".").at(-1));
+};
+
+const validateImageFileType = (file: File) => {
+  const allowedMimeTypes = ["jpg", "png", "jpeg", "webp"];
   return allowedMimeTypes.includes(file.name.split(".").at(-1));
 };

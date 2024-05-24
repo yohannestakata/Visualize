@@ -33,10 +33,10 @@ function TeacherNavigation() {
           <div className="flex gap-6">
             <NavLink
               className={"flex items-center text-muted-foreground"}
-              to={"/teacher/classrooms"}
+              to={"/teacher/stats"}
             >
-              <BookOpen className="w-4 h-4 mr-2" />
-              <span>My Classrooms</span>
+              <TrendingUp className="w-4 h-4 mr-2" />
+              <span>Stats</span>
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}
@@ -47,11 +47,12 @@ function TeacherNavigation() {
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}
-              to={"/teacher/create-classroom"}
+              to={"/teacher/classrooms"}
             >
-              <Plus className="w-4 h-4 mr-2" />
-              <span>Create Classroom</span>
+              <BookOpen className="w-4 h-4 mr-2" />
+              <span>My Classrooms</span>
             </NavLink>
+
             <NavLink
               className={"flex items-center text-muted-foreground"}
               to={"/teacher/upload-model"}
@@ -61,10 +62,10 @@ function TeacherNavigation() {
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}
-              to={"/teacher/stats"}
+              to={"/teacher/create-classroom"}
             >
-              <TrendingUp className="w-4 h-4 mr-2" />
-              <span>Stats</span>
+              <Plus className="w-4 h-4 mr-2" />
+              <span>Create Classroom</span>
             </NavLink>
           </div>
         </div>

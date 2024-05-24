@@ -8,7 +8,7 @@ function UploadModelLayout() {
     <div className="grid grid-cols-12 gap-4">
       <div className="col-start-4 col-end-10">
         <Heading as="h1">Upload Model</Heading>
-        <Separator className="mt-6" />
+        <Separator className="mt-3" />
         <div className="mt-6">
           <UploadModelForm />
         </div>

@@ -31,8 +31,6 @@ function UploadModelForm() {
     console.log(values);
   }
 
-  console.log(form.getValues());
-
   return (
     <div>
       <div className="mt-4">
@@ -44,9 +42,12 @@ function UploadModelForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <DragArea field={field} setValue={form.setValue} />
+                    <DragArea
+                      field={field}
+                      setValue={form.setValue}
+                      errors={form.formState.errors}
+                    />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -77,7 +78,7 @@ function UploadModelForm() {
                           {...fieldProps}
                           placeholder="Model title"
                           type="file"
-                          accept="application/pdf"
+                          accept="image/*"
                           onChange={(event) =>
                             onChange(
                               event.target.files && event.target.files[0]
@@ -108,14 +109,12 @@ function UploadModelForm() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="m@example.com">
-                          m@example.com
+                        <SelectItem value="accounting">Accounting</SelectItem>
+                        <SelectItem value="architecture">
+                          Architecture
                         </SelectItem>
-                        <SelectItem value="m@google.com">
-                          m@google.com
-                        </SelectItem>
-                        <SelectItem value="m@support.com">
-                          m@support.com
+                        <SelectItem value="computer science">
+                          Computer Science
                         </SelectItem>
                       </SelectContent>
                     </Select>
