@@ -42,11 +42,7 @@ function UploadModelForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <DragArea
-                      field={field}
-                      setValue={form.setValue}
-                      errors={form.formState.errors}
-                    />
+                    <DragArea field={field} errors={form.formState.errors} />
                   </FormControl>
                 </FormItem>
               )}

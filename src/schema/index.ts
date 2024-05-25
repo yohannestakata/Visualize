@@ -25,11 +25,11 @@ const MAX_FILE_SIZE = 5;
 export const UploadModelSchema = z.object({
   modelTitle: z
     .string({ required_error: "Please enter a model title" })
-    .min(1, { message: "Please enter a model title" }),
+    .min(1, { message: "Please enter a title for the model" }),
   department: z.string({ required_error: "Please select a department" }),
   course: z.string({ required_error: "Please select a course" }),
   thumbnail: z
-    .instanceof(File)
+    .instanceof(File, { message: "Please select a file" })
     .refine((file) => file.size < 7 * 1000000, {
       message: "Thumbnail must be less than 7MB.",
     })

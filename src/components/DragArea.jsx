@@ -1,11 +1,24 @@
 import { CheckCheck, FileBox } from "lucide-react";
 import { useState } from "react";
 
-function DragArea({
-  field: { value, onChange, ...fieldProps },
-  setValue,
-  errors,
-}) {
+function FileInput({ text, handleOnChange }) {
+  return (
+    <label
+      htmlFor="select-file"
+      className="text-primary underline hover:cursor-pointer pointer-events-auto"
+    >
+      {text}
+      <input
+        type="file"
+        id="select-file"
+        className="hidden"
+        onChange={handleOnChange}
+      />
+    </label>
+  );
+}
+
+function DragArea({ field: { value, onChange, ...fieldProps }, errors }) {
   const [dragEnter, setDragEnter] = useState(false);
   const [fileName, setFileName] = useState("");
 
@@ -21,8 +34,8 @@ function DragArea({
       const droppedFile = files[0];
 
       onChange(droppedFile);
-      setValue("model", droppedFile);
       setFileName(droppedFile.name);
+      setDragEnter(false);
     }
   }
 
@@ -33,18 +46,19 @@ function DragArea({
   function handleOnChange(e) {
     e.preventDefault();
     const file = e.target.files[0];
+
     onChange(file);
-    setValue("model", file);
+    // setValue("model", file);
     setFileName(file.name);
   }
   return (
     <div
       className={`aspect-video w-full border-2 rounded-lg border-dashed overflow-hidden  ${
-        (fileName || dragEnter) && "border-primary"
+        dragEnter && "border-primary"
       } ${error && "border-destructive"}`}
       onDrop={handleOnDrop}
       onDragOver={handleOnDragOver}
-      onDragEnter={(e) => {
+      onDragEnter={() => {
         setDragEnter(true);
       }}
       onDragLeave={() => {
@@ -56,18 +70,7 @@ function DragArea({
           <FileBox />
           <h3>
             Drag and drop a supported 3D file or{" "}
-            <label
-              htmlFor="select-file"
-              className="text-primary underline hover:cursor-pointer pointer-events-auto"
-            >
-              browse
-              <input
-                type="file"
-                id="select-file"
-                className="hidden"
-                onChange={handleOnChange}
-              />
-            </label>
+            <FileInput handleOnChange={handleOnChange} text="browse" />
           </h3>
           <span className="text-muted-foreground text-sm">
             Follow the guideline for more information on supported file formats
@@ -76,31 +79,25 @@ function DragArea({
       )}
 
       {fileName && !error && (
-        <div className="flex h-full justify-center items-center">
-          <CheckCheck className="text-primary w-4 h-4 mr-2" />
-          <span>{fileName}</span>&nbsp;
+        <div className="flex flex-col gap-2 h-full justify-center items-center">
+          <div className="flex items-center justify-center">
+            <CheckCheck className="text-primary w-4 h-4 mr-2" />
+            <span>{fileName} loaded</span>&nbsp;
+          </div>
+          <span>
+            <FileInput handleOnChange={handleOnChange} text="Change file" />
+          </span>
         </div>
       )}
 
       {error && (
         <div className="flex flex-col gap-2 h-full justify-center items-center">
-          <span className="text-destructive">{fileName}</span>
-          <span>{error}</span>
-          <span className="text-muted-foreground text-sm">
+          <span className="">{fileName}</span>
+          <span className="text-destructive">{error}</span>
+          <span className="text-muted-foreground text-sm ">
             Follow the guideline for more information on supported file formats
           </span>
-          <label
-            htmlFor="select-file"
-            className="text-primary underline hover:cursor-pointer pointer-events-auto mt-2"
-          >
-            Browse
-            <input
-              type="file"
-              id="select-file"
-              className="hidden"
-              onChange={handleOnChange}
-            />
-          </label>
+          <FileInput handleOnChange={handleOnChange} text="Change file" />
         </div>
       )}
     </div>
