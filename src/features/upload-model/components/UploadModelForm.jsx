@@ -25,6 +25,7 @@ function UploadModelForm() {
   const form = useForm({
     resolver: zodResolver(UploadModelSchema),
     defaultValues: { modelTitle: "" },
+    mode: "onChange",
   });
 
   function onSubmit(values) {
