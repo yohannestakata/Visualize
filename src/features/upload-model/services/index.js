@@ -1,21 +1,33 @@
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
+import supabase, { supabaseUrl } from "../../../services/supabase";
 
-export function uploadModel(fields) {
-  const formData = new FormData();
+export async function uploadModel(fields) {
+  console.log(fields);
 
-  for (const fieldName in fields) {
-    if (typeof fields[fieldName] === "string")
-      formData.append(fieldName, fields[fieldName]);
+  const thumbnailFile = fields.thumbnail;
+  const modelFile = fields.model;
 
-    if (typeof fields[fieldName] === "object")
-      formData.append(fieldName, fields[fieldName], fields[fieldName].name);
-  }
+  const { data: thumbnailData, error: thumbnailError } = await supabase.storage
+    .from("thumbnails")
+    .upload(`${Date.now()}-${thumbnailFile.name}`, thumbnailFile);
+
+  const { data: modelData, error: modelError } = await supabase.storage
+    .from("models")
+    .upload(`${Date.now()}-${modelFile.name}`, modelFile);
+
+  console.log(modelData);
 
   return axios({
     method: "post",
     url: `${SERVER_URL}/models/upload`,
-    data: formData,
+    data: {
+      ...fields,
+      thumbnailUrl: `${supabaseUrl}/storage/v1/object/public/${thumbnailData.fullPath}`,
+      modelUrl: `${supabaseUrl}/storage/v1/object/public/${modelData.fullPath}`,
+      thumbnail: undefined,
+      model: undefined,
+    },
     headers: { "Content-Type": "multipart/form-data" },
   });
 }
