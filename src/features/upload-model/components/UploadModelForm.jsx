@@ -18,13 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Upload } from "lucide-react";
+import { Loader2, Upload } from "lucide-react";
 import DragArea from "../../../components/DragArea";
 import useUploadModel from "../hooks/useUploadModel";
 
 function UploadModelForm() {
-  const { mutate: uploadModel, data } = useUploadModel();
-
+  const { mutate: uploadModel, isPending, isSuccess } = useUploadModel();
   const form = useForm({
     resolver: zodResolver(UploadModelSchema),
     defaultValues: { modelTitle: "" },
@@ -32,7 +31,6 @@ function UploadModelForm() {
   });
 
   function onSubmit(values) {
-    console.log(values);
     uploadModel(values);
   }
 
@@ -157,8 +155,18 @@ function UploadModelForm() {
                 )}
               />
             </div>
-            <Button type="submit">
-              <Upload className="w-4 h-4 mr-2" /> Upload
+            <Button type="submit" disabled={isPending || isSuccess}>
+              {isPending && (
+                <span className="flex items-center">
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Uploading...
+                </span>
+              )}
+              {!isPending && (
+                <span className="flex items-center">
+                  <Upload className="w-4 h-4 mr-2" /> Upload
+                </span>
+              )}
             </Button>
           </form>
         </Form>

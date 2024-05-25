@@ -14,6 +14,7 @@ import CreateClassroomLayout from "./features/create-classroom/Layout";
 import ClassroomList from "./features/learn/components/ClassroomList";
 import ErrorBoundary from "./components/ErrorBoundary";
 import UploadModelLayout from "./features/upload-model/layout";
+import { Toaster } from "@/components/ui/toaster";
 
 axios.defaults.withCredentials = true;
 
@@ -77,6 +78,7 @@ function App() {
           <ReactQueryDevtools initialIsOpen={false} />
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <RouterProvider router={router} />
+            <Toaster />
           </ThemeProvider>
         </QueryClientProvider>
       </UserProvider>

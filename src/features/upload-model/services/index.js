@@ -3,8 +3,6 @@ import { SERVER_URL } from "../../../data/globals";
 import supabase, { supabaseUrl } from "../../../services/supabase";
 
 export async function uploadModel(fields) {
-  console.log(fields);
-
   const thumbnailFile = fields.thumbnail;
   const modelFile = fields.model;
 
@@ -15,8 +13,6 @@ export async function uploadModel(fields) {
   const { data: modelData, error: modelError } = await supabase.storage
     .from("models")
     .upload(`${Date.now()}-${modelFile.name}`, modelFile);
-
-  console.log(modelData);
 
   return axios({
     method: "post",

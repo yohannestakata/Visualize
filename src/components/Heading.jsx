@@ -1,5 +1,4 @@
 function Heading({ as, children }) {
-  console.log(as, children);
   switch (as) {
     case "h1":
       return <h1 className="text-3xl font-semibold">{children}</h1>;
