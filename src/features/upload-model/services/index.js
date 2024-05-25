@@ -12,8 +12,6 @@ export function uploadModel(fields) {
       formData.append(fieldName, fields[fieldName], fields[fieldName].name);
   }
 
-  console.log(formData.get("thumbnail"));
-
   return axios({
     method: "post",
     url: `${SERVER_URL}/models/upload`,

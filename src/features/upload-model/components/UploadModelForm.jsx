@@ -20,8 +20,11 @@ import {
 } from "@/components/ui/select";
 import { Upload } from "lucide-react";
 import DragArea from "../../../components/DragArea";
+import useUploadModel from "../hooks/useUploadModel";
 
 function UploadModelForm() {
+  const { mutate: uploadModel, data } = useUploadModel();
+
   const form = useForm({
     resolver: zodResolver(UploadModelSchema),
     defaultValues: { modelTitle: "" },
@@ -30,6 +33,7 @@ function UploadModelForm() {
 
   function onSubmit(values) {
     console.log(values);
+    uploadModel(values);
   }
 
   return (
