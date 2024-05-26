@@ -46,11 +46,11 @@ function Login() {
     <div className="flex flex-col">
       <Card className="w-96">
         <CardHeader>
-          <div className="text-center mb-3 text-sm text-muted-foreground flex justify-center">
+          <div className="mb-3 flex justify-center text-center text-sm text-muted-foreground">
             <img
               src="../../../../images/logo.svg"
               alt=""
-              className="h-6 mx-auto"
+              className="mx-auto h-6"
             />
           </div>
           <CardTitle className="text-center">Welcome Back</CardTitle>
@@ -101,10 +101,10 @@ function Login() {
           </Form>
         </CardContent>
         <CardFooter>
-          <span className="text-center text-sm w-full text-muted-foreground">
-            Don*&apos;t have an account?{" "}
+          <span className="w-full text-center text-sm text-muted-foreground">
+            Don&apos;t have an account?{" "}
             <NavLink to={"/auth/signup"} className="underline">
-              Signup
+              Sign-up
             </NavLink>
           </span>
         </CardFooter>
