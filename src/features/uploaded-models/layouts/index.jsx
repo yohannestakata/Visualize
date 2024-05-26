@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/select";
 import useGetModels from "../hooks/useGetModels";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 function UploadedModels() {
-  const { data } = useGetModels();
+  const { data, isPending } = useGetModels();
   const models = data?.data;
 
   const [filterBy, setFilterBy] = useState("all");
@@ -23,6 +24,9 @@ function UploadedModels() {
     if (filterBy === "all") return true;
     return model.department === filterBy;
   });
+
+  if (isPending)
+    return <Loader2 className="mx-auto mt-4 h-10 w-10 animate-spin" />;
 
   return (
     <div>
