@@ -18,12 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, NotebookPen, Upload } from "lucide-react";
 import DragArea from "../../../components/DragArea";
 import useUploadModel from "../hooks/useUploadModel";
+import { useState } from "react";
 
 function UploadModelForm() {
   const { mutate: uploadModel, isPending, isSuccess } = useUploadModel();
+  const [selectedButton, setSelectedButton] = useState("");
+
   const form = useForm({
     resolver: zodResolver(UploadModelSchema),
     defaultValues: { modelTitle: "" },
@@ -31,7 +34,8 @@ function UploadModelForm() {
   });
 
   function onSubmit(values) {
-    uploadModel(values);
+    if (selectedButton === "drafts") uploadModel({ ...values, drafted: true });
+    if (selectedButton === "publish") uploadModel(values);
   }
 
   return (
@@ -159,19 +163,38 @@ function UploadModelForm() {
                 )}
               />
             </div>
-            <Button type="submit" disabled={isPending || isSuccess}>
+            <div className="flex items-center gap-2 ">
+              <Button
+                onClick={() => setSelectedButton("drafts")}
+                variant="secondary"
+                type="submit"
+                disabled={isPending || isSuccess}
+              >
+                <span className="flex items-center">
+                  <NotebookPen className="mr-2 h-4 w-4" />
+                  Add to drafts
+                </span>
+              </Button>
+
+              <Button
+                onClick={() => setSelectedButton("publish")}
+                type="submit"
+                disabled={isPending || isSuccess}
+              >
+                <span className="flex items-center">
+                  <Upload className="mr-2 h-4 w-4" /> Publish
+                </span>
+              </Button>
               {isPending && (
-                <span className="flex items-center">
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Uploading...
-                </span>
+                <div className="flex animate-pulse items-center gap-2">
+                  <Loader2 className="animate-spin" />{" "}
+                  {selectedButton === "drafts" && (
+                    <span>Adding to drafts...</span>
+                  )}
+                  {selectedButton === "publish" && <span>Publishing...</span>}
+                </div>
               )}
-              {!isPending && (
-                <span className="flex items-center">
-                  <Upload className="mr-2 h-4 w-4" /> Upload
-                </span>
-              )}
-            </Button>
+            </div>
           </form>
         </Form>
       </div>
