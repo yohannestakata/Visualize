@@ -8,7 +8,7 @@ function useSignup() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data, isLoading, mutate } = useMutation({
+  const { data, isPending, mutate } = useMutation({
     mutationFn: signup,
     onSuccess: () => {
       queryClient.invalidateQueries(["user-verify"]);
@@ -22,7 +22,7 @@ function useSignup() {
       }),
   });
 
-  return { data: data?.data, isLoading, mutate };
+  return { data: data?.data, isPending, mutate };
 }
 
 export default useSignup;

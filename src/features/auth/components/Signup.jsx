@@ -35,7 +35,7 @@ import { NavLink } from "react-router-dom";
 import useSignup from "../hooks/useSignup";
 
 function Signup() {
-  const { data, isLoading, mutate } = useSignup();
+  const { isPending, mutate } = useSignup();
 
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
@@ -56,11 +56,11 @@ function Signup() {
     <div className="flex flex-col">
       <Card className="w-96 ">
         <CardHeader>
-          <div className="text-center mb-3 text-sm text-muted-foreground flex justify-centerc:\Users\Yohannes\Desktop\SVG\logo.svg">
+          <div className="justify-centerc:\Users\Yohannes\Desktop\SVG\logo.svg mb-3 flex text-center text-sm text-muted-foreground">
             <img
               src="../../../../images/logo.svg"
               alt=""
-              className="h-6 mx-auto"
+              className="mx-auto h-6"
             />
           </div>
           <CardTitle className="text-center">Create an account</CardTitle>
@@ -165,15 +165,16 @@ function Signup() {
                     </FormItem>
                   )}
                 />
-                <Button className="w-full" type="submit">
-                  Create account
+                <Button className="w-full" type="submit" disabled={isPending}>
+                  {!isPending && "Create account"}
+                  {isPending && "Creating account..."}
                 </Button>
               </div>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
-          <span className="text-center text-sm w-full text-muted-foreground">
+          <span className="w-full text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <NavLink to={"/auth/login"} className="underline">
               Login
