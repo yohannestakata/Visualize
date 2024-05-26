@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signup } from "../services";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 function useSignup() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const { data, isLoading, mutate } = useMutation({
     mutationFn: signup,
@@ -12,6 +14,12 @@ function useSignup() {
       queryClient.invalidateQueries(["user-verify"]);
       navigate("/");
     },
+    onError: (error) =>
+      toast({
+        title: "Sign-up failed!",
+        description: error.response.data.message,
+        variant: "destructive",
+      }),
   });
 
   return { data: data?.data, isLoading, mutate };
