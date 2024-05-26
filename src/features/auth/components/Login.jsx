@@ -26,7 +26,7 @@ import { NavLink } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 
 function Login() {
-  const { mutate } = useLogin();
+  const { mutate, isPending } = useLogin();
 
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -94,7 +94,8 @@ function Login() {
                   )}
                 />
                 <Button className="w-full" type="submit">
-                  Login
+                  {!isPending && "Login"}
+                  {isPending && "Logging in..."}
                 </Button>
               </div>
             </form>

@@ -8,7 +8,7 @@ function useLogin() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { mutate, isLoading, data, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: () => {
       queryClient.invalidateQueries(["user-verify"]);
@@ -22,7 +22,7 @@ function useLogin() {
       }),
   });
 
-  return { mutate, isLoading };
+  return { mutate, isPending };
 }
 
 export default useLogin;
