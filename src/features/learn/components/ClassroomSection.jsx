@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 function ClassroomSection({ openCommand }) {
   return (
     <div>
-      <Tabs defaultValue="classrooms" className="w-full ">
+      <Tabs defaultValue="all-models" className="w-full ">
         <div className="gap-4 items-start flex ">
           <TabsList className="">
             <TabsTrigger value="all-models">

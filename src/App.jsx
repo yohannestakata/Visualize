@@ -72,7 +72,7 @@ function App() {
   const queryClient = new QueryClient();
 
   return (
-    <div className="px-6 py-4 ">
+    <div className="px-4 py-4 min-h-screen flex flex-col">
       <UserProvider>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
