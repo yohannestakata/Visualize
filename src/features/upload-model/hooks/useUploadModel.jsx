@@ -2,10 +2,13 @@ import { useMutation } from "@tanstack/react-query";
 import { uploadModel } from "../services";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 function useUploadModel() {
-  let passedValues;
   const { toast } = useToast();
+  let passedValues;
+  const navigate = useNavigate();
+
   const { mutate, data, isPending, isSuccess } = useMutation({
     mutationFn: (values) => {
       passedValues = values;
@@ -16,6 +19,7 @@ function useUploadModel() {
         title: "Model uploaded successfully!",
         description: "Students can now access your model",
       });
+      navigate("/teacher/models");
     },
     onError: () => {
       toast({

@@ -1,21 +1,26 @@
-function ImageCard({ className, title, subtitle }) {
+function ImageCard({ className, title, subtitle, imgUrl }) {
   return (
     <div
-      className={`rounded-lg border bg-card text-card-foreground hover:cursor-pointer hover:bg-accent p-3 shadow-sm ${className}`}
+      className={`rounded-lg border bg-card p-3 text-card-foreground shadow-sm hover:cursor-pointer hover:bg-accent ${className}`}
     >
-      <div className="bg-muted aspect-video overflow-hidden rounded-md flex items-center justify-center">
+      <div className="flex aspect-video items-center justify-center overflow-hidden rounded-md bg-muted">
         <img
-          src={`https://picsum.photos/id/${
-            Math.floor(Math.random() * 1000) + 1
-          }/500/600.webp`}
+          src={
+            imgUrl ||
+            `https://picsum.photos/id/${
+              Math.floor(Math.random() * 1000) + 1
+            }/1600/900.webp`
+          }
           alt="Classroom name thumbnail"
-          className="rounded-md object-cover w-full h-full text-sm text-muted-foreground"
+          className="h-full rounded-md object-cover text-sm text-muted-foreground"
         />
       </div>
 
-      <div className="flex flex-col gap-1 text-card-foreground mt-3">
+      <div className="mt-3 flex flex-col gap-1 text-card-foreground">
         <span>{title}</span>
-        <span className="text-muted-foreground text-sm">{subtitle}</span>
+        <span className="text-sm capitalize text-muted-foreground">
+          {subtitle}
+        </span>
       </div>
     </div>
   );

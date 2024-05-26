@@ -38,7 +38,11 @@ function UploadModelForm() {
     <div>
       <div className="mt-4">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            disabled={isPending}
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
             <FormField
               control={form.control}
               name="model"
@@ -80,7 +84,7 @@ function UploadModelForm() {
                           accept="image/*"
                           onChange={(event) =>
                             onChange(
-                              event.target.files && event.target.files[0]
+                              event.target.files && event.target.files[0],
                             )
                           }
                         />
@@ -158,13 +162,13 @@ function UploadModelForm() {
             <Button type="submit" disabled={isPending || isSuccess}>
               {isPending && (
                 <span className="flex items-center">
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Uploading...
                 </span>
               )}
               {!isPending && (
                 <span className="flex items-center">
-                  <Upload className="w-4 h-4 mr-2" /> Upload
+                  <Upload className="mr-2 h-4 w-4" /> Upload
                 </span>
               )}
             </Button>

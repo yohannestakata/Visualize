@@ -15,6 +15,7 @@ import ClassroomList from "./features/learn/components/ClassroomList";
 import ErrorBoundary from "./components/ErrorBoundary";
 import UploadModelLayout from "./features/upload-model/layout";
 import { Toaster } from "@/components/ui/toaster";
+import UploadedModels from "./features/uploaded-models/layouts";
 
 axios.defaults.withCredentials = true;
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
             path: "/teacher/upload-model",
             element: <UploadModelLayout />,
           },
+          {
+            path: "/teacher/models",
+            element: <UploadedModels />,
+          },
         ],
       },
       {
@@ -72,7 +77,7 @@ function App() {
   const queryClient = new QueryClient();
 
   return (
-    <div className="px-4 py-4 min-h-screen flex flex-col">
+    <div className="flex min-h-screen flex-col px-4 py-4">
       <UserProvider>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />

@@ -16,7 +16,7 @@ export async function uploadModel(fields) {
 
   return axios({
     method: "post",
-    url: `${SERVER_URL}/models/upload`,
+    url: `${SERVER_URL}/models`,
     data: {
       ...fields,
       thumbnailUrl: `${supabaseUrl}/storage/v1/object/public/${thumbnailData.fullPath}`,
@@ -24,6 +24,6 @@ export async function uploadModel(fields) {
       thumbnail: undefined,
       model: undefined,
     },
-    headers: { "Content-Type": "multipart/form-data" },
+    // headers: { "Content-Type": "multipart/form-data" },
   });
 }
