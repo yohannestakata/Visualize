@@ -18,31 +18,31 @@ function TeacherNavigation() {
 
   return (
     <nav>
-      <div className="flex justify-between items-center pb-2">
-        <div className="flex gap-6 items-center">
+      <div className="flex items-center justify-between pb-2">
+        <div className="flex items-center gap-7">
           <div>
             <img src="../../../images/logo.svg" className="w-10" alt="" />
           </div>
-          <div className="flex gap-6">
+          <div className="flex gap-5">
             <NavLink
               className={"flex items-center text-muted-foreground"}
               to={"/teacher/activity"}
             >
-              <Activity className="w-4 h-4 mr-2" />
+              <Activity className="mr-2 h-4 w-4" />
               <span>Activity</span>
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}
               to={"/teacher/models"}
             >
-              <Boxes className="w-4 h-4 mr-2" />
+              <Boxes className="mr-2 h-4 w-4" />
               <span>My Models</span>
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}
               to={"/teacher/classrooms"}
             >
-              <BookOpen className="w-4 h-4 mr-2" />
+              <BookOpen className="mr-2 h-4 w-4" />
               <span>My Classrooms</span>
             </NavLink>
 
@@ -50,14 +50,14 @@ function TeacherNavigation() {
               className={"flex items-center text-muted-foreground"}
               to={"/teacher/upload-model"}
             >
-              <Upload className="w-4 h-4 mr-2" />
+              <Upload className="mr-2 h-4 w-4" />
               <span>Upload Model</span>
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}
               to={"/teacher/create-classroom"}
             >
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="mr-2 h-4 w-4" />
               <span>Create Classroom</span>
             </NavLink>
           </div>

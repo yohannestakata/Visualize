@@ -10,6 +10,8 @@ function ModelsList({ models }) {
           subtitle={model.department}
           imgUrl={model.thumbnailUrl}
           className={"col-span-4"}
+          badge={model.drafted ? "Draft" : "Published"}
+          badgeVariant={model.drafted ? "outline" : "default"}
         />
       ))}
     </div>

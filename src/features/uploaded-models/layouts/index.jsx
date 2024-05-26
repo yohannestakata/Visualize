@@ -19,7 +19,7 @@ function UploadedModels() {
 
   const [filterBy, setFilterBy] = useState("all");
 
-  const filteredModels = models.filter((model) => {
+  const filteredModels = models?.filter((model) => {
     if (filterBy === "all") return true;
     return model.department === filterBy;
   });
@@ -34,7 +34,8 @@ function UploadedModels() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="all">Show all</SelectItem>
+              <SelectLabel>Departments</SelectLabel>
+              <SelectItem value="all">All</SelectItem>
               <SelectItem value="computer science">Computer Science</SelectItem>
               <SelectItem value="architecture">Architecture</SelectItem>
               <SelectItem value="accounting">Accounting</SelectItem>
