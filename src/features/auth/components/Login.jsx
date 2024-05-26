@@ -93,7 +93,7 @@ function Login() {
                     </FormItem>
                   )}
                 />
-                <Button className="w-full" type="submit" disable={isPending}>
+                <Button className="w-full" type="submit" disabled={isPending}>
                   {!isPending && "Login"}
                   {isPending && "Logging in..."}
                 </Button>
