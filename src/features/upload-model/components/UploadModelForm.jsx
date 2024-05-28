@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, NotebookPen, Upload } from "lucide-react";
+import { ChevronsRight, FolderPlus, Loader2 } from "lucide-react";
 import DragArea from "../../../components/DragArea";
 import useUploadModel from "../hooks/useUploadModel";
 import { useState } from "react";
@@ -171,7 +171,7 @@ function UploadModelForm() {
                 disabled={isPending || isSuccess}
               >
                 <span className="flex items-center">
-                  <NotebookPen className="mr-2 h-4 w-4" />
+                  <FolderPlus className="mr-2 h-4 w-4" />
                   Add to drafts
                 </span>
               </Button>
@@ -182,7 +182,7 @@ function UploadModelForm() {
                 disabled={isPending || isSuccess}
               >
                 <span className="flex items-center">
-                  <Upload className="mr-2 h-4 w-4" /> Publish
+                  <ChevronsRight className="mr-2 h-4 w-4" /> Next
                 </span>
               </Button>
               {isPending && (
@@ -191,7 +191,7 @@ function UploadModelForm() {
                   {selectedButton === "drafts" && (
                     <span>Adding to drafts...</span>
                   )}
-                  {selectedButton === "publish" && <span>Publishing...</span>}
+                  {selectedButton === "publish" && <span>Uploading...</span>}
                 </div>
               )}
             </div>
