@@ -4,7 +4,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 
-function useUploadModel() {
+function useUploadModel(action) {
   const { toast } = useToast();
   let passedValues;
   const navigate = useNavigate();
@@ -14,12 +14,15 @@ function useUploadModel() {
       passedValues = values;
       return uploadModel(values);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const modelId = data.data.data._id;
       toast({
         title: "Model uploaded successfully!",
         description: "Students can now access your model",
       });
-      navigate("/teacher/models");
+      if (action === "drafts") navigate("/teacher/models");
+      if (action === "publish")
+        navigate(`/teacher/add-model-definitions?modelId=${modelId}`);
     },
     onError: () => {
       toast({
