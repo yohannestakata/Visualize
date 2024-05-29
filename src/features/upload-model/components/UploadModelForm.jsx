@@ -80,6 +80,7 @@ function UploadModelForm() {
               <FormField
                 control={form.control}
                 name="thumbnail"
+                // eslint-disable-next-line no-unused-vars
                 render={({ field: { value, onChange, ...fieldProps } }) => {
                   return (
                     <FormItem>
