@@ -24,8 +24,12 @@ import useUploadModel from "../hooks/useUploadModel";
 import { useState } from "react";
 
 function UploadModelForm() {
-  const { mutate: uploadModel, isPending, isSuccess } = useUploadModel();
   const [selectedButton, setSelectedButton] = useState("");
+  const {
+    mutate: uploadModel,
+    isPending,
+    isSuccess,
+  } = useUploadModel(selectedButton);
 
   const form = useForm({
     resolver: zodResolver(UploadModelSchema),
@@ -163,7 +167,7 @@ function UploadModelForm() {
                 )}
               />
             </div>
-            <div className="flex items-center gap-2 ">
+            <div className="flex items-center gap-4">
               <Button
                 onClick={() => setSelectedButton("drafts")}
                 variant="secondary"
@@ -187,7 +191,7 @@ function UploadModelForm() {
               </Button>
               {isPending && (
                 <div className="flex animate-pulse items-center gap-2">
-                  <Loader2 className="animate-spin" />{" "}
+                  <Loader2 className="h-4 w-4 animate-spin" />
                   {selectedButton === "drafts" && (
                     <span>Adding to drafts...</span>
                   )}
