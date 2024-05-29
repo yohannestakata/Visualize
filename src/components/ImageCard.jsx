@@ -26,11 +26,13 @@ function ImageCard({
       </div>
 
       <div className="mt-3 flex flex-col gap-1 text-card-foreground">
-        <div className="flex justify-between">
-          <span>{title}</span>
+        <div className="flex items-start justify-between gap-2">
+          <span className="w-full truncate text-ellipsis break-all">
+            {title}
+          </span>
           {badge && <Badge variant={badgeVariant}>{badge}</Badge>}
         </div>
-        <span className="text-sm capitalize text-muted-foreground">
+        <span className="truncate text-sm capitalize text-muted-foreground">
           {subtitle}
         </span>
       </div>
