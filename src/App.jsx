@@ -16,6 +16,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import UploadModelLayout from "./features/upload-model/layout";
 import { Toaster } from "@/components/ui/toaster";
 import UploadedModels from "./features/uploaded-models/layouts";
+import AddModelDescriptionsLayout from "./features/add-descriptions/layouts";
 
 axios.defaults.withCredentials = true;
 
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
           {
             path: "/teacher/models",
             element: <UploadedModels />,
+          },
+          {
+            path: "/teacher/add-model-definitions",
+            element: <AddModelDescriptionsLayout />,
           },
         ],
       },
