@@ -18,7 +18,7 @@ function useUploadModel(action) {
       const modelId = data.data.data._id;
       toast({
         title: "Model uploaded successfully!",
-        description: "Students can now access your model",
+        description: `${action === "publish" ? "Students can now access your model" : "You can find your model in drafts"}`,
       });
       if (action === "drafts") navigate("/teacher/models");
       if (action === "publish")
