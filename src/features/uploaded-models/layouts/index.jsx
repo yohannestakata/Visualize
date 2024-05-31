@@ -4,7 +4,7 @@ import Heading from "../../../components/Heading";
 
 import useGetModels from "../hooks/useGetModels";
 import { useState } from "react";
-import { ListFilterIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import ListFilter from "../components/ListFilter";
 
 function UploadedModels() {
@@ -12,7 +12,7 @@ function UploadedModels() {
   const models = data?.data;
 
   const [departmentFilter, setDepartmentFilter] = useState("all");
-  const [availabilityFilter, setAvailabilityFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const filteredModels = models
     ?.filter((model) => {
@@ -20,8 +20,8 @@ function UploadedModels() {
       return model.department === departmentFilter;
     })
     ?.filter((model) => {
-      if (availabilityFilter === "all") return true;
-      return model.drafted === (availabilityFilter === "drafted");
+      if (statusFilter === "all") return true;
+      return model.drafted === (statusFilter === "drafted");
     });
 
   if (isPending)
@@ -32,7 +32,7 @@ function UploadedModels() {
       <div className="flex items-center justify-between">
         <Heading as="h1">My Models</Heading>
         <ListFilter
-          setAvailabilityFilter={setAvailabilityFilter}
+          setStatusFilter={setStatusFilter}
           setDepartmentFilter={setDepartmentFilter}
         />
       </div>
