@@ -40,9 +40,8 @@ function Model({ modelUrl, clickedMesh, onClick, onPointerMissed }) {
   }
   return (
     <Canvas className="h-full w-full border ">
-      <ambientLight intensity={1} />
+      <ambientLight intensity={1.2} />
       <directionalLight position={[1, 2, 3]} />
-      <directionalLight position={[-1, -2, -3]} />
       <OrbitControls />
       <group scale={0.5} position={[0, -1, 0]} dispose={null}>
         {model.scene.children.map((node) => renderNode(node, model.materials))}
