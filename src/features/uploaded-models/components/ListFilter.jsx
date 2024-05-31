@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-function ListFilter({setDepartmentFilter, setAvailabilityFilter}) {
+function ListFilter({ setDepartmentFilter, setStatusFilter }) {
   return (
     <div className="flex gap-2">
       <Select onValueChange={(value) => setDepartmentFilter(value)}>
@@ -25,16 +25,16 @@ function ListFilter({setDepartmentFilter, setAvailabilityFilter}) {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Select onValueChange={(value) => setAvailabilityFilter(value)}>
+      <Select onValueChange={(value) => setStatusFilter(value)}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Filter availability" />
+          <SelectValue placeholder="Filter status" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Availability</SelectLabel>
+            <SelectLabel>Status</SelectLabel>
             <SelectItem value="all">All</SelectItem>
             <SelectItem value="published">Published</SelectItem>
-            <SelectItem value="drafted">Drafted</SelectItem>
+            <SelectItem value="drafted">Draft</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
