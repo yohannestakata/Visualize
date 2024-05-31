@@ -25,9 +25,9 @@ const router = createBrowserRouter([
     path: "/",
     errorElement: <ErrorBoundary />,
     element: (
-      <ProtectRoutes>
-        <Outlet />
-      </ProtectRoutes>
+      // <ProtectRoutes>
+      <Outlet />
+      // </ProtectRoutes>
     ),
     children: [
       {

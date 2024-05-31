@@ -4,7 +4,7 @@ import useGetModel from "../../../hooks/useGetModel";
 import { useSearchParams } from "react-router-dom";
 import Model from "../../../components/Model";
 import { Suspense, useEffect, useState } from "react";
-import { Check, CheckCheck, Edit2, Loader2, Plus, Upload } from "lucide-react";
+import { Edit2, Loader2, Paintbrush, Plus, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -111,24 +111,39 @@ function AddModelDescriptionsLayout() {
               value={definitionText}
             />
 
-            <Button
-              type="submit"
-              variant="secondary"
-              className="w-full"
-              disabled={!clickedMesh}
-              onClick={handleAddMesh}
-            >
-              {!defExists(clickedMesh?.name) ? (
-                <span className="flex items-center">
-                  <Plus className="mr-2 h-4 w-4" /> Add
-                </span>
-              ) : (
-                <span className="flex items-center">
-                  <Edit2 className="mr-2 h-4 w-4" />
-                  Edit
-                </span>
-              )}
-            </Button>
+            <div className="flex w-full gap-2 ">
+              <Button
+                type="reset"
+                variant="outline"
+                className="w-full"
+                disabled={!clickedMesh}
+                onMouseDown={() => {
+                  setDefinitionText("");
+                }}
+              >
+                <Paintbrush className="mr-2 h-4 w-4" />
+                Clear
+              </Button>
+
+              <Button
+                type="submit"
+                variant="secondary"
+                className="w-full"
+                disabled={!clickedMesh}
+                onMouseDown={handleAddMesh}
+              >
+                {!defExists(clickedMesh?.name) ? (
+                  <span className="flex items-center">
+                    <Plus className="mr-2 h-4 w-4" /> Add
+                  </span>
+                ) : (
+                  <span className="flex items-center">
+                    <Edit2 className="mr-2 h-4 w-4" />
+                    Edit
+                  </span>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
         <div className="col-span-6 ">
