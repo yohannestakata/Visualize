@@ -160,7 +160,9 @@ function AddModelDescriptionsLayout() {
                   ))}
                 </Accordion>
               ) : (
-                <span className="text-muted-foreground">Nothing added yet</span>
+                <span className="text-sm text-muted-foreground">
+                  Nothing added yet
+                </span>
               )}
             </ScrollArea>
             <Button className="mt-2">
