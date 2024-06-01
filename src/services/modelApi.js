@@ -17,7 +17,13 @@ export async function getModel(id) {
 
   if (error) return error;
 
-  // console.log({ ...modelData, model });
-
   return { ...modelData, model };
+}
+
+export function updateModel(id, data) {
+  return axios({
+    url: `${SERVER_URL}/models/${id}`,
+    data,
+    method: "patch",
+  });
 }
