@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import AddedDefinitions from "../components/AddedDefinitions";
 import AddDefinition from "../components/AddDefinition";
 import AddedModel from "../components/AddedModel";
+import { Button } from "@/components/ui/button";
+import { Loader2, Save } from "lucide-react";
+import useUpdateModel from "../../../hooks/useUpdateModel";
 
 function AddModelDescriptionsLayout() {
   const [searchParams] = useSearchParams();
@@ -17,6 +20,10 @@ function AddModelDescriptionsLayout() {
   let defExists = false;
   for (let def of definitions)
     if (def.title === clickedMesh?.name) defExists = true;
+
+  useEffect(() => {
+    if (data?.definitions) setDefinitions(data?.definitions);
+  }, [data?.definitions]);
 
   function handleOnClick(e) {
     e.stopPropagation();
@@ -59,6 +66,13 @@ function AddModelDescriptionsLayout() {
     setClickedMesh("");
   }
 
+  const { mutate: updateModel, isPending: isUpdatingModel } =
+    useUpdateModel(id);
+
+  function onSubmit() {
+    updateModel({ definitions });
+  }
+
   if (isPending) return "Loading model...";
   return (
     <div>
@@ -82,7 +96,25 @@ function AddModelDescriptionsLayout() {
           />
         </div>
         <div className="col-span-6">
-          <AddedDefinitions definitions={definitions} />
+          <div className="flex h-full flex-col items-start">
+            <AddedDefinitions definitions={definitions} />
+            <div className="mt-2 flex w-full items-center gap-3">
+              <Button
+                onMouseDown={onSubmit}
+                disabled={isUpdatingModel}
+                // className="w-full"
+              >
+                <Save className="mr-2 h-4 w-4" /> Save changes
+              </Button>
+
+              {isUpdatingModel && (
+                <span className="flex animate-pulse items-center">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving changes
+                </span>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
