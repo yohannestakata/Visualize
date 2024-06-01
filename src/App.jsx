@@ -13,7 +13,7 @@ import Teacher from "./pages/Teacher";
 import CreateClassroomLayout from "./features/create-classroom/Layout";
 import ClassroomList from "./features/learn/components/ClassroomList";
 import ErrorBoundary from "./components/ErrorBoundary";
-import UploadModelLayout from "./features/upload-model/layout";
+import PrepareModelLayout from "./features/prepare-model/layout";
 import { Toaster } from "@/components/ui/toaster";
 import UploadedModels from "./features/uploaded-models/layouts";
 import AddModelDescriptionsLayout from "./features/add-descriptions/layouts";
@@ -25,9 +25,9 @@ const router = createBrowserRouter([
     path: "/",
     errorElement: <ErrorBoundary />,
     element: (
-      // <ProtectRoutes>
-      <Outlet />
-      // </ProtectRoutes>
+      <ProtectRoutes>
+        <Outlet />
+      </ProtectRoutes>
     ),
     children: [
       {
@@ -47,8 +47,8 @@ const router = createBrowserRouter([
             element: <ClassroomList />,
           },
           {
-            path: "/teacher/upload-model",
-            element: <UploadModelLayout />,
+            path: "/teacher/prepare-model",
+            element: <PrepareModelLayout />,
           },
           {
             path: "/teacher/models",
