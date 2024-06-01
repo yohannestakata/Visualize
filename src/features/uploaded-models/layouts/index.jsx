@@ -36,8 +36,9 @@ function UploadedModels() {
           setDepartmentFilter={setDepartmentFilter}
         />
       </div>
-      <Separator className="mt-3" />
-      <ModelsList models={filteredModels} />
+      <div className="mt-5 grid grid-cols-12 gap-4">
+        <ModelsList models={filteredModels} />
+      </div>
     </div>
   );
 }
