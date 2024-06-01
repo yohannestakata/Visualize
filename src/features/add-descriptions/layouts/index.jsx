@@ -1,5 +1,4 @@
 import Heading from "../../../components/Heading";
-import { Separator } from "@/components/ui/separator";
 import useGetModel from "../../../hooks/useGetModel";
 import { useSearchParams } from "react-router-dom";
 import Model from "../../../components/Model";
@@ -24,10 +23,9 @@ function AddModelDescriptionsLayout() {
   const [definitions, setDefinitions] = useState([]);
   const [definitionText, setDefinitionText] = useState("");
 
-  function defExists(title) {
-    for (let def of definitions) if (def.title === title) return true;
-    return false;
-  }
+  let defExists = false;
+  for (let def of definitions)
+    if (def.title === clickedMesh?.name) defExists = true;
 
   function handleOnClick(e) {
     e.stopPropagation();
@@ -35,11 +33,12 @@ function AddModelDescriptionsLayout() {
   }
 
   useEffect(() => {
-    if (clickedMesh?.name)
+    if (defExists)
       setDefinitionText(
         definitions.find((def) => def.title === clickedMesh?.name)?.definition,
       );
-  }, [clickedMesh?.name, definitions]);
+    else setDefinitionText("");
+  }, [clickedMesh?.name, definitions, defExists]);
 
   function onPointerMissed(e) {
     e.stopPropagation();
@@ -49,8 +48,8 @@ function AddModelDescriptionsLayout() {
 
   function handleAddMesh(e) {
     e.preventDefault();
-    console.log(clickedMesh?.name);
-    if (defExists(clickedMesh?.name))
+    
+    if (defExists)
       setDefinitions((prev) => {
         const updatedDefs = prev.map((def) => {
           if (def.title === clickedMesh?.name)
@@ -132,7 +131,7 @@ function AddModelDescriptionsLayout() {
                 disabled={!clickedMesh}
                 onMouseDown={handleAddMesh}
               >
-                {!defExists(clickedMesh?.name) ? (
+                {!defExists ? (
                   <span className="flex items-center">
                     <Plus className="mr-2 h-4 w-4" /> Add
                   </span>
