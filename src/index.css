@@ -21,7 +21,7 @@
 }
 
 .active {
-  @apply text-foreground;
+  @apply bg-accent text-foreground;
 }
 
 @layer base {
