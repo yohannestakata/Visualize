@@ -1,9 +1,15 @@
-import { Edit2, Paintbrush, Plus } from "lucide-react";
+import { Paintbrush, Plus, Replace } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
-function AddDefinition({ clickedMesh, setDefinitionText, definitionText , handleAddMesh, defExists}) {
+function AddDefinition({
+  clickedMesh,
+  setDefinitionText,
+  definitionText,
+  handleAddMesh,
+  defExists,
+}) {
   return (
     <div className="flex w-full flex-col items-start space-y-2 ">
       <div className="flex w-full items-center justify-between">
@@ -26,7 +32,6 @@ function AddDefinition({ clickedMesh, setDefinitionText, definitionText , handle
         <Button
           type="reset"
           variant="outline"
-          className="w-full"
           disabled={!clickedMesh}
           onMouseDown={() => {
             setDefinitionText("");
@@ -38,8 +43,7 @@ function AddDefinition({ clickedMesh, setDefinitionText, definitionText , handle
 
         <Button
           type="submit"
-          variant="secondary"
-          className="w-full"
+          variant=""
           disabled={!clickedMesh}
           onMouseDown={handleAddMesh}
         >
@@ -49,8 +53,8 @@ function AddDefinition({ clickedMesh, setDefinitionText, definitionText , handle
             </span>
           ) : (
             <span className="flex items-center">
-              <Edit2 className="mr-2 h-4 w-4" />
-              Edit
+              <Replace className="mr-2 h-4 w-4" />
+              Replace
             </span>
           )}
         </Button>
