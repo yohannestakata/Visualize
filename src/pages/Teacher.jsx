@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import TeacherNavigation from "../components/Teachernavigation";
+import TeacherNavigation from "../components/TeacherNavigation";
 
 function Teacher() {
   return (
