@@ -3,7 +3,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 import useUser from "../hooks/useUser";
 import { NavLink } from "react-router-dom";
-import { Activity, BookOpen, Boxes, Plus, Upload } from "lucide-react";
+import { Activity, BookOpen, Boxes, Edit3, Plus } from "lucide-react";
 
 function TeacherNavigation() {
   const { user } = useUser();
@@ -48,10 +48,10 @@ function TeacherNavigation() {
 
             <NavLink
               className={"flex items-center text-muted-foreground"}
-              to={"/teacher/upload-model"}
+              to={"/teacher/prepare-model"}
             >
-              <Upload className="mr-2 h-4 w-4" />
-              <span>Upload Model</span>
+              <Edit3 className="mr-2 h-4 w-4" />
+              <span>Prepare Model</span>
             </NavLink>
             <NavLink
               className={"flex items-center text-muted-foreground"}
