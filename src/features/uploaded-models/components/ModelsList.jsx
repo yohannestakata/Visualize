@@ -2,7 +2,7 @@ import ImageCard from "../../../components/ImageCard";
 
 function ModelsList({ models }) {
   return (
-    <div className="mt-6 grid grid-cols-12 gap-4">
+    <>
       {models?.map((model) => (
         <ImageCard
           key={model._id}
@@ -14,7 +14,7 @@ function ModelsList({ models }) {
           badgeVariant={model.drafted ? "outline" : "default"}
         />
       ))}
-    </div>
+    </>
   );
 }
 
