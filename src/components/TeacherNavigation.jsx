@@ -92,7 +92,9 @@ function TeacherNavigation() {
           </div>
           <div className="flex items-center gap-1">
             <NavLink
-              className={buttonVariants({ variant: "ghost" })}
+              className={
+                buttonVariants({ variant: "ghost" }) + " bg-background"
+              }
               to={"/teacher/activity"}
             >
               <Activity className="mr-2 h-4 w-4" />
