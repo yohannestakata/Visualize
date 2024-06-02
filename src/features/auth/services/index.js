@@ -1,8 +1,9 @@
 import axios from "axios";
+import { SERVER_URL } from "../../../data/globals";
 
 export async function signup(fields) {
   return axios({
-    url: "http://localhost:3000/auth/signup",
+    url: `${SERVER_URL}/auth/signup`,
     method: "post",
     data: fields,
   });
@@ -11,7 +12,7 @@ export async function signup(fields) {
 export async function login(fields) {
   return axios({
     method: "post",
-    url: "http://localhost:3000/auth/login",
+    url: `${SERVER_URL}/auth/login`,
     data: fields,
   });
 }
@@ -19,7 +20,7 @@ export async function login(fields) {
 export async function verifyUser() {
   console.log("Verifying...");
   return axios({
-    url: "http://localhost:3000/auth/signed-user",
+    url: `${SERVER_URL}/auth/signed-user`,
     method: "get",
   });
 }
