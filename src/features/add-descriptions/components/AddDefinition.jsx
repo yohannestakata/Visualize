@@ -30,6 +30,7 @@ function AddDefinition({
 
       <div className="flex w-full gap-2 ">
         <Button
+          size="sm"
           type="reset"
           variant="outline"
           disabled={!clickedMesh}
@@ -42,8 +43,8 @@ function AddDefinition({
         </Button>
 
         <Button
+          size="sm"
           type="submit"
-          variant=""
           disabled={!clickedMesh}
           onMouseDown={handleAddMesh}
         >
