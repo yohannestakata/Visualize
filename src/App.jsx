@@ -5,8 +5,6 @@ import { UserProvider } from "./context/UserContext";
 import { Toaster } from "@/components/ui/toaster";
 import { RouterProvider } from "react-router-dom";
 import useBrowserRouter from "./hooks/useBrowserRouter";
-import axios from "axios";
-axios.defaults.withCredentials = true;
 
 function App() {
   const queryClient = new QueryClient();
