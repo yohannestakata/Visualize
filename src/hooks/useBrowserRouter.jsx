@@ -11,6 +11,7 @@ import PrepareModelLayout from "../features/prepare-model/layout";
 import UploadedModels from "../features/uploaded-models/layouts";
 import AddModelDescriptionsLayout from "../features/add-descriptions/layouts";
 import { Outlet, createBrowserRouter } from "react-router-dom";
+import ModelDetailsLayout from "../features/model-details/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -46,6 +47,10 @@ function useBrowserRouter() {
             {
               path: "/teacher/models",
               element: <UploadedModels />,
+            },
+            {
+              path: "/teacher/model-details",
+              element: <ModelDetailsLayout />,
             },
             {
               path: "/teacher/add-model-definitions",
