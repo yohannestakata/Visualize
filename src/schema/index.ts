@@ -46,6 +46,22 @@ export const UploadModelSchema = z.object({
     }),
 });
 
+export const EditModelSchema = z.object({
+  modelTitle: z
+    .string({ required_error: "Please enter a model title" })
+    .min(1, { message: "Please enter a title for the model" }),
+  department: z.string({ required_error: "Please select a department" }),
+  course: z.string({ required_error: "Please select a course" }),
+  thumbnail: z
+    .instanceof(File, { message: "Please select a file" })
+    .refine((file) => file.size < 7 * 1000000, {
+      message: "Thumbnail must be less than 7MB.",
+    })
+    .refine((file) => validateImageFileType(file), {
+      message: "Invalid image format. Supported formats: jpeg, png, jpeg",
+    }),
+});
+
 const validateModelFileType = (file: File) => {
   const allowedMimeTypes = ["obj", "gltf", "glb", "fbx"];
   return allowedMimeTypes.includes(file.name.split(".").at(-1));
