@@ -1,10 +1,9 @@
 import ModelsList from "../components/ModelsList";
-import { Separator } from "@/components/ui/separator";
 import Heading from "../../../components/Heading";
 
 import useGetModels from "../hooks/useGetModels";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { CircleAlert, Loader2 } from "lucide-react";
 import ListFilter from "../components/ListFilter";
 
 function UploadedModels() {
@@ -37,7 +36,14 @@ function UploadedModels() {
         />
       </div>
       <div className="mt-5 grid grid-cols-12 gap-4">
-        <ModelsList models={filteredModels} />
+        {filteredModels.length ? (
+          <ModelsList models={filteredModels} />
+        ) : (
+          <div className="col-span-12 flex items-center justify-center gap-2">
+            <CircleAlert className="h-4 w-4" />
+            <span>Your prepared models will show up here.</span>
+          </div>
+        )}
       </div>
     </div>
   );
