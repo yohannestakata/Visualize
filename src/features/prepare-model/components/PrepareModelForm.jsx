@@ -38,8 +38,7 @@ function PrepareModelForm() {
   });
 
   function onSubmit(values) {
-    if (selectedButton === "drafts") uploadModel({ ...values, drafted: true });
-    if (selectedButton === "publish") uploadModel(values);
+    uploadModel(values);
   }
 
   return (
