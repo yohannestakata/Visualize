@@ -1,18 +1,23 @@
+import { NavLink } from "react-router-dom";
 import ImageCard from "../../../components/ImageCard";
 
 function ModelsList({ models }) {
   return (
     <>
       {models?.map((model) => (
-        <ImageCard
+        <NavLink
           key={model._id}
-          title={model.modelTitle}
-          subtitle={model.department}
-          imgUrl={model.thumbnailUrl}
+          to={`/teacher/model-details?model-id=${model._id}`}
           className={"col-span-4"}
-          badge={model.drafted ? "Draft" : "Published"}
-          badgeVariant={model.drafted ? "outline" : "default"}
-        />
+        >
+          <ImageCard
+            title={model.modelTitle}
+            subtitle={model.department}
+            imgUrl={model.thumbnailUrl}
+            badge={model.drafted ? "Draft" : "Published"}
+            badgeVariant={model.drafted ? "outline" : "default"}
+          />
+        </NavLink>
       ))}
     </>
   );
