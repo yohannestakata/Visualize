@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Edit2, EyeOffIcon, Loader2, Save, Upload } from "lucide-react";
+import { Edit2, Eye, EyeOffIcon, Loader2, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditModelSchema } from "../../../schema";
