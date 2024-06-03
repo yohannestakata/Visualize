@@ -12,7 +12,7 @@ function useLogin() {
     mutationFn: login,
     onSuccess: () => {
       queryClient.invalidateQueries(["user-verify"]);
-      navigate("/teacher/models");
+      navigate("/");
     },
     onError: (error) =>
       toast({
