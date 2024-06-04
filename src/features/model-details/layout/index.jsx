@@ -28,7 +28,9 @@ import useUpdateModel from "../../../hooks/useUpdateModel";
 function ModelDetailsLayout() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("model-id");
-  const { data: model, isPending: gettingModel } = useGetModel(id);
+  const { data: model, isPending: isGettingModel } = useGetModel(id);
+  const { mutate: updateModel, isPending: isUpdatingModel } =
+    useUpdateModel(id);
 
   const form = useForm({
     resolver: zodResolver(EditModelSchema),
@@ -40,15 +42,12 @@ function ModelDetailsLayout() {
     mode: "onChange",
   });
 
-  const { mutate: updateModel, isPending: isUpdatingModel } =
-    useUpdateModel(id);
-
   function onSubmit(values) {
     updateModel(values);
   }
 
   const navigate = useNavigate();
-  if (gettingModel) return <Loader2 />;
+  if (isGettingModel) return <Loader2 />;
 
   return (
     <div className="grid grid-cols-12">
@@ -74,7 +73,7 @@ function ModelDetailsLayout() {
                 e.preventDefault();
                 updateModel({ drafted: !model?.drafted });
               }}
-              disabled={isUpdatingModel}
+              disabled={isUpdatingModel || isGettingModel}
             >
               {model?.drafted ? (
                 <div className="flex items-center justify-between">
@@ -190,7 +189,10 @@ function ModelDetailsLayout() {
                 />
               </div>
               <div className="flex items-center gap-4">
-                <Button type="submit" disabled={isUpdatingModel}>
+                <Button
+                  type="submit"
+                  disabled={isUpdatingModel || isGettingModel}
+                >
                   <span className="flex items-center">
                     <Save className="mr-2 h-4 w-4" />
                     Save changes
