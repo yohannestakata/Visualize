@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditModelSchema } from "../../../schema";
 import ImageDragArea from "../components/ImageDragArea";
+import useUpdateModel from "../../../hooks/useUpdateModel";
 
 function ModelDetailsLayout() {
   const [searchParams] = useSearchParams();
@@ -39,8 +40,11 @@ function ModelDetailsLayout() {
     mode: "onChange",
   });
 
+  const { mutate: updateModel, isPending: isUpdatingModel } =
+    useUpdateModel(id);
+
   function onSubmit(values) {
-    console.log(values);
+    updateModel(values);
   }
 
   const navigate = useNavigate();
@@ -66,6 +70,11 @@ function ModelDetailsLayout() {
             <Button
               size="sm"
               variant={`${model?.drafted ? "" : "destructive"}`}
+              onPointerDown={(e) => {
+                e.preventDefault();
+                updateModel({ drafted: !model?.drafted });
+              }}
+              disabled={isUpdatingModel}
             >
               {model?.drafted ? (
                 <div className="flex items-center justify-between">
@@ -181,20 +190,20 @@ function ModelDetailsLayout() {
                 />
               </div>
               <div className="flex items-center gap-4">
-                <Button type="submit">
+                <Button type="submit" disabled={isUpdatingModel}>
                   <span className="flex items-center">
                     <Save className="mr-2 h-4 w-4" />
                     Save changes
                   </span>
                 </Button>
 
-                {/* {
+                {isUpdatingModel && (
                   <div className="flex animate-pulse items-center gap-2">
                     <Loader2 className="h-4 w-4 animate-spin" />
 
-                    <span>Adding to drafts...</span>
+                    <span>Updating model...</span>
                   </div>
-                } */}
+                )}
               </div>
             </form>
           </Form>
