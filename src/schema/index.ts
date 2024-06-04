@@ -53,10 +53,17 @@ export const EditModelSchema = z.object({
   department: z.string({ required_error: "Please select a department" }),
   course: z.string({ required_error: "Please select a course" }),
   thumbnail: z
-    .instanceof(File, { message: "Please select a file" })
-    .refine((file) => file.size < 7 * 1000000, {
-      message: "Thumbnail must be less than 7MB.",
-    })
+    .any()
+    .optional()
+    .refine(
+      (file) => {
+        if (file) return file.size < 7 * 1000000;
+        return true;
+      },
+      {
+        message: "Thumbnail must be less than 7MB.",
+      },
+    )
     .refine((file) => validateImageFileType(file), {
       message: "Invalid image format. Supported formats: jpeg, png, jpeg",
     }),
@@ -69,5 +76,7 @@ const validateModelFileType = (file: File) => {
 
 const validateImageFileType = (file: File) => {
   const allowedMimeTypes = ["jpg", "png", "jpeg", "webp"];
-  return allowedMimeTypes.includes(file.name.split(".").at(-1));
+  console.log(file);
+  if (file) return allowedMimeTypes.includes(file.name.split(".").at(-1));
+  return true;
 };
