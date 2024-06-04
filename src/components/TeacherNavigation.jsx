@@ -84,7 +84,7 @@ function TeacherNavigation() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border/40 bg-transparent pt-4 backdrop-blur-lg">
+    <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/70 pt-4 backdrop-blur-xl">
       <div className="flex items-center justify-between pb-2">
         <div className="flex items-center gap-6">
           <div>
