@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useState } from "react";
 
 function Model({
   modelUrl,
@@ -13,7 +14,14 @@ function Model({
   onPointerMissed,
   showHelper = true,
 }) {
+  const [hoveredMesh, setHoveredMesh] = useState();
   const model = useLoader(GLTFLoader, modelUrl);
+
+  function handlePointerEnter(e) {
+    e.stopPropagation();
+    setHoveredMesh(e.object.name);
+  }
+
   function renderNode(node, materials) {
     return (
       <mesh
@@ -33,6 +41,7 @@ function Model({
         name={node.name}
         onClick={onClick}
         onPointerMissed={onPointerMissed}
+        onPointerEnter={handlePointerEnter}
       >
         {node.children.length > 0 && (
           <group>
@@ -48,7 +57,7 @@ function Model({
     <div className="relative h-full w-full">
       {showHelper && (
         <div className="pointer-events-none absolute left-1 top-1 z-50 rounded-sm border px-2 py-1 text-sm leading-none">
-          {clickedMesh?.name || "No selection"}
+          {hoveredMesh || "No selection"}
         </div>
       )}
       <Canvas className="h-full w-full border">
