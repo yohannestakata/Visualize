@@ -10,8 +10,9 @@ function useLogin() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(["user-verify"]);
+      localStorage.setItem("jwt", data.data.token);
       navigate("/");
     },
     onError: (error) =>

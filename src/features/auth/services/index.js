@@ -18,14 +18,13 @@ export async function login(fields) {
 }
 
 export async function verifyUser() {
-  if (
-    !document.cookie.split(";").some((item) => item.trim().startsWith("jwt="))
-  ) {
-    return new Error("You are not signed in");
-  }
+  const token = localStorage.getItem("jwt");
+
+  if (!token) return new Error("You are not signed in");
 
   return axios({
     url: `${SERVER_URL}/auth/signed-user`,
-    method: "get",
+    method: "post",
+    data: { token },
   });
 }
