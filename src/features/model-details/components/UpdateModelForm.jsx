@@ -21,17 +21,26 @@ import { EditModelSchema } from "../../../schema";
 import ImageDragArea from "../components/ImageDragArea";
 import useUpdateModel from "../../../hooks/useUpdateModel";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 function UpdateModelForm({ model, id }) {
   const form = useForm({
     resolver: zodResolver(EditModelSchema),
+    mode: "onChange",
     defaultValues: {
-      modelTitle: model?.modelTitle,
       department: model?.department,
       course: model?.course,
+      modelTitle: model?.title,
     },
-    mode: "onChange",
   });
+
+  console.log(model?.department);
+
+  useEffect(() => {
+    form.setValue("department", model?.department);
+    form.setValue("course", model?.course);
+    form.setValue("modelTitle", model?.modelTitle);
+  }, [model, form]);
 
   const { mutate: updateModel, isPending: isUpdatingModel } =
     useUpdateModel(id);
@@ -39,6 +48,7 @@ function UpdateModelForm({ model, id }) {
   function onSubmit(values) {
     updateModel(values);
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
