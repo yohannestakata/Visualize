@@ -14,6 +14,11 @@ function useSignup() {
       queryClient.invalidateQueries(["user-verify"]);
       localStorage.setItem("jwt", data.data.token);
       navigate("/");
+      toast({
+        title: "Signed up!",
+        description:
+          "Congratulations! You've created your Visualize account successfully.",
+      });
     },
     onError: (error) =>
       toast({
