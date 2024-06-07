@@ -14,7 +14,7 @@ function Model({
   onPointerMissed,
   showHelper = true,
 }) {
-  const [hoveredMesh, setHoveredMesh] = useState();
+  const [hoveredMesh, setHoveredMesh] = useState("Nothing hovered");
   const model = useLoader(GLTFLoader, modelUrl);
 
   function handlePointerEnter(e) {
@@ -42,6 +42,7 @@ function Model({
         onClick={onClick}
         onPointerMissed={onPointerMissed}
         onPointerEnter={handlePointerEnter}
+        onPointerLeave={() => setHoveredMesh("Nothing hovered")}
       >
         {node.children.length > 0 && (
           <group>
@@ -57,7 +58,7 @@ function Model({
     <div className="relative h-full w-full">
       {showHelper && (
         <div className="pointer-events-none absolute left-1 top-1 z-50 rounded-sm border px-2 py-1 text-sm leading-none">
-          {hoveredMesh || "No selection"}
+          {hoveredMesh}
         </div>
       )}
       <Canvas className="h-full w-full border">
