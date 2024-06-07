@@ -25,6 +25,20 @@ function useBrowserRouter() {
       ),
       children: [
         {
+          path: "/auth",
+          element: <AuthLayout />,
+          children: [
+            {
+              path: "/auth/signup",
+              element: <Signup />,
+            },
+            {
+              path: "/auth/login",
+              element: <Login />,
+            },
+          ],
+        },
+        {
           path: "/learn",
           element: <LearnLayout />,
         },
@@ -57,20 +71,6 @@ function useBrowserRouter() {
               element: <AddModelDescriptionsLayout />,
             },
           ],
-        },
-      ],
-    },
-    {
-      path: "/auth",
-      element: <AuthLayout />,
-      children: [
-        {
-          path: "/auth/signup",
-          element: <Signup />,
-        },
-        {
-          path: "/auth/login",
-          element: <Login />,
         },
       ],
     },
