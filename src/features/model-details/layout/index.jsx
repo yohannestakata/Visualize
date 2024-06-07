@@ -26,7 +26,7 @@ function ModelDetailsLayout() {
         <div className="mt-4 flex flex-col">
           <UpdateModelForm model={model} id={id} />
           <Separator className="mt-6" />
-          <DangerArea modelName={model?.modelTitle} />
+          <DangerArea modelName={model?.modelTitle} id={id} />
         </div>
       </div>
     </div>

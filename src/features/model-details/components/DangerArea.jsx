@@ -1,4 +1,4 @@
-import { Info, Trash2 } from "lucide-react";
+import { Info, Loader2, Trash2 } from "lucide-react";
 import Heading from "../../../components/Heading";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,9 +13,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import useDeleteModel from "../hooks/useDeleteModel";
 
-function DangerArea({ modelName }) {
+function DangerArea({ modelName, id }) {
   const [verifyText, setVerifyText] = useState("");
+  const { mutate: deleteModel, isPending } = useDeleteModel(id);
+
+  function handleDelete(e) {
+    e.preventDefault();
+    deleteModel(id);
+  }
+
   return (
     <>
       <div className="mt-6 rounded-lg border border-destructive p-6">
@@ -52,22 +60,32 @@ function DangerArea({ modelName }) {
                   onChange={(e) => setVerifyText(e.target.value)}
                   placeholder="Enter model name"
                   autocomplete="off"
+                  onPaste={(e) => e.preventDefault()}
                 />
               </div>
               <DialogFooter>
                 <Button
                   size="sm"
                   variant="destructive"
-                  disabled={modelName !== verifyText}
+                  disabled={modelName !== verifyText || isPending}
+                  onClick={handleDelete}
                 >
-                  <Trash2 className="mr-2 h-4 w-4" />
+                  {isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="mr-2 h-4 w-4" />
+                  )}
                   Delete model
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
           <span className="flex items-center text-sm font-medium">
-            <Info className="mr-2 h-4 w-4" />
+            {isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Info className="mr-2 h-4 w-4" />
+            )}
             Deleting will completely remove your access!
           </span>
         </div>
