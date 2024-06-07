@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useUser from "../../../hooks/useUser";
 import { useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 
 axios.defaults.withCredentials = true;
 
@@ -33,7 +34,12 @@ function ProtectRoutes({ children }) {
     };
   }, [user, isLoading, navigate, dispatch, queryClient, token]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="mt-6 h-8 w-8 animate-spin" />
+      </div>
+    );
 
   return <div>{children}</div>;
 }
