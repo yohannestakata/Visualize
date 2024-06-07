@@ -5,6 +5,9 @@ import Heading from "../../../components/Heading";
 import UpdateModelForm from "../components/UpdateModelForm";
 import { Loader2 } from "lucide-react";
 import ModelActions from "../components/ModelActions";
+import { Separator } from "@/components/ui/separator";
+
+import DangerArea from "../components/DangerArea";
 
 function ModelDetailsLayout() {
   const [searchParams] = useSearchParams();
@@ -20,8 +23,10 @@ function ModelDetailsLayout() {
           <Heading as={"h1"}>Model Details</Heading>
           <ModelActions id={id} model={model} />
         </div>
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="mt-4 flex flex-col">
           <UpdateModelForm model={model} id={id} />
+          <Separator className="mt-6" />
+          <DangerArea modelName={model?.modelTitle} />
         </div>
       </div>
     </div>
