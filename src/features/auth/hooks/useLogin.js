@@ -14,6 +14,10 @@ function useLogin() {
       queryClient.invalidateQueries(["user-verify"]);
       localStorage.setItem("jwt", data.data.token);
       navigate("/");
+      toast({
+        title: "Logged in!",
+        description: "Logged in successfully.",
+      });
     },
     onError: (error) =>
       toast({
