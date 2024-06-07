@@ -3,6 +3,14 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 import useUser from "../hooks/useUser";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import { NavLink } from "react-router-dom";
 import {
@@ -11,7 +19,9 @@ import {
   Boxes,
   ClipboardList,
   Edit3,
+  LogOut,
   Plus,
+  User,
   Users2,
 } from "lucide-react";
 import {
@@ -144,10 +154,25 @@ function TeacherNavigation() {
         </div>
         <div className="flex gap-2">
           <ModeToggle />
-          <Avatar>
-            <AvatarImage src="" />
-            <AvatarFallback>{avatarAbriv.toUpperCase()}</AvatarFallback>
-          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage src="" />
+                <AvatarFallback>{avatarAbriv.toUpperCase()}</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" /> Profile
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <LogOut className="mr-2 h-4 w-4" /> Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       <Separator />
