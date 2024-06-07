@@ -3,7 +3,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, useHelper } from "@react-three/drei";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PointLightHelper, TextureLoader, Vector3 } from "three";
 
 function Cube({ position, scale }) {
@@ -12,6 +12,10 @@ function Cube({ position, scale }) {
   const meshRef = useRef();
 
   const cameraDeltaRef = useRef(0);
+
+  useEffect(() => {
+    if (meshRef.current) meshRef.current.rotation.y = Math.PI;
+  });
 
   useFrame((state, delta) => {
     meshRef.current.rotation.y += delta / 25;
@@ -22,7 +26,7 @@ function Cube({ position, scale }) {
   const fbxClone = fbx.clone();
 
   return (
-    <mesh ref={meshRef} position={position}>
+    <mesh ref={meshRef} position={position} rotateZ={Math.PI / 3}>
       <primitive object={fbxClone} scale={scale} />
       <meshBasicMaterial />
     </mesh>
@@ -32,11 +36,6 @@ function Cube({ position, scale }) {
 function CubeScene() {
   const icoRef = useRef();
   const coneRef = useRef();
-
-  useFrame((state, delta) => {
-    icoRef.current.rotation.y += delta / 5;
-    coneRef.current.rotation.y += delta / 5;
-  });
 
   const pointLightRef = useRef();
 
@@ -53,15 +52,7 @@ function CubeScene() {
         intensity={20}
       />
 
-      <mesh position={[3.25, 1.8, 0]} scale={0.54} ref={icoRef}>
-        <meshBasicMaterial color={"#22c55e"} wireframe />
-        <icosahedronGeometry args={[1, 0]} />
-      </mesh>
       <Cube scale={28} position={[0, 0, 0]} />
-      <mesh position={[-3.25, -1.8, 0]} scale={0.06} ref={coneRef}>
-        <meshBasicMaterial color={"#22c55e"} wireframe />
-        <coneGeometry args={[5, 10, 6]} />
-      </mesh>
     </>
   );
 }
@@ -76,10 +67,10 @@ function StarsScene() {
   }
 
   const [cubes, setCubes] = useState(
-    [...Array(50)].map(() => ({
+    [...Array(25)].map(() => ({
       position: new Vector3(...randomPosition()),
       scale: Math.random() / 4,
-    }))
+    })),
   );
 
   const [cameraDelta, setCameraDelta] = useState(0);
@@ -106,12 +97,12 @@ function StarsScene() {
 
 function AuthLayout() {
   return (
-    <div className="flex items-center p-6 gap-20 h-screen justify-center w-full overflow-hidden ">
-      <div className="absolute top-0 right-0 m-3 z-10">
+    <div className="flex h-screen w-full items-center justify-center gap-20 overflow-hidden p-6 ">
+      <div className="absolute right-0 top-0 z-10 m-3">
         <ModeToggle />
       </div>
-      <div className="flex-1 z-10 relative flex justify-center items-center h-full w-full ">
-        <div className="flex flex-col h-full w-full">
+      <div className="relative z-10 flex h-full w-full flex-1 items-center justify-center ">
+        <div className="flex h-full w-full flex-col">
           <div className="flex-1 ">
             <Canvas camera={{ position: [0, 0, 5] }}>
               <CubeScene />
@@ -129,10 +120,10 @@ function AuthLayout() {
           </div> */}
         </div>
       </div>
-      <div className="flex-1 flex justify-center z-10">
+      <div className="z-10 flex flex-1 justify-center">
         <Outlet />
       </div>
-      <div className="absolute top-0 left-0 w-screen h-screen">
+      <div className="absolute left-0 top-0 h-screen w-screen">
         <Canvas>
           <StarsScene />
         </Canvas>
