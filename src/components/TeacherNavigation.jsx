@@ -31,6 +31,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import useLogout from "../hooks/useLogout";
 
 function ListItem({ link, title, description, Icon }) {
   return (
@@ -49,6 +50,7 @@ function ListItem({ link, title, description, Icon }) {
 
 function TeacherNavigation() {
   const { user } = useUser();
+  const logout = useLogout();
 
   const splitUsername = user?.nickname?.split(" ");
   let avatarAbriv = "";
@@ -168,7 +170,11 @@ function TeacherNavigation() {
                 <User className="mr-2 h-4 w-4" /> Profile
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  logout();
+                }}
+              >
                 <LogOut className="mr-2 h-4 w-4" /> Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
