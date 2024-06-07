@@ -18,7 +18,12 @@ export async function login(fields) {
 }
 
 export async function verifyUser() {
-  console.log("Verifying...");
+  if (
+    !document.cookie.split(";").some((item) => item.trim().startsWith("jwt="))
+  ) {
+    return new Error("You are not signed in");
+  }
+
   return axios({
     url: `${SERVER_URL}/auth/signed-user`,
     method: "get",
