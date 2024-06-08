@@ -27,7 +27,7 @@ function StudentNaviagtion() {
 
   return (
     <nav>
-      <div className="flex items-center justify-between pb-2">
+      <div className="flex items-center justify-between pb-2 pt-4">
         <div className="flex items-center gap-6">
           <div>
             <img src="../../../images/logo.svg" className="w-10" alt="" />
