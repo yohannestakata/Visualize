@@ -36,3 +36,10 @@ export async function updateModel(id, data) {
     method: "patch",
   });
 }
+
+export async function getModels({ teacherId, department, modelTitle }) {
+  return axios({
+    method: "get",
+    url: `${SERVER_URL}/models?${teacherId ? "teacher=" + teacherId + "&" : ""}${department ? "department=" + department + "&" : ""}${modelTitle ? "modelTitle=" + modelTitle + "&" : ""}`,
+  });
+}

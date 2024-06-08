@@ -1,13 +1,15 @@
 import ModelsList from "../components/ModelsList";
 import Heading from "../../../components/Heading";
 
-import useGetModels from "../hooks/useGetModels";
 import { useState } from "react";
 import { CircleAlert, Loader2 } from "lucide-react";
 import ListFilter from "../components/ListFilter";
+import useGetModels from "../../../hooks/useGetModels";
+import useUser from "../../../hooks/useUser";
 
 function UploadedModels() {
-  const { data, isPending } = useGetModels();
+  const { user } = useUser();
+  const { data, isPending } = useGetModels({ teacherId: user._id });
   const models = data?.data;
 
   const [departmentFilter, setDepartmentFilter] = useState("all");
