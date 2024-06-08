@@ -28,13 +28,11 @@ function UpdateModelForm({ model, id }) {
     resolver: zodResolver(EditModelSchema),
     mode: "onChange",
     defaultValues: {
-      department: model?.department,
-      course: model?.course,
-      modelTitle: model?.title,
+      department: "",
+      course: "",
+      modelTitle: "",
     },
   });
-
-  console.log(model?.department);
 
   useEffect(() => {
     form.setValue("department", model?.department);
