@@ -46,7 +46,7 @@ function DangerArea({ modelName, id }) {
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col gap-2">
-                <Label htmlFor="model-name">
+                <Label htmlFor="model-name" className="mb-2">
                   Type{" "}
                   <span className="font-medium text-destructive">
                     {modelName}
@@ -56,7 +56,7 @@ function DangerArea({ modelName, id }) {
                 <Input
                   id="model-name"
                   value={verifyText}
-                  className="col-span-3"
+                  className="col-span-3 focus-visible:ring-0 focus-visible:ring-offset-0"
                   onChange={(e) => setVerifyText(e.target.value)}
                   placeholder="Enter model name"
                   autocomplete="off"
