@@ -23,7 +23,7 @@ function ModelActions({ id, model }) {
       </Button>
       <Button
         size="sm"
-        variant={`${model?.drafted ? "" : "destructive"}`}
+        variant={`${model?.drafted ? "" : "outline"}`}
         onPointerDown={(e) => {
           e.preventDefault();
           updateModel({ drafted: !model?.drafted });
