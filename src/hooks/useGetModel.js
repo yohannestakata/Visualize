@@ -4,7 +4,7 @@ import { getModel } from "../services/modelApi";
 function useGetModel(id) {
   const { data, isLoading, error } = useQuery({
     queryFn: () => getModel(id),
-    queryKey: ["model"],
+    queryKey: ["model", id],
     onSuccess: (data) => console.log(data),
   });
 
