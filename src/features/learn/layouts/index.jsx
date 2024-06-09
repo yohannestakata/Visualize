@@ -30,7 +30,7 @@ function LearnLayout() {
   return (
     <>
       <StudentNaviagtion />
-      <div className="grid grid-cols-12 h-80 gap-4 mt-6">
+      <div className="mt-6 grid h-80 grid-cols-12 gap-4">
         {/* CLASSROOMS */}
         <div className="col-span-9">
           <ClassroomSection openCommand={setOpen} />
