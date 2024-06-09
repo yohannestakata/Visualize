@@ -57,7 +57,7 @@ function Model({
   return (
     <div className="relative h-full w-full">
       {showHelper && (
-        <div className="pointer-events-none absolute left-1 top-1 z-50 rounded-sm border px-2 py-1 text-sm leading-none">
+        <div className="pointer-events-none absolute left-1 top-1 z-50 rounded-sm border bg-background px-2 py-1 text-sm text-foreground">
           {hoveredMesh}
         </div>
       )}
