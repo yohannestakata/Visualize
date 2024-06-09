@@ -8,7 +8,7 @@ import useUser from "../../../hooks/useUser";
 function ClassroomSection({ openCommand }) {
   const { user } = useUser();
   const { data: models } = useGetModels({
-    department: user.department.toLowerCase(),
+    department: user?.department?.toLowerCase(),
   });
 
   return (
