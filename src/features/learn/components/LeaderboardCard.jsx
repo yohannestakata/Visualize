@@ -15,7 +15,8 @@ function LeaderboardCard() {
         {/* <CardDescription>Better luck next time!</CardDescription> */}
       </CardHeader>
       <CardContent>
-        You finished #32 and stayed in the silver league.
+        You finished <b className="font-semibold">#32</b> and stayed in the{" "}
+        <b className="font-semibold">silver league</b>.
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button className="w-full">Go to leaderboards</Button>
