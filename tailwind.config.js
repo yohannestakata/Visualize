@@ -19,6 +19,7 @@ module.exports = {
       },
     },
     extend: {
+      aspectRatio: { photo: "3/2" },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

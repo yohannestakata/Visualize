@@ -12,7 +12,7 @@ function ImageCard({
     <div
       className={`rounded-lg border bg-card p-3 text-card-foreground shadow-sm hover:cursor-pointer hover:bg-accent ${className}`}
     >
-      <div className="flex aspect-video items-center justify-center overflow-hidden rounded-md bg-muted">
+      <div className="aspect-photo flex items-center justify-center overflow-hidden rounded-md bg-muted">
         <img
           src={imgUrl}
           alt="Classroom name thumbnail"
