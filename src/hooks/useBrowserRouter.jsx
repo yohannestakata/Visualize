@@ -12,6 +12,8 @@ import UploadedModels from "../features/uploaded-models/layouts";
 import AddModelDescriptionsLayout from "../features/add-descriptions/layouts";
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import ModelDetailsLayout from "../features/model-details/layout";
+import LearnModelLayout from "../features/learn-model/layout";
+import Student from "../pages/Student";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -40,7 +42,14 @@ function useBrowserRouter() {
         },
         {
           path: "/learn",
-          element: <LearnLayout />,
+          element: <Student />,
+          children: [
+            { path: "/learn/models", element: <LearnLayout /> },
+            {
+              path: "/learn/learn-model",
+              element: <LearnModelLayout />,
+            },
+          ],
         },
         {
           path: "/teacher",

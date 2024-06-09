@@ -1,4 +1,3 @@
-import StudentNaviagtion from "../../../components/StudentNavigation";
 import ClassroomSection from "../components/ClassroomSection";
 import {
   Calculator,
@@ -29,7 +28,6 @@ function LearnLayout() {
 
   return (
     <>
-      <StudentNaviagtion />
       <div className="mt-6 grid h-80 grid-cols-12 gap-4">
         {/* CLASSROOMS */}
         <div className="col-span-8">
