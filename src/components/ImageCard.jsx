@@ -14,12 +14,7 @@ function ImageCard({
     >
       <div className="flex aspect-video items-center justify-center overflow-hidden rounded-md bg-muted">
         <img
-          src={
-            imgUrl ||
-            `https://picsum.photos/id/${
-              Math.floor(Math.random() * 1000) + 1
-            }/1600/900.webp`
-          }
+          src={imgUrl}
           alt="Classroom name thumbnail"
           className="h-full rounded-md object-cover text-sm text-muted-foreground"
         />
