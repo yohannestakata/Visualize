@@ -5,7 +5,7 @@ function FileInput({ text, handleOnChange }) {
   return (
     <label
       htmlFor="select-file"
-      className="text-primary underline hover:cursor-pointer pointer-events-auto"
+      className="pointer-events-auto text-primary underline hover:cursor-pointer"
     >
       {text}
       <input
@@ -53,7 +53,7 @@ function DragArea({ field: { value, onChange, ...fieldProps }, errors }) {
   }
   return (
     <div
-      className={`aspect-video w-full border-2 rounded-lg border-dashed overflow-hidden  ${
+      className={`aspect-photo w-full overflow-hidden rounded-lg border-2 border-dashed  ${
         dragEnter && "border-primary"
       } ${error && "border-destructive"}`}
       onDrop={handleOnDrop}
@@ -66,22 +66,22 @@ function DragArea({ field: { value, onChange, ...fieldProps }, errors }) {
       }}
     >
       {!fileName && (
-        <div className="pointer-events-none flex justify-center items-center flex-col gap-2 h-full">
+        <div className="pointer-events-none flex h-full flex-col items-center justify-center gap-2">
           <FileBox />
           <h3>
             Drag and drop a supported 3D file or{" "}
             <FileInput handleOnChange={handleOnChange} text="browse" />
           </h3>
-          <span className="text-muted-foreground text-sm">
+          <span className="text-sm text-muted-foreground">
             Follow the guideline for more information on supported file formats
           </span>
         </div>
       )}
 
       {fileName && !error && (
-        <div className="flex flex-col gap-2 h-full justify-center items-center">
+        <div className="flex h-full flex-col items-center justify-center gap-2">
           <div className="flex items-center justify-center">
-            <CheckCheck className="text-primary w-4 h-4 mr-2" />
+            <CheckCheck className="mr-2 h-4 w-4 text-primary" />
             <span>{fileName} loaded</span>&nbsp;
           </div>
           <span>
@@ -91,10 +91,10 @@ function DragArea({ field: { value, onChange, ...fieldProps }, errors }) {
       )}
 
       {error && (
-        <div className="flex flex-col gap-2 h-full justify-center items-center">
+        <div className="flex h-full flex-col items-center justify-center gap-2">
           <span className="">{fileName}</span>
           <span className="text-destructive">{error}</span>
-          <span className="text-muted-foreground text-sm ">
+          <span className="text-sm text-muted-foreground ">
             Follow the guideline for more information on supported file formats
           </span>
           <FileInput handleOnChange={handleOnChange} text="Change file" />

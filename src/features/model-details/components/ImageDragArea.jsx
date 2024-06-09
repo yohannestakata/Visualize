@@ -72,7 +72,7 @@ function ImageDragArea({
     <div
       onPointerOver={() => setIsHovering(true)}
       onPointerLeave={() => setIsHovering(false)}
-      className={`relative aspect-video w-full overflow-hidden rounded-lg border-2 border-dashed  ${
+      className={`aspect-photo relative w-full overflow-hidden rounded-lg border-2 border-dashed  ${
         dragEnter && "border-primary"
       } ${error && "border-destructive"}`}
       onDrop={handleOnDrop}
