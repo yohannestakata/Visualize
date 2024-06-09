@@ -25,7 +25,7 @@ function ProtectRoutes({ children }) {
 
     dispatch({ type: "setUser", payload: user });
 
-    if (user?.role === "Student") navigate("/learn");
+    if (user?.role === "Student") navigate("/learn/models");
     if (user?.role === "Admin") navigate("/admin");
     if (user?.role === "Teacher") navigate("/teacher/classrooms");
 
