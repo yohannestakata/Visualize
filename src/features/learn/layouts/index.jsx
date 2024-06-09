@@ -32,12 +32,12 @@ function LearnLayout() {
       <StudentNaviagtion />
       <div className="mt-6 grid h-80 grid-cols-12 gap-4">
         {/* CLASSROOMS */}
-        <div className="col-span-9">
+        <div className="col-span-8">
           <ClassroomSection openCommand={setOpen} />
         </div>
 
         {/* LEADERBOARDS, QUEST PROGRESS */}
-        <div className="col-span-3">
+        <div className="col-span-4">
           <div className="sticky top-4 flex flex-col gap-4">
             <MiniLeaderboard />
             <LeaderboardCard />
