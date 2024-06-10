@@ -9,15 +9,8 @@ export async function getModel(id) {
   });
 
   const modelData = data?.data;
-  const modelName = modelData.modelUrl.split("/").at(-1);
 
-  const { data: model, error } = await supabase.storage
-    .from("models")
-    .download(modelName);
-
-  if (error) return error;
-
-  return { ...modelData, model };
+  return modelData;
 }
 
 export async function updateModel(id, data) {
