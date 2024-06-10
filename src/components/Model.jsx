@@ -57,11 +57,11 @@ function Model({
   return (
     <div className="relative h-full w-full">
       {showHelper && (
-        <div className="pointer-events-none absolute left-1 top-1 z-50 rounded-sm border bg-background px-2 py-1 text-sm text-foreground">
+        <div className="pointer-events-none absolute left-1 top-1 z-50 rounded-sm bg-background px-2 py-1 text-sm text-foreground">
           {hoveredMesh}
         </div>
       )}
-      <Canvas className="h-full w-full border">
+      <Canvas className="h-full w-full">
         <ambientLight intensity={1.2} />
         <directionalLight position={[1, 2, 3]} />
         <OrbitControls />
