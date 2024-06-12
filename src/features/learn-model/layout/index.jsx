@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import useGetModel from "../../../hooks/useGetModel";
 import Model from "../../../components/Model";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
@@ -39,12 +39,18 @@ function LearnModelLayout() {
 
   return (
     <div className="mt-6 ">
-      <Heading as={"h2"}>{model?.modelTitle}</Heading>
+      <Heading as={"h1"}>{model?.modelTitle}</Heading>
       <ResizablePanelGroup
         direction="horizontal"
         className="mt-4 min-h-96 rounded-lg border"
       >
-        <ResizablePanel defaultSize={50}>
+        <ResizablePanel defaultSize={30}>
+          <div className="flex h-full items-center justify-center p-6">
+            <span className="font-semibold">Three</span>
+          </div>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={40}>
           <div className="aspect-square h-full bg-secondary">
             <Suspense fallback={<Loader2 className="animate-spin" />}>
               {!isModelLoading && (
@@ -59,35 +65,25 @@ function LearnModelLayout() {
           </div>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={50}>
-          <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={50}>
-              <div className="h-full p-6">
-                <Heading as={"h2"} className={"flex items-center gap-2"}>
-                  <span>{clickedMesh.name || "Nothing selected"}</span>
-                  <Volume2
-                    onMouseDown={() => speak(clickedMesh.name)}
-                    className="cursor-pointer"
-                  />
-                </Heading>
-                <ScrollArea className="h-full w-full ">
-                  <p className="mt-2 break-all pb-2">
-                    {
-                      model?.definitions.find(
-                        (def) => def.title === clickedMesh.name,
-                      )?.definition
-                    }
-                  </p>
-                </ScrollArea>
-              </div>
-            </ResizablePanel>
-            <ResizableHandle />
-            <ResizablePanel defaultSize={50}>
-              <div className="flex h-full items-center justify-center p-6">
-                <span className="font-semibold">Three</span>
-              </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
+        <ResizablePanel defaultSize={30}>
+          <div className="h-full p-6">
+            <Heading as={"h2"} className={"flex items-center gap-2"}>
+              <span>{clickedMesh.name || "Nothing selected"}</span>
+              <Volume2
+                onMouseDown={() => speak(clickedMesh.name)}
+                className="cursor-pointer"
+              />
+            </Heading>
+            <ScrollArea className="h-full w-full ">
+              <p className="mt-2 break-all pb-2">
+                {
+                  model?.definitions.find(
+                    (def) => def.title === clickedMesh.name,
+                  )?.definition
+                }
+              </p>
+            </ScrollArea>
+          </div>
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
