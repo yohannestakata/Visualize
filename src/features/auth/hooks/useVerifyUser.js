@@ -17,6 +17,7 @@ function useVerifyUser() {
       description: "Session expired. Please login again.",
       variant: "destructive",
     });
+    localStorage.removeItem("jwt");
     navigate("/auth/login");
   }
 
