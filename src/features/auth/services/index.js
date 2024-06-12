@@ -20,7 +20,8 @@ export async function login(fields) {
 export async function verifyUser() {
   const token = localStorage.getItem("jwt");
 
-  if (!token) return new Error("You are not signed in");
+  if (!token)
+    return new Error("You are not signed in or you have been logged out");
 
   return axios({
     url: `${SERVER_URL}/auth/signed-user`,
