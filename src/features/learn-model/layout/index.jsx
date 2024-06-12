@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import useGetModel from "../../../hooks/useGetModel";
 import Model from "../../../components/Model";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
