@@ -14,6 +14,7 @@ import { Outlet, createBrowserRouter } from "react-router-dom";
 import ModelDetailsLayout from "../features/model-details/layout";
 import LearnModelLayout from "../features/learn-model/layout";
 import Student from "../pages/Student";
+import TakeTestLayout from "../features/take-test/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -48,6 +49,10 @@ function useBrowserRouter() {
             {
               path: "/learn/learn-model",
               element: <LearnModelLayout />,
+            },
+            {
+              path: "/learn/take-test",
+              element: <TakeTestLayout />,
             },
           ],
         },
