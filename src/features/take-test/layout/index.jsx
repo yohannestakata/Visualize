@@ -43,7 +43,7 @@ function TakeTestLayout() {
   }, [clickedMesh, meshIndex, meshes]);
 
   useEffect(() => {
-    const SECONDS_PER_MESH = 10;
+    const SECONDS_PER_MESH = 15;
     if (meshes) setTimeLeft(meshes?.length * SECONDS_PER_MESH);
   }, [meshes]);
 
@@ -159,7 +159,8 @@ function TakeTestLayout() {
             </li>
             <li>
               Time given to complete the test is{" "}
-              <span className="font-semibold">{getTimeLeft(timeLeft)}</span>.
+              <span className="font-semibold">{getTimeLeft(timeLeft)}</span> (15
+              secs per part).
             </li>
             <li>
               Closing the page mid test or being unable to finish the test on
