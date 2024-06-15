@@ -41,7 +41,7 @@ function ProtectRoutes({ children }) {
       </div>
     );
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 }
 
 export default ProtectRoutes;
