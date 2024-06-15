@@ -22,6 +22,11 @@ import {
 import Heading from "../../../components/Heading";
 import { ListChecks, Loader2, PencilLine, Timer } from "lucide-react";
 
+function getTimeLeft(timeLeft) {
+  const SECONDS = 60;
+  return `${String(Math.floor(timeLeft / SECONDS)).length < 2 ? "0" + Math.floor(timeLeft / SECONDS) : Math.floor(timeLeft / SECONDS)}:${String(timeLeft % SECONDS).length < 2 ? "0" + (timeLeft % SECONDS) : timeLeft % SECONDS}`;
+}
+
 function TakeTestLayout() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("modelId");
@@ -30,11 +35,29 @@ function TakeTestLayout() {
   const [meshIndex, setMeshIndex] = useState(0);
   const [meshes, setMeshes] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [startedTest, setStartedTest] = useState(false);
 
   useEffect(() => {
-    console.log(clickedMesh);
     setClickedMesh(meshes?.[meshIndex]);
   }, [clickedMesh, meshIndex, meshes]);
+
+  useEffect(() => {
+    const SECONDS_PER_MESH = 10;
+    if (meshes) setTimeLeft(meshes?.length * SECONDS_PER_MESH);
+  }, [meshes]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (getTimeLeft(timeLeft) === "00:00") {
+        clearInterval(interval);
+        return;
+      }
+      if (startedTest) setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startedTest, timeLeft]);
 
   return (
     <div className="mt-6 flex flex-1 flex-col">
@@ -42,8 +65,18 @@ function TakeTestLayout() {
         <Heading as={"h1"} className={"flex items-center gap-3"}>
           <PencilLine /> Name all the parts: {model?.modelTitle}
         </Heading>
-        <Button className="flex items-center gap-2">
-          <Timer className=" h-4 w-4" /> Start test
+        <Button
+          className="flex items-center gap-2"
+          variant={startedTest ? "secondary" : ""}
+          onClick={() => setStartedTest(true)}
+        >
+          {!startedTest ? (
+            <span className="flex items-center gap-2">
+              <Timer className=" h-4 w-4" /> Start test
+            </span>
+          ) : (
+            "Test started"
+          )}
         </Button>
       </div>
       <ResizablePanelGroup
@@ -68,10 +101,21 @@ function TakeTestLayout() {
 
         <ResizablePanel defaultSize={50}>
           <div className="p-6 pt-0">
-            <Heading as={"h2"} className={"flex items-center gap-2"}>
-              <ListChecks />
-              {`Your answers (0/${meshes?.length})`}
-            </Heading>
+            <div className="flex items-center justify-between">
+              <Heading as={"h2"} className={"flex items-center gap-2"}>
+                <ListChecks />
+                {`Your answers (0/${meshes?.length})`}
+              </Heading>
+              <span>
+                {getTimeLeft(timeLeft) !== "00:00" ? (
+                  getTimeLeft(timeLeft)
+                ) : (
+                  <span className="flex items-center font-semibold text-destructive">
+                    <Timer className="mr-2 h-4 w-4 " /> Time&apos;s up!
+                  </span>
+                )}
+              </span>
+            </div>
             <ScrollArea className="h-full w-full ">
               <p className="mt-2 break-all pb-2">e</p>
             </ScrollArea>
@@ -99,10 +143,7 @@ function TakeTestLayout() {
             </li>
             <li>
               Time given to complete the test is{" "}
-              <span className="font-semibold">
-                {`${String(Math.floor((meshes?.length * 10) / 60)).length < 2 ? "0" + Math.floor((meshes?.length * 10) / 60) : Math.floor((meshes?.length * 10) / 60)}:${String((meshes?.length * 10) % 60).length < 2 ? "0" + ((meshes?.length * 10) % 60) : (meshes?.length * 10) % 60}`}
-              </span>
-              .
+              <span className="font-semibold">{getTimeLeft(timeLeft)}</span>.
             </li>
           </ul>
           <DialogFooter>
