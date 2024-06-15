@@ -5,7 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Model({
   modelUrl,
@@ -13,9 +13,14 @@ function Model({
   onClick,
   onPointerMissed,
   showHelper = true,
+  setMeshes,
 }) {
   const [hoveredMesh, setHoveredMesh] = useState("Nothing hovered");
   const model = useLoader(GLTFLoader, modelUrl);
+
+  useEffect(() => {
+    if (setMeshes) setMeshes(model?.scene?.children);
+  }, [model?.scene?.children, setMeshes]);
 
   function handlePointerEnter(e) {
     e.stopPropagation();
