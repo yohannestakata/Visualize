@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import useGetModel from "../../../hooks/useGetModel";
 import Model from "../../../components/Model";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,8 @@ function TakeTestLayout() {
   const [input, setInput] = useState("");
   const [answers, setAnswers] = useState([]);
 
+  const inputRef = useRef(null);
+
   const finishedExam = answers.length === meshes?.length;
 
   const correctAnswers = answers.reduce((acc, curr) => {
@@ -66,6 +68,12 @@ function TakeTestLayout() {
     setMeshIndex((prev) => prev + 1);
   }
 
+  function handleStartTest() {
+    setStartedTest(true);
+    inputRef.current.focus();
+    console.log(inputRef);
+  }
+
   useEffect(() => {
     setClickedMesh(meshes?.[meshIndex]);
   }, [meshIndex, meshes]);
@@ -76,6 +84,7 @@ function TakeTestLayout() {
   }, [meshes]);
 
   useEffect(() => {
+    inputRef.current.focus();
     const interval = setInterval(() => {
       if (getTimeLeft(timeLeft) === "00:00" || finishedExam) {
         clearInterval(interval);
@@ -97,7 +106,7 @@ function TakeTestLayout() {
           <Button
             className="flex items-center gap-2"
             variant={startedTest ? "secondary" : ""}
-            onClick={() => setStartedTest(true)}
+            onClick={handleStartTest}
           >
             <span className="flex items-center gap-2">
               <Timer className=" h-4 w-4" /> Start test
@@ -135,6 +144,30 @@ function TakeTestLayout() {
         <ResizablePanel defaultSize={50}>
           <div className="flex aspect-square flex-col pl-3">
             <div className="flex max-h-full flex-1 flex-col gap-4 rounded-lg border p-6">
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Enter part name"
+                  disabled={
+                    !startedTest ||
+                    getTimeLeft(timeLeft) === "00:00" ||
+                    finishedExam
+                  }
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
+                />
+                <Button
+                  disabled={
+                    !startedTest ||
+                    getTimeLeft(timeLeft) === "00:00" ||
+                    finishedExam
+                  }
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </div>
               <div className="flex items-center justify-between">
                 <Heading as={"h2"} className={"flex items-center gap-2"}>
                   <ListChecks />
@@ -198,29 +231,6 @@ function TakeTestLayout() {
                   </div>
                 </div>
               </ScrollArea>
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Enter part name"
-                  disabled={
-                    !startedTest ||
-                    getTimeLeft(timeLeft) === "00:00" ||
-                    finishedExam
-                  }
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
-                />
-                <Button
-                  disabled={
-                    !startedTest ||
-                    getTimeLeft(timeLeft) === "00:00" ||
-                    finishedExam
-                  }
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              </div>
             </div>
           </div>
         </ResizablePanel>
