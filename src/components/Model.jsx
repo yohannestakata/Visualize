@@ -38,7 +38,7 @@ function Model({
             ? new THREE.MeshBasicMaterial({
                 color: "#22c55e",
               })
-            : materials[node.material?.name]
+            : materials[node.material?.name] || new THREE.MeshBasicMaterial()
         }
         rotation={node.rotation}
         position={node?.position}
@@ -59,6 +59,7 @@ function Model({
       </mesh>
     );
   }
+
   return (
     <div className="relative h-full w-full">
       {showHelper && (
