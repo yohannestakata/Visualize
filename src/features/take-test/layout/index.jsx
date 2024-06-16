@@ -70,8 +70,8 @@ function TakeTestLayout() {
 
   function handleStartTest() {
     setStartedTest(true);
+    inputRef.current.disabled = false;
     inputRef.current.focus();
-    console.log(inputRef);
   }
 
   useEffect(() => {
@@ -84,7 +84,6 @@ function TakeTestLayout() {
   }, [meshes]);
 
   useEffect(() => {
-    inputRef.current.focus();
     const interval = setInterval(() => {
       if (getTimeLeft(timeLeft) === "00:00" || finishedExam) {
         clearInterval(interval);
@@ -177,7 +176,7 @@ function TakeTestLayout() {
                       {" "}
                       | Score:&nbsp;
                       <span className="font-semibold text-primary">
-                        {(correctAnswers / meshes.length) * 100}%
+                        {Math.round((correctAnswers / meshes.length) * 100)}%
                       </span>
                     </div>
                   )}
