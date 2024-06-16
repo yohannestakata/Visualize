@@ -139,7 +139,12 @@ function TakeTestLayout() {
                 <Heading as={"h2"} className={"flex items-center gap-2"}>
                   <ListChecks />
                   {`Your answers (${answers.length}/${meshes?.length})`}
-                  {finishedExam && <div> | Score:&nbsp;{correctAnswers}</div>}
+                  {finishedExam && (
+                    <div>
+                      {" "}
+                      | Score:&nbsp;{(correctAnswers / meshes.length) * 100}%
+                    </div>
+                  )}
                 </Heading>
                 <span>
                   {getTimeLeft(timeLeft) !== "00:00" ? (
