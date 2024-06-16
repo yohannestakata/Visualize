@@ -142,7 +142,10 @@ function TakeTestLayout() {
                   {finishedExam && (
                     <div>
                       {" "}
-                      | Score:&nbsp;{(correctAnswers / meshes.length) * 100}%
+                      | Score:&nbsp;
+                      <span className="font-semibold text-primary">
+                        {(correctAnswers / meshes.length) * 100}%
+                      </span>
                     </div>
                   )}
                 </Heading>
