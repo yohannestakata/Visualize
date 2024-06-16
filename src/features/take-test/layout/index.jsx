@@ -20,7 +20,15 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import Heading from "../../../components/Heading";
-import { ListChecks, Loader2, PencilLine, Timer } from "lucide-react";
+import {
+  Check,
+  ListChecks,
+  Loader2,
+  PencilLine,
+  Send,
+  Timer,
+  X,
+} from "lucide-react";
 
 function getTimeLeft(timeLeft) {
   const SECONDS = 60;
@@ -37,10 +45,30 @@ function TakeTestLayout() {
   const [isDialogOpen, setIsDialogOpen] = useState(true);
   const [timeLeft, setTimeLeft] = useState(0);
   const [startedTest, setStartedTest] = useState(false);
+  const [input, setInput] = useState("");
+  const [answers, setAnswers] = useState([]);
+
+  const finishedExam = answers.length === meshes?.length;
+
+  const correctAnswers = answers.reduce((acc, curr) => {
+    if (curr.givenAnswer.toLowerCase() === curr.correctAnswer.toLowerCase())
+      return acc + 1;
+    else return acc;
+  }, 0);
+
+  function handleSubmit(e) {
+    if (e?.preventDefault) e.preventDefault();
+    setAnswers((prev) => [
+      { correctAnswer: clickedMesh.name, givenAnswer: input },
+      ...prev,
+    ]);
+    setInput("");
+    setMeshIndex((prev) => prev + 1);
+  }
 
   useEffect(() => {
     setClickedMesh(meshes?.[meshIndex]);
-  }, [clickedMesh, meshIndex, meshes]);
+  }, [meshIndex, meshes]);
 
   useEffect(() => {
     const SECONDS_PER_MESH = 15;
@@ -49,7 +77,7 @@ function TakeTestLayout() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (getTimeLeft(timeLeft) === "00:00") {
+      if (getTimeLeft(timeLeft) === "00:00" || finishedExam) {
         clearInterval(interval);
         return;
       }
@@ -57,7 +85,7 @@ function TakeTestLayout() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [startedTest, timeLeft]);
+  }, [startedTest, timeLeft, finishedExam]);
 
   return (
     <div className="mt-6 flex flex-1 flex-col">
@@ -65,27 +93,30 @@ function TakeTestLayout() {
         <Heading as={"h1"} className={"flex items-center gap-3"}>
           <PencilLine /> Name all the parts: {model?.modelTitle}
         </Heading>
-        <Button
-          className="flex items-center gap-2"
-          variant={startedTest ? "secondary" : ""}
-          onClick={() => setStartedTest(true)}
-        >
-          {!startedTest ? (
+        {!startedTest && (
+          <Button
+            className="flex items-center gap-2"
+            variant={startedTest ? "secondary" : ""}
+            onClick={() => setStartedTest(true)}
+          >
             <span className="flex items-center gap-2">
               <Timer className=" h-4 w-4" /> Start test
             </span>
-          ) : (
-            "Test started"
-          )}
-        </Button>
+          </Button>
+        )}
+        {finishedExam && (
+          <Button>
+            <Send className="mr-2 h-4 w-4" /> Submit results
+          </Button>
+        )}
       </div>
       <ResizablePanelGroup
         direction="horizontal"
         className="mt-5 h-full min-h-96 flex-1 rounded-lg "
       >
         <ResizablePanel defaultSize={50}>
-          <div className="pr-3">
-            <div className="aspect-square h-full rounded-lg bg-muted">
+          <div className="aspect-square pr-3">
+            <div className="h-full w-full rounded-lg border bg-muted">
               <Suspense fallback={<Loader2 className="animate-spin" />}>
                 {!isModelLoading && (
                   <Model
@@ -102,12 +133,13 @@ function TakeTestLayout() {
         <ResizableHandle />
 
         <ResizablePanel defaultSize={50}>
-          <div className="flex h-full flex-col pl-3">
-            <div className="flex h-full w-full flex-1 flex-col gap-4 rounded-lg border p-6">
+          <div className="flex aspect-square flex-col pl-3">
+            <div className="flex max-h-full flex-1 flex-col gap-4 rounded-lg border p-6">
               <div className="flex items-center justify-between">
                 <Heading as={"h2"} className={"flex items-center gap-2"}>
                   <ListChecks />
-                  {`Your answers (0/${meshes?.length})`}
+                  {`Your answers (${answers.length}/${meshes?.length})`}
+                  {finishedExam && <div> | Score:&nbsp;{correctAnswers}</div>}
                 </Heading>
                 <span>
                   {getTimeLeft(timeLeft) !== "00:00" ? (
@@ -120,16 +152,63 @@ function TakeTestLayout() {
                 </span>
               </div>
               <ScrollArea className="flex-1">
-                <p className="break-all">e</p>
+                <div className="break-all">
+                  <div className="space-y-2">
+                    {answers.map((ans) => {
+                      const isCorrect =
+                        ans.correctAnswer.toLowerCase() ===
+                        ans.givenAnswer.toLowerCase();
+                      return (
+                        <div
+                          key={ans.correctAnswer}
+                          className={`space-y-1 rounded-lg border p-3 ${isCorrect ? "border-primary bg-primary/10" : "border-destructive bg-destructive/10"}`}
+                        >
+                          <div className="flex items-center">
+                            {isCorrect ? (
+                              <Check className="mr-2 h-4 w-4 text-primary" />
+                            ) : (
+                              <X className="mr-2 h-4 w-4 text-destructive " />
+                            )}
+                            <div>
+                              {!isCorrect && "Correct answer: "}
+                              <span className="font-semibold">
+                                {ans.correctAnswer}
+                              </span>
+                            </div>
+                          </div>
+                          {!isCorrect && (
+                            <div className="ml-6">
+                              Your answer:{" "}
+                              <span className="font-semibold">
+                                {ans.givenAnswer}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </ScrollArea>
               <div className="flex gap-2">
                 <Input
                   placeholder="Enter part name"
-                  disabled={!startedTest || getTimeLeft(timeLeft) === "00:00"}
+                  disabled={
+                    !startedTest ||
+                    getTimeLeft(timeLeft) === "00:00" ||
+                    finishedExam
+                  }
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
                 />
                 <Button
-                  vairant="secondary"
-                  disabled={!startedTest || getTimeLeft(timeLeft) === "00:00"}
+                  disabled={
+                    !startedTest ||
+                    getTimeLeft(timeLeft) === "00:00" ||
+                    finishedExam
+                  }
+                  onClick={handleSubmit}
                 >
                   Submit
                 </Button>
@@ -166,10 +245,7 @@ function TakeTestLayout() {
               Closing the page mid test or being unable to finish the test on
               time dismisses your progress.
             </li>
-            <li>
-              Don&apos;t forget to click the finish button that appears once
-              done.
-            </li>
+            <li>Don&apos;t forget to submit results once done.</li>
           </ul>
           <DialogFooter>
             <span>Good Luck! 😉</span>
