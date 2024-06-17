@@ -22,9 +22,12 @@ import {
 import Heading from "../../../components/Heading";
 import {
   Check,
+  Lightbulb,
+  LightbulbOff,
   ListChecks,
   Loader2,
   PencilLine,
+  RefreshCcw,
   Send,
   Timer,
   X,
@@ -47,10 +50,11 @@ function TakeTestLayout() {
   const [startedTest, setStartedTest] = useState(false);
   const [input, setInput] = useState("");
   const [answers, setAnswers] = useState([]);
-
   const inputRef = useRef(null);
+  const [hintCounter, setHintCounter] = useState(3);
 
-  const finishedExam = answers.length === meshes?.length;
+  const SECONDS_PER_MESH = 15;
+  let finishedExam = answers.length === meshes?.length;
 
   const correctAnswers = answers.reduce((acc, curr) => {
     if (curr.givenAnswer.toLowerCase() === curr.correctAnswer.toLowerCase())
@@ -74,12 +78,30 @@ function TakeTestLayout() {
     inputRef.current.focus();
   }
 
+  function handleRestart() {
+    setStartedTest(false);
+    inputRef.current.disabled = true;
+    setAnswers([]);
+    setInput("");
+    finishedExam = false;
+    setTimeLeft(meshes?.length * SECONDS_PER_MESH);
+    setMeshIndex(0);
+    setHintCounter(3);
+  }
+
+  function handleClickHint(e) {
+    e.preventDefault();
+    if (hintCounter > 0) {
+      setHintCounter((prev) => prev - 1);
+      setInput(clickedMesh?.name.slice(0, 4));
+    }
+  }
+
   useEffect(() => {
     setClickedMesh(meshes?.[meshIndex]);
   }, [meshIndex, meshes]);
 
   useEffect(() => {
-    const SECONDS_PER_MESH = 15;
     if (meshes) setTimeLeft(meshes?.length * SECONDS_PER_MESH);
   }, [meshes]);
 
@@ -101,22 +123,52 @@ function TakeTestLayout() {
         <Heading as={"h1"} className={"flex items-center gap-3"}>
           <PencilLine /> Name all the parts: {model?.modelTitle}
         </Heading>
-        {!startedTest && (
-          <Button
-            className="flex items-center gap-2"
-            variant={startedTest ? "secondary" : ""}
-            onClick={handleStartTest}
-          >
-            <span className="flex items-center gap-2">
-              <Timer className=" h-4 w-4" /> Start test
-            </span>
-          </Button>
-        )}
-        {finishedExam && (
-          <Button>
-            <Send className="mr-2 h-4 w-4" /> Submit results
-          </Button>
-        )}
+        <div className="items- flex gap-2">
+          {startedTest && (
+            <>
+              <div className="relative">
+                <Button
+                  variant="outline"
+                  onMouseDown={handleClickHint}
+                  className="aspect-square p-0"
+                  disabled={hintCounter === 0}
+                >
+                  {hintCounter === 0 ? (
+                    <LightbulbOff className="h-4 w-4" />
+                  ) : (
+                    <Lightbulb className="h-4 w-4" />
+                  )}
+                </Button>
+                <div
+                  className={`absolute bottom-1/2 left-0 flex aspect-square h-4 w-4 -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full text-sm leading-none  ${hintCounter === 0 ? "bg-muted text-muted-foreground" : "bg-primary text-primary-foreground"}`}
+                >
+                  {hintCounter}
+                </div>
+              </div>
+
+              <Button variant="secondary" onClick={handleRestart}>
+                <RefreshCcw className="mr-2 h-4 w-4" />
+                Restart
+              </Button>
+            </>
+          )}
+          {!startedTest && (
+            <Button
+              className="flex items-center gap-2"
+              variant={startedTest ? "secondary" : ""}
+              onClick={handleStartTest}
+            >
+              <span className="flex items-center gap-2">
+                <Timer className=" h-4 w-4" /> Start test
+              </span>
+            </Button>
+          )}
+          {finishedExam && (
+            <Button>
+              <Send className="mr-2 h-4 w-4" /> Submit results
+            </Button>
+          )}
+        </div>
       </div>
       <ResizablePanelGroup
         direction="horizontal"
