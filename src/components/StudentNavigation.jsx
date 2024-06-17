@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User } from "lucide-react";
 import useLogout from "../hooks/useLogout";
+import { NavLink } from "react-router-dom";
 
 function StudentNaviagtion() {
   const { user } = useUser();
@@ -29,9 +30,9 @@ function StudentNaviagtion() {
     <nav>
       <div className="flex items-center justify-between pb-2 pt-4">
         <div className="flex items-center gap-6">
-          <div>
+          <NavLink to={"/learn/models"}>
             <img src="../../../images/logo.svg" className="w-10" alt="" />
-          </div>
+          </NavLink>
         </div>
         <div className="flex gap-2">
           <ModeToggle />
