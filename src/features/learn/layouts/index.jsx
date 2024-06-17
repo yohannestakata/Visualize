@@ -38,8 +38,8 @@ function LearnLayout() {
         <div className="col-span-4">
           <div className="sticky top-4 flex flex-col gap-4">
             <MiniLeaderboard />
-            <LeaderboardCard />
             <QuestCard />
+            <LeaderboardCard />
           </div>
         </div>
       </div>
