@@ -54,24 +54,26 @@ function LearnModelLayout() {
         className="mt-5 h-full min-h-96 flex-1 rounded-lg "
       >
         <ResizablePanel defaultSize={50}>
-          <div className="aspect-square h-full bg-secondary">
-            <Suspense fallback={<Loader2 className="animate-spin" />}>
-              {!isModelLoading && (
-                <Model
-                  modelUrl={model?.modelUrl}
-                  clickedMesh={clickedMesh}
-                  onClick={handleOnClick}
-                  onPointerMissed={onPointerMissed}
-                />
-              )}
-            </Suspense>
+          <div className="aspect-square overflow-hidden rounded-lg pr-3">
+            <div className="h-full w-full rounded-lg bg-secondary">
+              <Suspense fallback={<Loader2 className="animate-spin" />}>
+                {!isModelLoading && (
+                  <Model
+                    modelUrl={model?.modelUrl}
+                    clickedMesh={clickedMesh}
+                    onClick={handleOnClick}
+                    onPointerMissed={onPointerMissed}
+                  />
+                )}
+              </Suspense>
+            </div>
           </div>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={50}>
+        <ResizablePanel defaultSize={50} className="pl-3">
           <ResizablePanelGroup direction="vertical">
             <ResizablePanel defaultSize={50}>
-              <div className="p-6 pt-0">
+              <div className="p-6 pl-0 pt-0">
                 <Heading as={"h2"} className={"flex items-center gap-2"}>
                   <span>{clickedMesh.name || "Nothing selected"}</span>
                   <Volume2
@@ -92,7 +94,7 @@ function LearnModelLayout() {
             </ResizablePanel>
             <ResizableHandle />
             <ResizablePanel>
-              <div className="flex h-full flex-col gap-3 p-6 pb-0">
+              <div className="flex h-full flex-col gap-3 p-6 pb-0 pl-0">
                 <Heading as="h2">Assistant</Heading>
                 <ScrollArea className="h-full flex-1">
                   <p></p>
