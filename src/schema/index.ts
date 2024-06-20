@@ -80,3 +80,12 @@ const validateImageFileType = (file: File) => {
   if (file) return allowedMimeTypes.includes(file.name.split(".").at(-1));
   return true;
 };
+
+export const CreateDepartmentSchema = z.object({
+  name: z.string({ required_error: "Please enter a name for the department." }),
+  description: z
+    .string({
+      required_error: "Please enter a description for the department.",
+    })
+    .min(130, "Please use a minimum of 130 characters"),
+});

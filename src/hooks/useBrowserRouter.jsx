@@ -15,6 +15,8 @@ import ModelDetailsLayout from "../features/model-details/layout";
 import LearnModelLayout from "../features/learn-model/layout";
 import Student from "../pages/Student";
 import TakeTestLayout from "../features/take-test/layout";
+import Admin from "../pages/Admin";
+import DepartmentSettingsLayout from "../features/department-settings/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -22,9 +24,9 @@ function useBrowserRouter() {
       path: "/",
       errorElement: <ErrorBoundary />,
       element: (
-        <ProtectRoutes>
-          <Outlet />
-        </ProtectRoutes>
+        // <ProtectRoutes>
+        <Outlet />
+        // </ProtectRoutes>
       ),
       children: [
         {
@@ -53,6 +55,16 @@ function useBrowserRouter() {
             {
               path: "/learn/take-test",
               element: <TakeTestLayout />,
+            },
+          ],
+        },
+        {
+          path: "/admin",
+          element: <Admin />,
+          children: [
+            {
+              path: "/admin/department-settings",
+              element: <DepartmentSettingsLayout />,
             },
           ],
         },
