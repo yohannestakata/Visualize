@@ -25,7 +25,14 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 
+import useCreateDepartment from "../hooks/useCreateDepartment";
+import { useState } from "react";
+
 function DepartmentSettingsLayout() {
+  const { mutate: createDepartment, isPending: isCreatingDepartment } =
+    useCreateDepartment();
+  const [open, setOpen] = useState(false);
+
   const departments = [
     {
       name: "Computer Science",
@@ -62,13 +69,19 @@ function DepartmentSettingsLayout() {
 
   function onSubmit(data) {
     console.log(data);
+    createDepartment(data);
+    form.reset({
+      name: "",
+      description: "",
+    });
+    setOpen(false);
   }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <Heading as="h1">Department Settings</Heading>
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger>
             <Button>
               <Plus className="mr-2 h-4 w-4" /> Add Department
@@ -121,7 +134,11 @@ function DepartmentSettingsLayout() {
                       </FormItem>
                     )}
                   />
-                  <Button className="w-full" type="submit" disabled={false}>
+                  <Button
+                    className="w-full"
+                    type="submit"
+                    disabled={isCreatingDepartment}
+                  >
                     <MagicWandIcon className="mr-2 h-4 w-4" /> Create
                   </Button>
                 </div>
