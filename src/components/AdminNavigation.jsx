@@ -69,8 +69,8 @@ function AdminNavigation() {
     },
     {
       icon: <Users className="mr-2 h-4 w-4" />,
-      title: "Batches",
-      description: "Add and setup batches",
+      title: "Courses",
+      description: "Add or remove batches",
       link: "/teacher/model-guideline",
     },
   ];
@@ -93,9 +93,9 @@ function AdminNavigation() {
     <nav className="sticky top-0 z-50 border-b border-border/40 bg-background/70 pt-4 backdrop-blur-xl">
       <div className="flex items-center justify-between pb-2">
         <div className="flex items-center gap-6">
-          <div>
+          <NavLink to="/admin">
             <img src="../../../images/logo.svg" className="w-10" alt="" />
-          </div>
+          </NavLink>
           <div className="flex items-center gap-1">
             <NavLink
               className={
