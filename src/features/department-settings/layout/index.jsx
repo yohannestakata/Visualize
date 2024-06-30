@@ -27,34 +27,18 @@ import { Textarea } from "@/components/ui/textarea";
 
 import useCreateDepartment from "../hooks/useCreateDepartment";
 import { useState } from "react";
+import useGetDepartments from "../../../hooks/useGetDepartments";
+import { buttonVariants } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 function DepartmentSettingsLayout() {
   const { mutate: createDepartment, isPending: isCreatingDepartment } =
     useCreateDepartment();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const departments = [
-    {
-      name: "Computer Science",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut asperiores ducimus sequi reprehenderit nihil debitis, officia ex consequatur.",
-    },
-    {
-      name: "Architecture",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut asperiores ducimus sequi reprehenderit nihil debitis, officia ex consequatur et ad suscipit animi deserunt repellat ipsam sit nulla dolorem eum totam.",
-    },
-    {
-      name: "Nursing",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut asperiores ducimus sequi reprehenderit nihil debitis, officia ex consequatur et ad suscipit animi deserunt repellat ipsam sit nulla dolorem eum totam.",
-    },
-    {
-      name: "Marketing",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut asperiores ducimus sequi reprehenderit nihil debitis.",
-    },
-  ];
+  const { data: departments } = useGetDepartments();
+  console.log(departments);
 
   const form = useForm({
     resolver: zodResolver(CreateDepartmentSchema),
@@ -67,8 +51,11 @@ function DepartmentSettingsLayout() {
     },
   });
 
+  function handleEditClick(id) {
+    navigate(`/admin/department-setup?depId=${id}`);
+  }
+
   function onSubmit(data) {
-    console.log(data);
     createDepartment(data);
     form.reset({
       name: "",
@@ -82,10 +69,8 @@ function DepartmentSettingsLayout() {
       <div className="flex items-center justify-between">
         <Heading as="h1">Department Settings</Heading>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" /> Add Department
-            </Button>
+          <DialogTrigger className={buttonVariants({ variant: "default" })}>
+            <Plus className="mr-2 h-4 w-4" /> Add Department
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -148,16 +133,20 @@ function DepartmentSettingsLayout() {
         </Dialog>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        {departments.map((dep) => {
+        {departments?.map((dep) => {
           return (
             <div
               key={dep.name}
               className="flex flex-col gap-4 rounded-lg border bg-card p-6 text-card-foreground hover:bg-accent"
             >
               <span className="text-xl font-semibold">{dep.name}</span>
-              <p>{dep.description}</p>
+              <p className=" break-all">{dep.description}</p>
               <div className="mt-auto flex flex-1 items-end justify-end justify-self-end">
-                <Button variant="ghost" className="ml-auto p-0 hover:underline">
+                <Button
+                  variant="ghost"
+                  className="ml-auto p-0 hover:underline"
+                  onClick={() => handleEditClick(dep._id)}
+                >
                   Edit
                 </Button>
               </div>
