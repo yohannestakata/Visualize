@@ -1,9 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import useGetDepartments from "../../../hooks/useGetDepartments";
 import Heading from "../../../components/Heading";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,22 +9,16 @@ import {
   CommandList,
   CommandInput,
   CommandItem,
+  CommandGroup,
 } from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Table,
   TableBody,
@@ -38,139 +29,169 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown, Save } from "lucide-react";
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  language: z.string({
-    required_error: "Please select a language.",
-  }),
-});
-
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-];
+import {
+  Check,
+  ChevronsUpDown,
+  Loader2,
+  Minus,
+  Plus,
+  Save,
+  Trash2,
+} from "lucide-react";
+import useGetCourses from "../../../hooks/useGetCourses";
+import { useEffect, useState } from "react";
+import useUpdateDepartment from "../hooks";
+import { Separator } from "@/components/ui/separator";
 
 function DepartmentSetupLayout() {
+  const { data: courses, isPending: isGettingCourses } = useGetCourses();
   const [searchParams] = useSearchParams();
+  const { data: departments, isPending: isGettingDepartments } =
+    useGetDepartments();
   const depId = searchParams.get("depId");
-  const { data: departments, isPending } = useGetDepartments();
-
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [departmentName, setDepartmentName] = useState("");
+  const [departmentDescription, setDepartmentDescription] = useState("");
+  const [departmentCourses, setDepartmentCourses] = useState([]);
   const department = departments?.find((dep) => dep._id === depId);
+  const { mutate: updateDepartment, isPending: isUpdatingDepartment } =
+    useUpdateDepartment(department._id);
 
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-    },
-  });
+  useEffect(() => {
+    setDepartmentCourses(department?.courses);
+    setDepartmentName(department?.name);
+    setDepartmentDescription(department?.description);
+    setValue("");
+  }, [department]);
 
-  // 2. Define a submit handler.
-  function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  function handleAddCourse() {
+    if (value) setDepartmentCourses((prev) => [...prev, value]);
+    setValue("");
   }
+
+  function handleRemoveCourse(id) {
+    setDepartmentCourses((prev) => prev.filter((course) => course._id !== id));
+  }
+
+  function handleSubmit() {
+    updateDepartment({
+      name: departmentName,
+      description: departmentDescription,
+      courses: departmentCourses.map((course) => course._id),
+    });
+  }
+
+  if (isGettingCourses || isGettingDepartments) return <Loader2 />;
 
   return (
     <div>
       <Heading as="h1">{department?.name}</Heading>
       <div className="mt-6 grid grid-cols-12 gap-4">
-        <div className="col-span-4">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter name here" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is the departments public display name.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="language"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Language</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-full justify-between",
-                              !field.value && "text-muted-foreground",
-                            )}
-                          >
-                            {field.value
-                              ? languages.find(
-                                  (language) => language.value === field.value,
-                                )?.label
-                              : "Select language"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput placeholder="Search language..." />
-                          <CommandEmpty>No language found.</CommandEmpty>
-                          <CommandList>
-                            {languages.map((language) => (
-                              <CommandItem
-                                value={language.label}
-                                key={language.value}
-                                onSelect={() => {
-                                  form.setValue("language", language.value);
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    language.value === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0",
-                                  )}
-                                />
-                                {language.label}
-                              </CommandItem>
-                            ))}
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormDescription>
-                      This is the language that will be used in the dashboard.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">
-                <Save className="mr-2 h-4 w-4" /> Save changes
+        <div className="sticky top-0 col-span-4 flex flex-col gap-6">
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              type="name"
+              id="name"
+              placeholder="Enter department name"
+              value={departmentName}
+              onChange={(e) => setDepartmentName(e.target.value)}
+            />
+            <span className="text-sm text-muted-foreground">
+              This is the departments&apos; public display name.
+            </span>
+          </div>
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="name">Description</Label>
+            <Textarea
+              type="name"
+              id="name"
+              rows={8}
+              placeholder="Enter department description"
+              value={departmentDescription}
+              onChange={(e) => setDepartmentDescription(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <Label htmlFor="email">Course</Label>
+            <div className="flex gap-2">
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="flex-1 justify-between overflow-hidden"
+                  >
+                    {value
+                      ? courses?.find((course) => course?.name === value.name)
+                          ?.name
+                      : "Select course..."}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[240px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search course..." />
+                    <CommandList>
+                      <CommandEmpty>No course found.</CommandEmpty>
+                      <CommandGroup>
+                        {courses
+                          ?.sort((curr, next) =>
+                            curr.name < next.name ? -1 : 1,
+                          )
+                          ?.filter((course) => {
+                            if (
+                              departmentCourses?.find(
+                                (depCourse) => depCourse?.name === course?.name,
+                              )
+                            ) {
+                              return;
+                            } else return course;
+                          })
+                          ?.map((course) => (
+                            <CommandItem
+                              key={course?._id}
+                              value={course}
+                              onSelect={() => {
+                                setValue(course);
+                                setOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  value === course
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {course.name}
+                            </CommandItem>
+                          ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <Button variant="secondary" onMouseDown={handleAddCourse}>
+                <Plus className="mr-2 h-4 w-4" /> Add
               </Button>
-            </form>
-          </Form>
+            </div>
+          </div>
+          <Button
+            variant="default"
+            onMouseDown={handleSubmit}
+            disabled={isUpdatingDepartment}
+          >
+            <Save className="mr-2 h-4 w-4" />
+            Save changes
+          </Button>
+          <Separator />
+          <Button variant="destructive">
+            <Trash2 className="mr-2 h-4 w-4" /> Delete
+          </Button>
         </div>
         <div className="col-span-7 col-start-6">
           <Table>
@@ -185,21 +206,27 @@ function DepartmentSetupLayout() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">{department?._id}</TableCell>
-                <TableCell> Data Structures and Algorithms</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">{department?._id}</TableCell>
-                <TableCell> Data Structures and Algorithms</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>{" "}
-              <TableRow>
-                <TableCell className="font-medium">{department?._id}</TableCell>
-                <TableCell> Data Structures and Algorithms</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>
+              {departmentCourses
+                ?.sort((curr, next) => (curr.name < next.name ? -1 : 1))
+                ?.map((course) => {
+                  return (
+                    <TableRow key={course?._id}>
+                      <TableCell className="font-medium">
+                        {course?._id}
+                      </TableCell>
+                      <TableCell>{course?.name}</TableCell>
+                      <TableCell className="text-right">
+                        {course?.credits}
+                      </TableCell>{" "}
+                      <TableCell className="text-right">
+                        <Minus
+                          className="cursor-pointer rounded-sm hover:bg-secondary"
+                          onMouseDown={() => handleRemoveCourse(course._id)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>
