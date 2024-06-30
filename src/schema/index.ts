@@ -82,7 +82,9 @@ const validateImageFileType = (file: File) => {
 };
 
 export const CreateDepartmentSchema = z.object({
-  name: z.string({ required_error: "Please enter a name for the department." }),
+  name: z
+    .string({ required_error: "Please enter a name for the department." })
+    .min(1, { message: "Please enter a name for the department." }),
   description: z
     .string({
       required_error: "Please enter a description for the department.",
