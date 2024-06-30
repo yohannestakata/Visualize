@@ -71,7 +71,7 @@ function AdminNavigation() {
       icon: <Users className="mr-2 h-4 w-4" />,
       title: "Courses",
       description: "Add or remove batches",
-      link: "/teacher/model-guideline",
+      link: "/admin/course-settings",
     },
   ];
   const classroomsTabs = [

@@ -18,6 +18,8 @@ import TakeTestLayout from "../features/take-test/layout";
 import Admin from "../pages/Admin";
 import DepartmentSettingsLayout from "../features/department-settings/layout";
 import DepartmentSetupLayout from "../features/department-setup/layout";
+import CourseSetupLayout from "../features/course-setup/layout";
+import CourseSettingsLayout from "../features/course-settings/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -25,9 +27,9 @@ function useBrowserRouter() {
       path: "/",
       errorElement: <ErrorBoundary />,
       element: (
-        <ProtectRoutes>
-          <Outlet />
-        </ProtectRoutes>
+        // <ProtectRoutes>
+        <Outlet />
+        // </ProtectRoutes>
       ),
       children: [
         {
@@ -70,6 +72,14 @@ function useBrowserRouter() {
             {
               path: "/admin/department-setup",
               element: <DepartmentSetupLayout />,
+            },
+            {
+              path: "/admin/course-settings",
+              element: <CourseSettingsLayout />,
+            },
+            {
+              path: "/admin/course-setup",
+              element: <CourseSetupLayout />,
             },
           ],
         },
