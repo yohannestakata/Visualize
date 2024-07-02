@@ -56,7 +56,7 @@ function DepartmentSetupLayout() {
   const [departmentCourses, setDepartmentCourses] = useState([]);
   const department = departments?.find((dep) => dep._id === depId);
   const { mutate: updateDepartment, isPending: isUpdatingDepartment } =
-    useUpdateDepartment(department._id);
+    useUpdateDepartment(department?._id);
 
   useEffect(() => {
     setDepartmentCourses(department?.courses);
@@ -86,9 +86,9 @@ function DepartmentSetupLayout() {
 
   return (
     <div>
-      <Heading as="h1">{department?.name}</Heading>
-      <div className="mt-6 grid grid-cols-12 gap-4">
-        <div className="sticky top-0 col-span-4 flex flex-col gap-6">
+      <div className="relative mt-6 grid grid-cols-12 gap-4">
+        <div className="sticky top-20 col-span-4 flex h-fit flex-col gap-6">
+          <Heading as="h1">{department?.name}</Heading>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -193,7 +193,7 @@ function DepartmentSetupLayout() {
             <Trash2 className="mr-2 h-4 w-4" /> Delete
           </Button>
         </div>
-        <div className="col-span-7 col-start-6">
+        <div className="col-span-8 col-start-5">
           <Table>
             <TableCaption>
               A list of courses in {department?.name}.
@@ -203,6 +203,7 @@ function DepartmentSetupLayout() {
                 <TableHead className="w-[100px]">UUID</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead className="text-right">Credits</TableHead>
+                <TableHead className="text-right">Remove</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -217,12 +218,14 @@ function DepartmentSetupLayout() {
                       <TableCell>{course?.name}</TableCell>
                       <TableCell className="text-right">
                         {course?.credits}
-                      </TableCell>{" "}
-                      <TableCell className="text-right">
-                        <Minus
-                          className="cursor-pointer rounded-sm hover:bg-secondary"
-                          onMouseDown={() => handleRemoveCourse(course._id)}
-                        />
+                      </TableCell>
+                      <TableCell className="flex justify-end text-right">
+                        <div className="cursor-pointer rounded-sm border p-1 hover:bg-secondary ">
+                          <Minus
+                            className="h-4 w-4"
+                            onMouseDown={() => handleRemoveCourse(course._id)}
+                          />
+                        </div>
                       </TableCell>
                     </TableRow>
                   );
