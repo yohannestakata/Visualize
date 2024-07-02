@@ -21,6 +21,7 @@ import DepartmentSetupLayout from "../features/department-setup/layout";
 import CourseSetupLayout from "../features/course-setup/layout";
 import CourseSettingsLayout from "../features/course-settings/layout";
 import SuperAdmin from "../pages/SuperAdmin";
+import CreateAccountsLayout from "../features/create-accounts/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -67,12 +68,12 @@ function useBrowserRouter() {
           element: <SuperAdmin />,
           children: [
             {
-              path: "/super-admin/create-department",
-              element: "create department",
+              path: "/super-admin/create-accounts",
+              element: <CreateAccountsLayout />,
             },
             {
-              path: "/super-admin/create-accounts",
-              element: "woifnwofinworgn",
+              path: "/super-admin/create-department",
+              element: "create department",
             },
           ],
         },
