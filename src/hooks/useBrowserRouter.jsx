@@ -73,7 +73,11 @@ function useBrowserRouter() {
             },
             {
               path: "/super-admin/create-department",
-              element: "create department",
+              element: <DepartmentSettingsLayout />,
+            },
+            {
+              path: "/super-admin/department-setup",
+              element: <DepartmentSetupLayout />,
             },
           ],
         },
@@ -81,14 +85,6 @@ function useBrowserRouter() {
           path: "/admin",
           element: <Admin />,
           children: [
-            {
-              path: "/admin/department-settings",
-              element: <DepartmentSettingsLayout />,
-            },
-            {
-              path: "/admin/department-setup",
-              element: <DepartmentSetupLayout />,
-            },
             {
               path: "/admin/course-settings",
               element: <CourseSettingsLayout />,

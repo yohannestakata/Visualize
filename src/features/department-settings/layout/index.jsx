@@ -52,7 +52,7 @@ function DepartmentSettingsLayout() {
   });
 
   function handleEditClick(id) {
-    navigate(`/admin/department-setup?depId=${id}`);
+    navigate(`/super-admin/department-setup?depId=${id}`);
   }
 
   function onSubmit(data) {
