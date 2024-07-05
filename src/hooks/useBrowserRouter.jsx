@@ -22,6 +22,7 @@ import CourseSetupLayout from "../features/course-setup/layout";
 import CourseSettingsLayout from "../features/course-settings/layout";
 import SuperAdmin from "../pages/SuperAdmin";
 import CreateAccountsLayout from "../features/create-accounts/layout";
+import AddBatchesLayout from "../features/add-batches/layouts";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -92,6 +93,10 @@ function useBrowserRouter() {
             {
               path: "/admin/course-setup",
               element: <CourseSetupLayout />,
+            },
+            {
+              path: "/admin/add-batches",
+              element: <AddBatchesLayout />,
             },
           ],
         },
