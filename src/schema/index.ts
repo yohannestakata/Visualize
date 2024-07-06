@@ -38,8 +38,8 @@ export const UploadModelSchema = z.object({
     }),
   model: z
     .instanceof(File)
-    .refine((file) => file.size <= 20 * 1000000, {
-      message: "The model must be less than 20MB.",
+    .refine((file) => file.size <= 60 * 1000000, {
+      message: "The model must be less than 60MB.",
     })
     .refine((file) => validateModelFileType(file), {
       message: "Invalid 3D file format. Supported formats: glTF, glb, OBJ, fbx",
