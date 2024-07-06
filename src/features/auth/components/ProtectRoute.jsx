@@ -24,10 +24,12 @@ function ProtectRoutes({ children }) {
     if (!user) navigate("/auth/signup");
 
     dispatch({ type: "setUser", payload: user });
+    const role = user?.role.toLowerCase();
 
-    if (user?.role === "Student") navigate("/learn/models");
-    if (user?.role === "Admin") navigate("/admin");
-    if (user?.role === "Teacher") navigate("/teacher/classrooms");
+    if (role === "student") navigate("/learn/models");
+    if (role === "admin") navigate("/admin");
+    if (role === "teacher") navigate("/teacher/classrooms");
+    if (role === "super admin") navigate("/super-admin");
 
     return () => {
       queryClient.invalidateQueries({ queryKey: ["user-verify"] });

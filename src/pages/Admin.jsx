@@ -5,7 +5,9 @@ function Admin() {
   return (
     <div className="space-y-6">
       <AdminNavigation />
-      <Outlet />
+      <div className="mt-6">
+        <Outlet />
+      </div>
     </div>
   );
 }

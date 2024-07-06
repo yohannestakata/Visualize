@@ -18,8 +18,8 @@ function Cube({ position, scale }) {
   });
 
   useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta / 25;
-    meshRef.current.rotation.x += delta / 25;
+    meshRef.current.rotation.y += delta / 15;
+    meshRef.current.rotation.x += delta / 15;
     cameraDeltaRef.current += delta;
   });
 

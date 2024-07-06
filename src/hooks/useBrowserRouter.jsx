@@ -23,6 +23,7 @@ import CourseSettingsLayout from "../features/course-settings/layout";
 import SuperAdmin from "../pages/SuperAdmin";
 import CreateAccountsLayout from "../features/create-accounts/layout";
 import AddBatchesLayout from "../features/add-batches/layouts";
+import SemestersLayout from "../features/semesters/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -30,9 +31,9 @@ function useBrowserRouter() {
       path: "/",
       errorElement: <ErrorBoundary />,
       element: (
-        // <ProtectRoutes>
-        <Outlet />
-        // </ProtectRoutes>
+        <ProtectRoutes>
+          <Outlet />
+        </ProtectRoutes>
       ),
       children: [
         {
@@ -97,6 +98,10 @@ function useBrowserRouter() {
             {
               path: "/admin/add-batches",
               element: <AddBatchesLayout />,
+            },
+            {
+              path: "/admin/semesters",
+              element: <SemestersLayout />,
             },
           ],
         },

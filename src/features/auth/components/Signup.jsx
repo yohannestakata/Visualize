@@ -33,6 +33,7 @@ import { SelectGroup } from "@radix-ui/react-select";
 import { NavLink } from "react-router-dom";
 
 import useSignup from "../hooks/useSignup";
+import useGetDepartments from "../../../hooks/useGetDepartments";
 
 function Signup() {
   const { isPending, mutate } = useSignup();
@@ -51,6 +52,11 @@ function Signup() {
   function onSubmit(values) {
     mutate(values);
   }
+
+  const { data: departments, isPending: isGettingDepartments } =
+    useGetDepartments();
+
+  console.log(departments);
 
   return (
     <div className="flex flex-col">
@@ -127,19 +133,11 @@ function Signup() {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectItem value="Accounting">
-                                Accounting
-                              </SelectItem>
-                              <SelectItem value="Architecture">
-                                Architecture
-                              </SelectItem>
-                              <SelectItem value="Computer Science">
-                                Computer Science
-                              </SelectItem>
-                              <SelectItem value="Health">Health</SelectItem>
-                              <SelectItem value="Marketing">
-                                Marketing
-                              </SelectItem>
+                              {departments?.map((dep) => (
+                                <SelectItem key={dep._id} value={dep._id}>
+                                  {dep.name}
+                                </SelectItem>
+                              ))}
                             </SelectGroup>
                           </SelectContent>
                         </Select>

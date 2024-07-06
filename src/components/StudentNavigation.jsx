@@ -31,7 +31,11 @@ function StudentNaviagtion() {
       <div className="flex items-center justify-between pb-2 pt-4">
         <div className="flex items-center gap-6">
           <NavLink to={"/learn/models"}>
-            <img src="../../../images/logo.svg" className="w-10" alt="" />
+            <img
+              src="../../../images/logo.svg"
+              className="w-10 bg-background"
+              alt=""
+            />
           </NavLink>
         </div>
         <div className="flex gap-2">

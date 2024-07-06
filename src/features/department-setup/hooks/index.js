@@ -9,7 +9,7 @@ function useUpdateDepartment(id) {
   const { mutate, isPending } = useMutation({
     mutationFn: (fields) => updateDepartment(id, fields),
     onSuccess: () => {
-      navigate("/admin/department-settings");
+      navigate("/super-admin/create-department");
       queryClient.invalidateQueries(["departments"]);
     },
   });

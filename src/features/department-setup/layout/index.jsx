@@ -17,12 +17,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Loader2, Minus, Plus, Save } from "lucide-react";
-import useGetCourses from "../../../hooks/useGetCourses";
 import { useEffect, useState } from "react";
 import useUpdateDepartment from "../hooks";
 
 function DepartmentSetupLayout() {
-  const { data: courses, isPending: isGettingCourses } = useGetCourses();
   const [searchParams] = useSearchParams();
   const { data: departments, isPending: isGettingDepartments } =
     useGetDepartments();
@@ -30,12 +28,12 @@ function DepartmentSetupLayout() {
   const [departmentName, setDepartmentName] = useState("");
   const [departmentDescription, setDepartmentDescription] = useState("");
   const [departmentCourses, setDepartmentCourses] = useState([]);
-  const [courseInput, setCourseInput] = useState({
+  const defaultCourseInput = {
     name: "",
-    creditHour: 0,
+    creditHour: "",
     number: "",
-  });
-  console.log(courseInput);
+  };
+  const [courseInput, setCourseInput] = useState(defaultCourseInput);
   const department = departments?.find((dep) => dep._id === depId);
   const { mutate: updateDepartment, isPending: isUpdatingDepartment } =
     useUpdateDepartment(department?._id);
@@ -49,7 +47,7 @@ function DepartmentSetupLayout() {
   function handleAddCourse() {
     if (courseInput.name && courseInput.creditHour && courseInput.number) {
       setDepartmentCourses((prev) => [...prev, courseInput]);
-      setCourseInput({ name: "", creditHour: 0, number: "" });
+      setCourseInput(defaultCourseInput);
     }
   }
 
@@ -61,18 +59,18 @@ function DepartmentSetupLayout() {
     updateDepartment({
       name: departmentName,
       description: departmentDescription,
-      courses: departmentCourses.map((course) => course._id),
+      courses: departmentCourses.map((course) => ({ ...course, _id: null })),
     });
   }
 
-  if (isGettingCourses || isGettingDepartments) return <Loader2 />;
+  if (isGettingDepartments) return <Loader2 />;
 
   return (
     <div>
       <div className="relative mt-6 grid grid-cols-12 gap-4">
-        <div className="sticky top-20 col-span-4 flex h-fit flex-col gap-6">
+        <div className="sticky top-4 col-span-4 flex h-fit flex-col gap-6">
           <Heading as="h1">{department?.name}</Heading>
-          <div className="grid w-full items-center gap-1.5 bg-white">
+          <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="name">Name</Label>
             <Input
               type="name"
@@ -95,7 +93,7 @@ function DepartmentSetupLayout() {
               onChange={(e) => setDepartmentDescription(e.target.value)}
             />
           </div>
-          <div className="flex flex-col gap-2 rounded-lg border p-6">
+          <div className="flex flex-col gap-2 rounded-lg border p-3">
             <span>Course</span>
             <div className="grid w-full items-center gap-1.5">
               <div className="flex gap-2">
@@ -118,11 +116,11 @@ function DepartmentSetupLayout() {
                 type="text"
                 id="course"
                 placeholder="Enter course number"
-                value={courseInput.creditHour}
+                value={courseInput.number}
                 onChange={(e) =>
                   setCourseInput((prev) => ({
                     ...prev,
-                    creditHour: e.target.value,
+                    number: e.target.value,
                   }))
                 }
               />
@@ -133,11 +131,11 @@ function DepartmentSetupLayout() {
                   type="number"
                   id="course"
                   placeholder="Enter credit hour"
-                  value={courseInput.number}
+                  value={courseInput.creditHour}
                   onChange={(e) =>
                     setCourseInput((prev) => ({
                       ...prev,
-                      number: e.target.value,
+                      creditHour: e.target.value,
                     }))
                   }
                 />
@@ -175,7 +173,7 @@ function DepartmentSetupLayout() {
                 ?.sort((curr, next) => (curr.name < next.name ? -1 : 1))
                 ?.map((course) => {
                   return (
-                    <TableRow key={course?._id}>
+                    <TableRow key={course?.number}>
                       <TableCell className="font-medium">
                         {course?.number}
                       </TableCell>

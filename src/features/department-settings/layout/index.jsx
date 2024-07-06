@@ -65,7 +65,7 @@ function DepartmentSettingsLayout() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mt-6 space-y-4">
       <div className="flex items-center justify-between">
         <Heading as="h1">Department Settings</Heading>
         <Dialog open={open} onOpenChange={setOpen}>
