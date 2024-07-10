@@ -82,14 +82,14 @@ function PrepareModelForm() {
       ),
     );
 
-    teacherCourses = teacherCourses.filter((course) => {
+    teacherCourses = teacherCourses?.filter((course) => {
       if (course.departments.find((dep) => dep === departmentInput))
         return true;
       else return false;
     });
   }
 
-  const teacherDepartmentsObj = departments.filter((dep) => {
+  const teacherDepartmentsObj = departments?.filter((dep) => {
     if ([...teacherDepartments].find((teachDep) => teachDep === dep._id))
       return true;
     else return false;
