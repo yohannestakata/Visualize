@@ -22,20 +22,84 @@ import { ChevronsRight, FolderPlus, Loader2 } from "lucide-react";
 import DragArea from "../../../components/DragArea";
 import useUploadModel from "../hooks/useUploadModel";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { SERVER_URL } from "../../../data/globals";
+import useUser from "../../../hooks/useUser";
 
 function PrepareModelForm() {
   const [selectedButton, setSelectedButton] = useState("");
-  const {
-    mutate: uploadModel,
-    isPending,
-    isSuccess,
-  } = useUploadModel(selectedButton);
+  const { user } = useUser();
+
+  const { data: semesters } = useQuery({
+    queryKey: ["open-semesters"],
+    queryFn: () => {
+      return axios({
+        url: `${SERVER_URL}/semesters?open=true`,
+        method: "get",
+      });
+    },
+  });
+
+  const { data: departmentData } = useQuery({
+    queryKey: ["departments"],
+    queryFn: () => axios({ url: `${SERVER_URL}/departments`, method: "get" }),
+  });
+
+  const departments = departmentData?.data?.data;
+
+  const openSemesters = semesters?.data?.data;
+
+  const teacherDepartments = new Set();
+  let teacherCourses = [];
 
   const form = useForm({
     resolver: zodResolver(UploadModelSchema),
     defaultValues: { modelTitle: "" },
     mode: "onChange",
   });
+
+  openSemesters?.forEach((semester) =>
+    semester.batches.forEach((batch) =>
+      batch.sections.forEach((section) => {
+        user?.sections.forEach((userSection) => {
+          if (userSection === section._id) {
+            teacherDepartments.add(batch.department);
+          }
+        });
+      }),
+    ),
+  );
+
+  const departmentInput = form.watch("department");
+
+  if (departmentInput) {
+    openSemesters?.forEach((semester) =>
+      semester.batches.forEach((batch) =>
+        batch.courses.forEach((course) => {
+          if (course.teacher === user._id) teacherCourses.push(course);
+        }),
+      ),
+    );
+
+    teacherCourses = teacherCourses.filter((course) => {
+      if (course.departments.find((dep) => dep === departmentInput))
+        return true;
+      else return false;
+    });
+  }
+
+  const teacherDepartmentsObj = departments.filter((dep) => {
+    if ([...teacherDepartments].find((teachDep) => teachDep === dep._id))
+      return true;
+    else return false;
+  });
+
+  const {
+    mutate: uploadModel,
+    isPending,
+    isSuccess,
+  } = useUploadModel(selectedButton);
 
   function onSubmit(values) {
     uploadModel(values);
@@ -117,11 +181,13 @@ function PrepareModelForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="accounting">Accounting</SelectItem>
-                      <SelectItem value="architecture">Architecture</SelectItem>
-                      <SelectItem value="computer science">
-                        Computer Science
-                      </SelectItem>
+                      {teacherDepartmentsObj.map((dep) => {
+                        return (
+                          <SelectItem key={dep._id} value={dep._id}>
+                            {dep.name}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
 
@@ -145,13 +211,11 @@ function PrepareModelForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="m@example.com">
-                        m@example.com
-                      </SelectItem>
-                      <SelectItem value="m@google.com">m@google.com</SelectItem>
-                      <SelectItem value="m@support.com">
-                        m@support.com
-                      </SelectItem>
+                      {teacherCourses?.map((course) => (
+                        <SelectItem key={course._id} value={course._id}>
+                          {course.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
 
