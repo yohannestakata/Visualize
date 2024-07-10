@@ -181,7 +181,7 @@ function PrepareModelForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {teacherDepartmentsObj.map((dep) => {
+                      {teacherDepartmentsObj?.map((dep) => {
                         return (
                           <SelectItem key={dep._id} value={dep._id}>
                             {dep.name}
