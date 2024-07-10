@@ -28,10 +28,12 @@ function DepartmentSetupLayout() {
   const [departmentName, setDepartmentName] = useState("");
   const [departmentDescription, setDepartmentDescription] = useState("");
   const [departmentCourses, setDepartmentCourses] = useState([]);
+  console.log(departmentCourses);
   const defaultCourseInput = {
     name: "",
     creditHour: "",
     number: "",
+    departments: [depId],
   };
   const [courseInput, setCourseInput] = useState(defaultCourseInput);
   const department = departments?.find((dep) => dep._id === depId);

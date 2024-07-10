@@ -69,9 +69,10 @@ function AddBatchesLayout() {
         name: `N${num + 1}`,
         representative: "",
         year,
+        department: user.department,
       }));
     });
-  }, [sectionNumber, year]);
+  }, [sectionNumber, year, user]);
 
   return (
     <div>

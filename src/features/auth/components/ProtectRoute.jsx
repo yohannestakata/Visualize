@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
 axios.defaults.withCredentials = true;
+axios.defaults.headers.common = { Authorization: localStorage.getItem("jwt") };
 
 function ProtectRoutes({ children }) {
   const navigate = useNavigate();

@@ -24,6 +24,8 @@ import SuperAdmin from "../pages/SuperAdmin";
 import CreateAccountsLayout from "../features/create-accounts/layout";
 import AddBatchesLayout from "../features/add-batches/layouts";
 import SemestersLayout from "../features/semesters/layout";
+import EditSemesterLayout from "../features/edit-semester/layout";
+import ModelGuideline from "../pages/ModelGuideline";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -92,16 +94,20 @@ function useBrowserRouter() {
               element: <CourseSettingsLayout />,
             },
             {
-              path: "/admin/course-setup",
-              element: <CourseSetupLayout />,
-            },
-            {
               path: "/admin/add-batches",
               element: <AddBatchesLayout />,
             },
             {
               path: "/admin/semesters",
               element: <SemestersLayout />,
+            },
+            {
+              path: "/admin/semesters/edit",
+              element: <EditSemesterLayout />,
+            },
+            {
+              path: "/admin/semesters/courses",
+              element: <CourseSetupLayout />,
             },
           ],
         },
@@ -132,6 +138,10 @@ function useBrowserRouter() {
             {
               path: "/teacher/add-model-definitions",
               element: <AddModelDescriptionsLayout />,
+            },
+            {
+              path: "/teacher/model-guideline",
+              element: <ModelGuideline />,
             },
           ],
         },

@@ -4,8 +4,9 @@ import { getSemesters } from "../services/semestersApi";
 function useGetSemesters() {
   const { data, isPending } = useQuery({
     queryFn: getSemesters,
+    queryKey: ["semesters"],
   });
-  return { data, isPending };
+  return { data: data?.data?.data, isPending };
 }
 
 export default useGetSemesters;
