@@ -14,6 +14,8 @@ import { LogOut, User } from "lucide-react";
 import useLogout from "../hooks/useLogout";
 import { NavLink } from "react-router-dom";
 
+import RegisterDialog from "./RegisterDialog";
+
 function StudentNaviagtion() {
   const { user } = useUser();
   const logout = useLogout();
@@ -37,6 +39,7 @@ function StudentNaviagtion() {
               alt=""
             />
           </NavLink>
+          <RegisterDialog />
         </div>
         <div className="flex gap-2">
           <ModeToggle />

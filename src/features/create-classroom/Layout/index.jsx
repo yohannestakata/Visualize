@@ -24,10 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
 import useUser from "../../../hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 function CreateClassroomLayout() {
   const [open, setOpen] = useState(false);
@@ -76,6 +77,7 @@ function CreateClassroomLayout() {
     name: "",
     models: [],
     sections: user?.sections,
+    teacher: user?._id,
   });
 
   if (inputs.department) {
@@ -113,6 +115,32 @@ function CreateClassroomLayout() {
 
   const models = data?.data?.data;
 
+  const hasAllValues = () => {
+    const requiredProperties = ["department", "course", "name", "models"];
+    return requiredProperties.every((prop) => inputs[prop].length !== 0);
+  };
+
+  const navigate = useNavigate();
+
+  const { mutate: createClassroom } = useMutation({
+    mutationFn: (fields) =>
+      axios({
+        url: `${SERVER_URL}/classrooms`,
+        method: "post",
+        data: fields,
+      }),
+
+    onSuccess: () => {
+      console.log("success");
+      navigate("/teacher");
+    },
+  });
+
+  function handleCreateClassroom() {
+    if (hasAllValues()) createClassroom(inputs);
+    console.log(inputs);
+  }
+
   return (
     <div>
       <div className="mt-4 grid grid-cols-9 gap-4">
@@ -139,7 +167,7 @@ function CreateClassroomLayout() {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Theme" />
+                  <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent>
                   {teacherDepartmentsObj?.map((dep) => {
@@ -222,13 +250,17 @@ function CreateClassroomLayout() {
                     </Command>
                   </PopoverContent>
                 </Popover>
-                <Button variant="secondary" onMouseDown={handleAddModel}>
+                <Button
+                  variant="secondary"
+                  onMouseDown={handleAddModel}
+                  disabled={!modelValue}
+                >
                   <Plus className="mr-2 h-4 w-4" />
                   Add
                 </Button>
               </div>
             </div>
-            <Button>
+            <Button onClick={handleCreateClassroom}>
               <Wand2 className="mr-2 h-4 w-4" /> Create
             </Button>
           </div>
@@ -242,7 +274,6 @@ function CreateClassroomLayout() {
                   return true;
               })
               .map((model) => {
-                console.log(model);
                 return (
                   <div
                     key={model._id}

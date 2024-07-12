@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import ImageCard from "../../../components/ImageCard";
 
 function ClassroomList({ models }) {
+  console.log(models);
   return (
     <div className="grid grid-cols-2 gap-4">
       {models?.map((model) => (
