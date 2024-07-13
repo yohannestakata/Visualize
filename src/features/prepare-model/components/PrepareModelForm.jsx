@@ -31,6 +31,19 @@ function PrepareModelForm() {
   const [selectedButton, setSelectedButton] = useState("");
   const { user } = useUser();
 
+  
+
+  
+
+  const form = useForm({
+    resolver: zodResolver(UploadModelSchema),
+    defaultValues: { modelTitle: "" },
+    mode: "onChange",
+  });
+
+  const teacherDepartments = new Set();
+  let teacherCourses = [];
+
   const { data: semesters } = useQuery({
     queryKey: ["open-semesters"],
     queryFn: () => {
@@ -49,15 +62,6 @@ function PrepareModelForm() {
   const departments = departmentData?.data?.data;
 
   const openSemesters = semesters?.data?.data;
-
-  const teacherDepartments = new Set();
-  let teacherCourses = [];
-
-  const form = useForm({
-    resolver: zodResolver(UploadModelSchema),
-    defaultValues: { modelTitle: "" },
-    mode: "onChange",
-  });
 
   openSemesters?.forEach((semester) =>
     semester.batches.forEach((batch) =>

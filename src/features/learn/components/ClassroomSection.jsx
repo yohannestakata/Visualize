@@ -4,6 +4,7 @@ import ClassroomList from "./ClassroomList";
 import { Button } from "@/components/ui/button";
 import useGetModels from "../../../hooks/useGetModels";
 import useUser from "../../../hooks/useUser";
+import Classrooms from "./Classrooms";
 
 function ClassroomSection({ openCommand }) {
   const { user } = useUser();
@@ -41,7 +42,7 @@ function ClassroomSection({ openCommand }) {
           <ClassroomList models={models?.data} />
         </TabsContent>
         <TabsContent value="my-classrooms" className="mt-4">
-          <ClassroomList />
+          <Classrooms />
         </TabsContent>
         <TabsContent value="favorites" className="mt-4">
           <ClassroomList />

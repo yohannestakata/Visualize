@@ -38,7 +38,7 @@ function UploadedModels() {
         />
       </div>
       <div className="mt-5 grid grid-cols-12 gap-4">
-        {filteredModels.length ? (
+        {filteredModels?.length ? (
           <ModelsList models={filteredModels} />
         ) : (
           <div className="col-span-12 flex items-center justify-center gap-2">

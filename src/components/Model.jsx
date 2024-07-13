@@ -1,11 +1,14 @@
 /* eslint-disable react/no-unknown-property */
-import { OrbitControls } from "@react-three/drei";
+import { CameraControls, OrbitControls, Resize } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Slider } from "@/components/ui/slider";
+import { ArrowLeftRight, ArrowUpDown, Scale } from "lucide-react";
+import { SizeIcon } from "@radix-ui/react-icons";
 
 function Model({
   modelUrl,
@@ -67,14 +70,16 @@ function Model({
           {hoveredMesh}
         </div>
       )}
-      <Canvas className="h-full w-full">
+      <Canvas concurrent className="h-full w-full">
         <ambientLight intensity={1.2} />
         <directionalLight position={[1, 2, 3]} />
         <OrbitControls />
-        <group scale={0.5} position={[0, -1, 0]} dispose={null}>
-          {model.scene.children.map((node) =>
-            renderNode(node, model.materials),
-          )}
+        <group scale={4} position={[0, 0, 0]}>
+          <Resize>
+            {model.scene.children.map((node) =>
+              renderNode(node, model.materials),
+            )}
+          </Resize>
         </group>
       </Canvas>
     </div>
