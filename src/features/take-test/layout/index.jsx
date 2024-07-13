@@ -54,7 +54,7 @@ function TakeTestLayout() {
   const [hintCounter, setHintCounter] = useState(3);
 
   const SECONDS_PER_MESH = 15;
-  let finishedExam = answers.length === meshes?.length;
+  let finishedExam = answers.length === meshes?.length - 1;
 
   const correctAnswers = answers.reduce((acc, curr) => {
     if (curr.givenAnswer.toLowerCase() === curr.correctAnswer.toLowerCase())
@@ -62,6 +62,7 @@ function TakeTestLayout() {
     else return acc;
   }, 0);
 
+  console.log(clickedMesh);
   function handleSubmit(e) {
     if (e?.preventDefault) e.preventDefault();
     setAnswers((prev) => [
@@ -98,7 +99,8 @@ function TakeTestLayout() {
   }
 
   useEffect(() => {
-    setClickedMesh(meshes?.[meshIndex]);
+    console.log(meshes?.[meshIndex + 1]);
+    if (meshes?.[meshIndex + 1]) setClickedMesh(meshes?.[meshIndex + 1][1]);
   }, [meshIndex, meshes]);
 
   useEffect(() => {
@@ -222,7 +224,7 @@ function TakeTestLayout() {
               <div className="flex items-center justify-between">
                 <Heading as={"h2"} className={"flex items-center gap-2"}>
                   <ListChecks />
-                  {`Your answers (${answers.length}/${meshes?.length})`}
+                  {`Your answers (${answers.length}/${meshes?.length - 1})`}
                   {finishedExam && (
                     <div>
                       {" "}

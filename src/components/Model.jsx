@@ -1,14 +1,11 @@
 /* eslint-disable react/no-unknown-property */
-import { CameraControls, OrbitControls, Resize } from "@react-three/drei";
+import { OrbitControls, Resize } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useEffect, useRef, useState } from "react";
-import { Slider } from "@/components/ui/slider";
-import { ArrowLeftRight, ArrowUpDown, Scale } from "lucide-react";
-import { SizeIcon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
 
 function Model({
   modelUrl,
@@ -22,8 +19,11 @@ function Model({
   const model = useLoader(GLTFLoader, modelUrl);
 
   useEffect(() => {
-    if (setMeshes) setMeshes(model?.scene?.children);
-  }, [model?.scene?.children, setMeshes]);
+    console.log(
+      Object.values(model?.nodes).filter((mesh) => mesh.type === "Mesh"),
+    );
+    if (setMeshes) setMeshes(Object.entries(model?.nodes));
+  }, [model?.nodes, setMeshes]);
 
   function handlePointerEnter(e) {
     e.stopPropagation();
@@ -33,28 +33,28 @@ function Model({
   function renderNode(node, materials) {
     return (
       <mesh
-        key={node.name}
-        matrix={node.matrix}
-        geometry={node.geometry}
+        key={node?.name}
+        matrix={node?.matrix}
+        geometry={node?.geometry}
         material={
-          node.name === clickedMesh?.name
+          node?.name === clickedMesh?.name
             ? new THREE.MeshBasicMaterial({
                 color: "#22c55e",
               })
-            : materials[node.material?.name] || new THREE.MeshBasicMaterial()
+            : materials[node?.material?.name] || new THREE.MeshBasicMaterial()
         }
-        rotation={node.rotation}
+        rotation={node?.rotation}
         position={node?.position}
-        scale={node.scale}
-        name={node.name}
+        scale={node?.scale}
+        name={node?.name}
         onClick={onClick}
         onPointerMissed={onPointerMissed}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={() => setHoveredMesh("Nothing hovered")}
       >
-        {node.children.length > 0 && (
+        {node?.children.length > 0 && (
           <group>
-            {node.children.map((child) => {
+            {node?.children.map((child) => {
               return renderNode(child, materials);
             })}
           </group>
@@ -76,7 +76,7 @@ function Model({
         <OrbitControls />
         <group scale={4} position={[0, 0, 0]}>
           <Resize>
-            {model.scene.children.map((node) =>
+            {model?.nodes?.Scene?.children.map((node) =>
               renderNode(node, model.materials),
             )}
           </Resize>

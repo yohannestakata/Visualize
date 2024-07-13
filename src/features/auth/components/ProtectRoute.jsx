@@ -1,13 +1,9 @@
 import { useEffect } from "react";
 import useVerifyUser from "../hooks/useVerifyUser";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import useUser from "../../../hooks/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-
-axios.defaults.withCredentials = true;
-axios.defaults.headers.common = { Authorization: localStorage.getItem("jwt") };
 
 function ProtectRoutes({ children }) {
   const navigate = useNavigate();
