@@ -31,7 +31,7 @@ import useUser from "../../../hooks/useUser";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 
-function CreateClassroomLayout() {
+function EditClassroomLayout() {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [modelValue, setModelValue] = useState("");
@@ -306,4 +306,4 @@ function CreateClassroomLayout() {
   );
 }
 
-export default CreateClassroomLayout;
+export default EditClassroomLayout;

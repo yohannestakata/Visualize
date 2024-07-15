@@ -5,14 +5,8 @@ import { UserProvider } from "./context/UserContext";
 import { Toaster } from "@/components/ui/toaster";
 import { RouterProvider } from "react-router-dom";
 import useBrowserRouter from "./hooks/useBrowserRouter";
-import axios from "axios";
 
 function App() {
-  axios.defaults.withCredentials = true;
-  axios.defaults.headers.common = {
-    Authorization: localStorage.getItem("jwt"),
-  };
-
   const queryClient = new QueryClient();
   const router = useBrowserRouter();
 

@@ -26,6 +26,9 @@ import AddBatchesLayout from "../features/add-batches/layouts";
 import SemestersLayout from "../features/semesters/layout";
 import EditSemesterLayout from "../features/edit-semester/layout";
 import ModelGuideline from "../pages/ModelGuideline";
+import CreateTestLayout from "../features/create-quiz/layout";
+import Classrooms from "../features/classrooms/layout";
+import EditClassroomLayout from "../features/edit-classroom/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -120,8 +123,16 @@ function useBrowserRouter() {
               element: <CreateClassroomLayout />,
             },
             {
+              path: "/teacher/edit-classroom",
+              element: <EditClassroomLayout />,
+            },
+            {
               path: "/teacher/classrooms",
-              element: <ClassroomList />,
+              element: <Classrooms />,
+            },
+            {
+              path: "/teacher/add-classroom-test",
+              element: <CreateTestLayout />,
             },
             {
               path: "/teacher/prepare-model",
