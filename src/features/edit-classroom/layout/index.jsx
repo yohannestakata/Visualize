@@ -1,7 +1,7 @@
 import Heading from "../../../components/Heading";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Check, ChevronsUpDown, Plus, Wand2 } from "lucide-react";
+import { Check, ChevronsUpDown, Plus, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -15,20 +15,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
 import useUser from "../../../hooks/useUser";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 
 function EditClassroomLayout() {
@@ -36,67 +29,31 @@ function EditClassroomLayout() {
   const [open, setOpen] = useState(false);
   const [modelValue, setModelValue] = useState("");
   const { user } = useUser();
-  const { data: departmentData } = useQuery({
-    queryKey: ["departments"],
-    queryFn: () => axios({ url: `${SERVER_URL}/departments`, method: "get" }),
-  });
-  const { data: semesters } = useQuery({
-    queryKey: ["open-semesters"],
-    queryFn: () => {
-      return axios({
-        url: `${SERVER_URL}/semesters?open=true`,
+  const [searchParams] = useSearchParams();
+  const classroomId = searchParams.get("classroomId");
+  console.log(classroomId);
+
+  const { data: classroomData } = useQuery({
+    queryFn: () =>
+      axios({
+        url: `${SERVER_URL}/classrooms/${classroomId}`,
         method: "get",
-      });
-    },
-  });
-  const openSemesters = semesters?.data?.data;
-
-  const teacherDepartments = new Set();
-  let teacherCourses = [];
-
-  openSemesters?.forEach((semester) =>
-    semester.batches.forEach((batch) =>
-      batch.sections.forEach((section) => {
-        user?.sections?.forEach((userSection) => {
-          if (userSection === section._id) {
-            teacherDepartments.add(batch.department);
-          }
-        });
       }),
-    ),
-  );
-
-  const departments = departmentData?.data?.data;
-  const teacherDepartmentsObj = departments?.filter((dep) => {
-    if ([...teacherDepartments].find((teachDep) => teachDep === dep._id))
-      return true;
-    else return false;
+    queryKey: ["classroom", classroomId],
   });
+
+  const classroom = classroomData?.data?.data;
+
+  useEffect(() => {
+    setInputs(classroom);
+  }, [classroom]);
 
   const [inputs, setInputs] = useState({
-    department: "",
-    course: "",
     name: "",
     models: [],
     sections: user?.sections,
     teacher: user?._id,
   });
-
-  if (inputs.department) {
-    openSemesters?.forEach((semester) =>
-      semester.batches.forEach((batch) =>
-        batch.courses.forEach((course) => {
-          if (course.teacher === user._id) teacherCourses.push(course);
-        }),
-      ),
-    );
-
-    teacherCourses = teacherCourses?.filter((course) => {
-      if (course.departments.find((dep) => dep === inputs.department))
-        return true;
-      else return false;
-    });
-  }
 
   function handleAddModel() {
     setInputs((prev) => ({
@@ -106,7 +63,7 @@ function EditClassroomLayout() {
     setModelValue();
   }
 
-  const { data } = useQuery({
+  const { data: modelsData } = useQuery({
     queryKey: ["models"],
     queryFn: () =>
       axios({
@@ -115,7 +72,14 @@ function EditClassroomLayout() {
       }),
   });
 
-  const models = data?.data?.data;
+  const models = modelsData?.data?.data;
+
+  function handleDeleteModel(id) {
+    setInputs((prev) => ({
+      ...prev,
+      models: [...prev.models].filter((model) => model !== id),
+    }));
+  }
 
   const hasAllValues = () => {
     const requiredProperties = ["department", "course", "name", "models"];
@@ -124,10 +88,12 @@ function EditClassroomLayout() {
 
   const navigate = useNavigate();
 
-  const { mutate: createClassroom } = useMutation({
+  const queryClient = useQueryClient();
+
+  const { mutate: updateClassroom } = useMutation({
     mutationFn: (fields) =>
       axios({
-        url: `${SERVER_URL}/classrooms`,
+        url: `${SERVER_URL}/classrooms/${classroomId}`,
         method: "post",
         data: fields,
       }),
@@ -135,77 +101,39 @@ function EditClassroomLayout() {
     onSuccess: (data) => {
       console.log(data);
       toast({
-        title: "Classroom created!",
+        title: "Classroom updated!",
         description: "Add test to complete configuration.",
       });
-      navigate(
-        `/teacher/add-classroom-test?classroomId=${data?.data?.data?._id}`,
-      );
+      navigate(`/teacher/classrooms`);
+      queryClient.invalidateQueries(["classrooms"]);
     },
   });
 
   function handleCreateClassroom() {
-    if (hasAllValues()) createClassroom(inputs);
+    if (hasAllValues()) updateClassroom(inputs);
   }
+
+  console.log(inputs);
 
   return (
     <div>
       <div className="mt-4 grid grid-cols-9 gap-4">
         <div className="col-span-3">
           <div className="sticky top-20  flex flex-col gap-6">
-            <Heading>Create Classroom</Heading>
+            <Heading>Edit Classroom</Heading>
             <div className="grid w-full items-center gap-1.5">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
                 type="text"
                 placeholder="Enter name"
-                value={inputs.name}
+                value={inputs?.name}
                 onChange={(e) =>
                   setInputs((prev) => ({ ...prev, name: e.target.value }))
                 }
               />
             </div>
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="sections">Department</Label>
-              <Select
-                onValueChange={(value) =>
-                  setInputs((prev) => ({ ...prev, department: value }))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent>
-                  {teacherDepartmentsObj?.map((dep) => {
-                    return (
-                      <SelectItem key={dep._id} value={dep._id}>
-                        {dep.name}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="course">Course</Label>
-              <Select
-                onValueChange={(value) =>
-                  setInputs((prev) => ({ ...prev, course: value }))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select course" />
-                </SelectTrigger>
-                <SelectContent>
-                  {teacherCourses?.map((course) => (
-                    <SelectItem key={course._id} value={course._id}>
-                      {course.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+
             <div className="grid w-full items-center gap-1.5">
               <Label htmlFor="sections">Models</Label>
               <div className="flex gap-2">
@@ -226,7 +154,7 @@ function EditClassroomLayout() {
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0">
                     <Command>
-                      <CommandInput placeholder="Search framework..." />
+                      <CommandInput placeholder="Search model..." />
                       <CommandEmpty>No model found.</CommandEmpty>
                       <CommandList>
                         {models?.map((model) => (
@@ -268,7 +196,7 @@ function EditClassroomLayout() {
               </div>
             </div>
             <Button onClick={handleCreateClassroom}>
-              <Wand2 className="mr-2 h-4 w-4" /> Create
+              <Save className="mr-2 h-4 w-4" /> Save changes
             </Button>
           </div>
         </div>
@@ -293,9 +221,18 @@ function EditClassroomLayout() {
                         className="h-full w-full object-cover"
                       />
                     </div>
-                    <span className="mt-2 inline-block font-semibold">
-                      {model.modelTitle}
-                    </span>
+                    <div className="mt-2  flex items-center justify-between font-semibold">
+                      <span>{model.modelTitle}</span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="hover:bg-destructive"
+                        onClick={() => handleDeleteModel(model._id)}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        <span>Delete</span>
+                      </Button>
+                    </div>
                   </div>
                 );
               })}

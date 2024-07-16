@@ -18,7 +18,7 @@ function ProtectRoutes({ children }) {
 
   useEffect(() => {
     if (isLoading) return;
-    if (!user) navigate("/auth/signup");
+    if (!user) navigate("/home");
 
     dispatch({ type: "setUser", payload: user });
     const role = user?.role.toLowerCase();

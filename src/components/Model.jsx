@@ -71,8 +71,10 @@ function Model({
         </div>
       )}
       <Canvas concurrent className="h-full w-full">
-        <ambientLight intensity={1.2} />
-        <directionalLight position={[1, 2, 3]} />
+        <ambientLight intensity={Math.PI} />
+        <directionalLight position={[0, 0, 7]} intensity={1} />
+        <directionalLight position={[0, 0, -7]} intensity={1} />
+        <directionalLight position={[0, 7, 0]} intensity={1} />
         <OrbitControls />
         <group scale={4} position={[0, 0, 0]}>
           <Resize>

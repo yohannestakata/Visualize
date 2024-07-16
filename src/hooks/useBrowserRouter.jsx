@@ -29,6 +29,7 @@ import ModelGuideline from "../pages/ModelGuideline";
 import CreateTestLayout from "../features/create-quiz/layout";
 import Classrooms from "../features/classrooms/layout";
 import EditClassroomLayout from "../features/edit-classroom/layout";
+import LandingPage from "../pages/Landing";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -54,6 +55,10 @@ function useBrowserRouter() {
               element: <Login />,
             },
           ],
+        },
+        {
+          path: "/home",
+          element: <LandingPage />,
         },
         {
           path: "/learn",

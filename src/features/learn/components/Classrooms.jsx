@@ -23,8 +23,6 @@ function Classrooms() {
     return acc;
   }, {});
 
-  console.log(classroomsPerCourse);
-
   return (
     <div className="flex flex-col gap-4">
       {classroomsPerCourse
@@ -32,21 +30,21 @@ function Classrooms() {
             <div key={key}>
               <h2 className="text-lg font-semibold">{key}</h2>
               <div className="mt-4 grid cursor-pointer grid-cols-2 gap-4">
-                {classroomsPerCourse[key].map((course) => (
+                {classroomsPerCourse[key]?.map((course) => (
                   <div
                     key={course._id}
                     className="col-span-1 rounded-lg border bg-card p-3 text-card-foreground hover:bg-accent hover:text-accent-foreground"
                   >
                     <div>
                       <img
-                        src={course.models[0].thumbnailUrl}
+                        src={course.models[0]?.thumbnailUrl}
                         alt=""
-                        className="h-full w-full rounded-lg object-cover"
+                        className="aspect-photo h-full w-full rounded-lg object-cover"
                       />
                     </div>
                     <div className="mt-2 flex flex-col gap-1">
                       <span className="font-semibold">{course.name}</span>
-                      <span>{course.teacher[0].nickname}</span>
+                      <span>{course.teacher[0]?.nickname}</span>
                     </div>
                   </div>
                 ))}

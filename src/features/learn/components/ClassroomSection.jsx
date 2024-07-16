@@ -11,7 +11,6 @@ function ClassroomSection({ openCommand }) {
   const { data: models } = useGetModels({
     department: user?.department,
   });
-  console.log(models);
 
   return (
     <div>
