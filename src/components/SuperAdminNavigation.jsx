@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
-import { BookOpen, LogOut, User, UserPlus } from "lucide-react";
+import { BookOpen, LogOut, User, UserPlus, Users } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -51,6 +51,15 @@ function SuperAdminNavigation() {
               to={"/super-admin/create-accounts"}
             >
               <UserPlus className="mr-2 h-4 w-4" />
+              <span>Create Accounts</span>
+            </NavLink>
+            <NavLink
+              className={
+                buttonVariants({ variant: "ghost" }) + " bg-background"
+              }
+              to={"/super-admin/accounts"}
+            >
+              <Users className="mr-2 h-4 w-4" />
               <span>Create Accounts</span>
             </NavLink>
           </div>

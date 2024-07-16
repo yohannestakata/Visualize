@@ -13,7 +13,6 @@ import { Services } from "@/components/ui/Services";
 import { Sponsors } from "@/components/ui/Sponsors";
 import { Team } from "@/components/ui/Team";
 import { Testimonials } from "@/components/ui/Testimonials";
-// import "../App.css";
 
 function LandingPage() {
   return (

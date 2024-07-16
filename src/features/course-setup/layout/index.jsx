@@ -19,6 +19,16 @@ import {
 import { useState } from "react";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 function CourseSetupLayout() {
   const [searchParams] = useSearchParams();
@@ -34,8 +44,10 @@ function CourseSetupLayout() {
   const [value, setValue] = useState("");
   const { toast } = useToast();
 
+  const [selectedSection, setSelectedSection] = useState("");
+
   const { data: users } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", semesterId, courseId],
     queryFn: () => {
       return axios({
         url: `${SERVER_URL}/users`,
@@ -48,7 +60,11 @@ function CourseSetupLayout() {
     (user) => user.role.toLowerCase() === "teacher",
   );
 
-  const [selectedSection, setSelectedSection] = useState("");
+  const depStuds = users?.data?.data
+    .filter((user) =>
+      user.sections.find((sect) => sect._id === selectedSection) ? true : false,
+    )
+    .filter((user) => user.role.toLowerCase() === "student");
 
   const { mutate: updateTeacher, isPending: isUpdatingTeacher } = useMutation({
     mutationFn: ([teacherId, fields]) => {
@@ -188,7 +204,27 @@ function CourseSetupLayout() {
           </div>
           <div>
             <h1 className="text-3xl font-semibold">Registered Students</h1>
-            <span className="mt-4 inline-block">coming soon...</span>
+            <Table>
+              <TableCaption>List of students.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Uni ID</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {depStuds?.map((user) => (
+                  <TableRow key={user._id}>
+                    <TableCell className="font-medium">
+                      {user.nickname}
+                    </TableCell>
+                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.uniId}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </main>
       </div>

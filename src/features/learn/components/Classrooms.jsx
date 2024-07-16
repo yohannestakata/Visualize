@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
 import useUser from "../../../hooks/useUser";
+import { NavLink } from "react-router-dom";
 
 function Classrooms() {
   const { user } = useUser();
@@ -31,7 +32,8 @@ function Classrooms() {
               <h2 className="text-lg font-semibold">{key}</h2>
               <div className="mt-4 grid cursor-pointer grid-cols-2 gap-4">
                 {classroomsPerCourse[key]?.map((course) => (
-                  <div
+                  <NavLink
+                    to={`/learn/classroom?classroomId=${course._id}`}
                     key={course._id}
                     className="col-span-1 rounded-lg border bg-card p-3 text-card-foreground hover:bg-accent hover:text-accent-foreground"
                   >
@@ -46,7 +48,7 @@ function Classrooms() {
                       <span className="font-semibold">{course.name}</span>
                       <span>{course.teacher[0]?.nickname}</span>
                     </div>
-                  </div>
+                  </NavLink>
                 ))}
               </div>
             </div>

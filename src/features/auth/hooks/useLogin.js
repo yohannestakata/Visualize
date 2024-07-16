@@ -18,6 +18,7 @@ function useLogin() {
         title: "Logged in!",
         description: "Logged in successfully.",
       });
+      queryClient.resetQueries();
     },
     onError: (error) =>
       toast({

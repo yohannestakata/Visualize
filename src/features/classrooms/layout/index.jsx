@@ -16,11 +16,10 @@ function Classrooms() {
   });
 
   const classrooms = classroomData?.data?.data;
-  console.log(classrooms);
+
   return (
     <div className="grid grid-cols-9 gap-4">
       {classrooms?.map((classroom) => {
-        console.log(classroom);
         return (
           <NavLink
             to={`/teacher/edit-classroom?classroomId=${classroom?._id}`}
@@ -29,7 +28,7 @@ function Classrooms() {
           >
             <div className="aspect-photo overflow-hidden rounded ">
               <img
-                src={classroom?.models[0].thumbnailUrl}
+                src={classroom?.models[0]?.thumbnailUrl}
                 alt=""
                 className="aspect-photo rounded object-cover"
               />

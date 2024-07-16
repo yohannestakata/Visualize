@@ -5,7 +5,6 @@ import ProtectRoutes from "../features/auth/components/ProtectRoute";
 import LearnLayout from "../features/learn/layouts";
 import Teacher from "../pages/Teacher";
 import CreateClassroomLayout from "../features/create-classroom/Layout";
-import ClassroomList from "../features/learn/components/ClassroomList";
 import ErrorBoundary from "../components/ErrorBoundary";
 import PrepareModelLayout from "../features/prepare-model/layout";
 import UploadedModels from "../features/uploaded-models/layouts";
@@ -30,6 +29,9 @@ import CreateTestLayout from "../features/create-quiz/layout";
 import Classrooms from "../features/classrooms/layout";
 import EditClassroomLayout from "../features/edit-classroom/layout";
 import LandingPage from "../pages/Landing";
+import ClassroomModelsLayout from "../features/classroom-models/layout";
+import TakeExamLayout from "../features/take-exam/layout";
+import AccountsLayout from "../features/accounts/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -73,6 +75,14 @@ function useBrowserRouter() {
               path: "/learn/take-test",
               element: <TakeTestLayout />,
             },
+            {
+              path: "/learn/classroom",
+              element: <ClassroomModelsLayout />,
+            },
+            {
+              path: "/learn/classroom/take-exam",
+              element: <TakeExamLayout />,
+            },
           ],
         },
         {
@@ -90,6 +100,10 @@ function useBrowserRouter() {
             {
               path: "/super-admin/department-setup",
               element: <DepartmentSetupLayout />,
+            },
+            {
+              path: "/super-admin/accounts",
+              element: <AccountsLayout />,
             },
           ],
         },
@@ -135,6 +149,7 @@ function useBrowserRouter() {
               path: "/teacher/classrooms",
               element: <Classrooms />,
             },
+
             {
               path: "/teacher/add-classroom-test",
               element: <CreateTestLayout />,
