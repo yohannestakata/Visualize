@@ -10,7 +10,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MiniLeaderboard from "../components/MiniLeaderboard";
 import LeaderboardCard from "../components/LeaderboardCard";
 import QuestCard from "../components/QuestCard";
@@ -19,7 +19,7 @@ import useGetModels from "../../../hooks/useGetModels";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 function LearnLayout() {
   const [open, setOpen] = useState(false);
@@ -32,13 +32,11 @@ function LearnLayout() {
     queryKey: ["classrooms"],
     queryFn: () =>
       axios({
-        url: `${SERVER_URL}/classrooms?sections=${userSections}`,
+        url: `${SERVER_URL}/classrooms?sections=${userSections.map((sect) => sect._id)}`,
       }),
   });
 
   const classrooms = classroomData?.data?.data;
-
-  console.log(classrooms);
 
   const navigate = useNavigate();
 

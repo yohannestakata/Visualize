@@ -1,28 +1,37 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { Progress } from "@/components/ui/progress";
+import Heading from "../../../components/Heading";
+import useUser from "../../../hooks/useUser";
+import { SERVER_URL } from "../../../data/globals";
+import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 function QuestCard() {
+  const queryClient = useQueryClient();
+  const { user } = useUser();
+  const { mutate: updateStreak } = useMutation({
+    mutationFn: () =>
+      axios({
+        url: `${SERVER_URL}/users/updateStreak/${user._id}`,
+        method: "patch",
+        data: {},
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user"]);
+    },
+  });
+  useEffect(() => updateStreak(), [updateStreak, user]);
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-xl">Daily Quests</CardTitle>
-        {/* <CardDescription>Better luck next time!</CardDescription> */}
+        <CardTitle className="text-center text-xl">Streak 🔥</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          <div className="space-y-2">
-            <span className="text-sm">Earn 10XP</span>
-            <Progress value={33} />
-          </div>
-          <div className="space-y-2">
-            <span className="text-sm">Earn 10XP</span>
-            <Progress value={100} />
-          </div>
-          <div className="space-y-2">
-            <span className="text-sm">Earn 10XP</span>
-            <Progress value={66} />
-          </div>
+          <Heading className="text-center text-6xl">
+            {user?.streak} Days
+          </Heading>
         </div>
       </CardContent>
     </Card>

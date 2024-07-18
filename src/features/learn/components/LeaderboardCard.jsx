@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+
 function LeaderboardCard() {
   return (
     <Card className="w-full">

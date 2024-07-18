@@ -12,7 +12,7 @@ function Classrooms() {
     queryKey: ["classrooms"],
     queryFn: () =>
       axios({
-        url: `${SERVER_URL}/classrooms?sections=${userSections}`,
+        url: `${SERVER_URL}/classrooms?sections=${userSections.map((sect) => sect._id)}`,
       }),
   });
 

@@ -19,16 +19,16 @@ function LandingPage() {
     <>
       <Navbar />
       <Hero />
-      <Sponsors />
+      {/* <Sponsors /> */}
       <About />
       <HowItWorks />
       <Features />
-      <Services />
-      <Cta />
-      <Testimonials />
+      {/* <Services /> */}
+      {/* <Cta /> */}
+      {/* <Testimonials /> */}
       <Team />
-      <Pricing />
-      <Newsletter />
+      {/* <Pricing /> */}
+      {/* <Newsletter /> */}
       <FAQ />
       <Footer />
       <ScrollToTop />
