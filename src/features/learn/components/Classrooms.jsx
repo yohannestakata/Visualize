@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
 import useUser from "../../../hooks/useUser";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Classrooms() {
   const { user } = useUser();
@@ -24,6 +24,22 @@ function Classrooms() {
     return acc;
   }, {});
 
+  const { mutate: updateClassroom } = useMutation({
+    mutationFn: (classroomId) =>
+      axios({
+        url: `${SERVER_URL}/classrooms/addActivity/${classroomId}`,
+        method: "patch",
+      }),
+  });
+
+  const navigate = useNavigate();
+
+  function handleClickClassroom(classroomId) {
+    console.log(classroomId);
+    updateClassroom(classroomId);
+    navigate(`/learn/classroom?classroomId=${classroomId}`);
+  }
+
   return (
     <div className="flex flex-col gap-4">
       {classroomsPerCourse
@@ -34,6 +50,10 @@ function Classrooms() {
                 {classroomsPerCourse[key]?.map((course) => (
                   <NavLink
                     to={`/learn/classroom?classroomId=${course._id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleClickClassroom(course._id);
+                    }}
                     key={course._id}
                     className="col-span-1 rounded-lg border bg-card p-3 text-card-foreground hover:bg-accent hover:text-accent-foreground"
                   >

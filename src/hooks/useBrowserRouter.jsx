@@ -32,6 +32,8 @@ import LandingPage from "../pages/Landing";
 import ClassroomModelsLayout from "../features/classroom-models/layout";
 import TakeExamLayout from "../features/take-exam/layout";
 import AccountsLayout from "../features/accounts/layout";
+import AnalyticsLayout from "../features/analytics/layouts";
+import AnalyticsDetailsLayout from "../features/analytics-details/layout";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -173,6 +175,14 @@ function useBrowserRouter() {
             {
               path: "/teacher/model-guideline",
               element: <ModelGuideline />,
+            },
+            {
+              path: "/teacher/analytics",
+              element: <AnalyticsLayout />,
+            },
+            {
+              path: "/teacher/analytics/details",
+              element: <AnalyticsDetailsLayout />,
             },
           ],
         },

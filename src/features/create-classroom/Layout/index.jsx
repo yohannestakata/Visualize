@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Select,
@@ -58,7 +58,7 @@ function CreateClassroomLayout() {
     semester.batches.forEach((batch) =>
       batch.sections.forEach((section) => {
         user?.sections?.forEach((userSection) => {
-          if (userSection === section._id) {
+          if (userSection._id === section._id) {
             teacherDepartments.add(batch.department);
           }
         });
@@ -78,9 +78,18 @@ function CreateClassroomLayout() {
     course: "",
     name: "",
     models: [],
-    sections: user?.sections,
+    sections: [],
     teacher: user?._id,
   });
+
+  useEffect(() => {
+    setInputs((prev) => ({
+      ...prev,
+      sections: user?.sections
+        .filter((section) => section.department === prev.department)
+        .map((section) => section._id),
+    }));
+  }, [inputs.department, user?.sections]);
 
   if (inputs.department) {
     openSemesters?.forEach((semester) =>
@@ -146,6 +155,7 @@ function CreateClassroomLayout() {
 
   function handleCreateClassroom() {
     if (hasAllValues()) createClassroom(inputs);
+    console.log(inputs);
   }
 
   return (

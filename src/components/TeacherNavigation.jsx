@@ -107,7 +107,7 @@ function TeacherNavigation() {
               className={
                 buttonVariants({ variant: "ghost" }) + " bg-background"
               }
-              to={"/teacher/activity"}
+              to={"/teacher/analytics"}
             >
               <Activity className="mr-2 h-4 w-4" />
               <span>Activity</span>
