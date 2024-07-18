@@ -8,13 +8,24 @@ function MiniLeaderboard() {
     queryKey: ["users"],
   });
 
-  const leaderboard = usersData?.data?.data
-    ?.filter((user) => user.role.toLowerCase() === "student")
-    ?.sort((curr, next) => next.streak - curr.streak);
+  const top3 = usersData?.data?.data
+    .filter((user) => user.role.toLowerCase() === "student")
+    .reduce((accumulator, current) => {
+      return [
+        ...accumulator,
+        {
+          score: current.scores
+            .map((score) => score.score)
+            .reduce((acc, curr) => {
+              return (acc += curr);
+            }, 0),
+          nickname: current.nickname,
+        },
+      ];
+    }, [])
+    .splice(0, 3)
+    .sort((curr, next) => next.score - curr.score);
 
-  const top3 = leaderboard?.splice(0, 3);
-
-  console.log(top3);
   return (
     <div className="rounded-lg border bg-card p-6">
       <span className="text-xl font-semibold">Leaderboards</span>
@@ -29,14 +40,6 @@ function MiniLeaderboard() {
               </td>
             </tr>
           ))}
-
-          <tr className=" text-primary">
-            <td className="py-1 pr-3 text-right text-lg font-semibold">#7</td>
-            <td className="px-3 py-1 text-lg font-semibold">You</td>
-            <td className="py-1 pl-3 text-right text-lg font-semibold">
-              17000 points
-            </td>
-          </tr>
         </tbody>
       </table>
     </div>

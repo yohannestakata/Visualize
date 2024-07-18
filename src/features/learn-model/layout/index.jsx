@@ -13,6 +13,9 @@ import {
 import Heading from "../../../components/Heading";
 import { Loader2, PencilLine, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { SERVER_URL } from "../../../data/globals";
 
 function LearnModelLayout() {
   const [searchParams] = useSearchParams();
@@ -38,6 +41,24 @@ function LearnModelLayout() {
     utterance.voice = voices[2];
     synth.speak(utterance);
   }
+
+  const [assistantInput, setAssistantInput] = useState("");
+  const [assistantReplies, setAssistantReplies] = useState([]);
+
+  const { mutate: askAssistant } = useMutation({
+    mutationFn: () =>
+      axios({
+        url: `${SERVER_URL}/assistant`,
+        method: "post",
+        data: { message: assistantInput },
+      }),
+    onSuccess: (data) => {
+      setAssistantReplies((prev) => [...prev, data.data.text]);
+      setAssistantInput("");
+    },
+  });
+
+  const handleAssistantClick = () => askAssistant();
 
   return (
     <div className="mt-6 flex flex-1 flex-col">
@@ -96,16 +117,32 @@ function LearnModelLayout() {
             <ResizablePanel>
               <div className="flex h-full flex-col gap-3 p-6 pb-0 pl-0">
                 <Heading as="h2">Assistant</Heading>
-                <ScrollArea className="h-full flex-1">
-                  <p></p>
+                <ScrollArea className="flex h-full flex-1 flex-col gap-2">
+                  <div className="flex flex-col gap-2">
+                    {assistantReplies.map((reply) => (
+                      <p
+                        key={reply}
+                        className="rounded-3xl rounded-br-none bg-accent p-3"
+                      >
+                        {reply}
+                      </p>
+                    ))}
+                  </div>
                 </ScrollArea>
                 <div className="flex gap-2">
                   <Textarea
                     placeholder="Message assistant"
                     rows={1}
                     className="min-h-0 items-end justify-end"
+                    value={assistantInput}
+                    onChange={(e) => setAssistantInput(e.target.value)}
                   />
-                  <Button variant="secondary">Send</Button>
+                  <Button
+                    variant="secondary"
+                    onMouseDown={handleAssistantClick}
+                  >
+                    Send
+                  </Button>
                 </div>
               </div>
             </ResizablePanel>
