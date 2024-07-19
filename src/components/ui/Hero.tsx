@@ -25,8 +25,7 @@ export const Hero = () => {
         </main>
 
         <p className="mx-auto text-xl text-muted-foreground md:w-10/12 lg:mx-0">
-          Build your React landing page effortlessly with the required sections
-          to your project.
+          Builing the future of your students using cutting edge tech.
         </p>
 
         <div className="space-y-4 md:space-x-4 md:space-y-0">
