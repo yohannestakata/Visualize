@@ -50,8 +50,12 @@ export const Navbar = () => {
               href="/"
               className="ml-2 flex text-xl font-bold"
             >
-              <LogoIcon />
-              ShadcnUI/React
+              <img
+                src="../../images/logo.svg"
+                className="mr-2 inline-block w-10 bg-background"
+                alt=""
+              />
+              Visualize
             </a>
           </NavigationMenuItem>
 
