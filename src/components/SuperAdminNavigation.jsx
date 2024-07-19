@@ -44,15 +44,7 @@ function SuperAdminNavigation() {
               <BookOpen className="mr-2 h-4 w-4" />
               <span>Create Department</span>
             </NavLink>
-            <NavLink
-              className={
-                buttonVariants({ variant: "ghost" }) + " bg-background"
-              }
-              to={"/super-admin/create-accounts"}
-            >
-              <UserPlus className="mr-2 h-4 w-4" />
-              <span>Create Accounts</span>
-            </NavLink>
+
             <NavLink
               className={
                 buttonVariants({ variant: "ghost" }) + " bg-background"
@@ -60,7 +52,7 @@ function SuperAdminNavigation() {
               to={"/super-admin/accounts"}
             >
               <Users className="mr-2 h-4 w-4" />
-              <span>Create Accounts</span>
+              <span>Accounts</span>
             </NavLink>
           </div>
         </div>

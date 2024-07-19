@@ -1,13 +1,22 @@
 import * as z from "zod";
+import validator from "validator";
 
 export const RegisterSchema = z.object({
   nickname: z.string().min(1, { message: "Please pick a nickname" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
     .string()
-    .min(8, { message: "Password needs to be atleast 8 characters" }),
+    .min(8, { message: "Password needs to be atleast 8 characters" })
+    .refine((pass) => validator.isStrongPassword(pass), {
+      message: "Please choose a stronger password",
+    }),
   uniId: z.string().min(1, { message: "Please enter a valid University ID" }),
   department: z.string().min(1, { message: "Please select a department" }),
+});
+
+export const RegisterSchema2 = z.object({
+  nickname: z.string().min(1, { message: "Please pick a nickname" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
 });
 
 export const LoginSchema = z.object({
@@ -42,7 +51,7 @@ export const UploadModelSchema = z.object({
       message: "The model must be less than 60MB.",
     })
     .refine((file) => validateModelFileType(file), {
-      message: "Invalid 3D file format. Supported formats: glTF, glb, OBJ, fbx",
+      message: "Invalid 3D file format. Supported formats: glTF, glb",
     }),
 });
 
@@ -70,7 +79,7 @@ export const EditModelSchema = z.object({
 });
 
 const validateModelFileType = (file: File) => {
-  const allowedMimeTypes = ["obj", "gltf", "glb", "fbx"];
+  const allowedMimeTypes = ["gltf", "glb"];
   return allowedMimeTypes.includes(file.name.split(".").at(-1));
 };
 

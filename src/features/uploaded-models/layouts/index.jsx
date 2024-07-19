@@ -18,7 +18,7 @@ function UploadedModels() {
   const filteredModels = models
     ?.filter((model) => {
       if (departmentFilter === "all") return true;
-      return model.department === departmentFilter;
+      return model.department._id === departmentFilter;
     })
     ?.filter((model) => {
       if (statusFilter === "all") return true;

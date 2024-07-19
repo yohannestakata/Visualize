@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,6 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Heading from "../../../components/Heading";
+import { NavLink } from "react-router-dom";
+import { UserPlus } from "lucide-react";
 
 function AccountsLayout() {
   const { data } = useQuery({
@@ -26,10 +29,18 @@ function AccountsLayout() {
     (user) => user.role.toLowerCase() !== "student",
   );
 
-  console.log(users);
   return (
     <div className="mt-6">
-      <Heading>Accounts</Heading>
+      <div className="flex items-center justify-between">
+        <Heading>Accounts</Heading>
+        <NavLink
+          className={buttonVariants({ variant: "default" }) + " bg-background"}
+          to={"/super-admin/create-accounts"}
+        >
+          <UserPlus className="mr-2 h-4 w-4" />
+          <span>Create Account</span>
+        </NavLink>
+      </div>
       <div className="mt-4">
         <Table>
           <TableCaption>A list of admins and teachers.</TableCaption>
@@ -43,7 +54,7 @@ function AccountsLayout() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {users?.map((user) => (
               <TableRow key={user._id}>
                 <TableCell className="font-medium">{user.nickname}</TableCell>
                 <TableCell>{user.uniId}</TableCell>

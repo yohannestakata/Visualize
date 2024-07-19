@@ -12,7 +12,7 @@ function ModelsList({ models }) {
         >
           <ImageCard
             title={model.modelTitle}
-            subtitle={model.department}
+            subtitle={model.department.name}
             imgUrl={model.thumbnailUrl}
             badge={model.drafted ? "Draft" : "Published"}
             badgeVariant={model.drafted ? "outline" : "default"}

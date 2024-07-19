@@ -205,7 +205,7 @@ function EditClassroomLayout() {
           <div className="mt-4 grid grid-cols-2 gap-4">
             {models
               ?.filter((model) => {
-                if (inputs.models.find((modelId) => modelId === model._id))
+                if (inputs?.models?.find((modelId) => modelId === model._id))
                   return true;
               })
               .map((model) => {

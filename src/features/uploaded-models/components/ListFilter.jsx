@@ -7,8 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useGetDepartments from "../../../hooks/useGetDepartments";
 
 function ListFilter({ setDepartmentFilter, setStatusFilter }) {
+  const { data: departments } = useGetDepartments();
+
   return (
     <div className="flex gap-2">
       <Select onValueChange={(value) => setDepartmentFilter(value)}>
@@ -19,9 +22,11 @@ function ListFilter({ setDepartmentFilter, setStatusFilter }) {
           <SelectGroup>
             <SelectLabel>Departments</SelectLabel>
             <SelectItem value="all">All</SelectItem>
-            <SelectItem value="computer science">Computer Science</SelectItem>
-            <SelectItem value="architecture">Architecture</SelectItem>
-            <SelectItem value="accounting">Accounting</SelectItem>
+            {departments?.map((dep) => (
+              <SelectItem value={dep._id} key={dep._id}>
+                {dep.name}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>

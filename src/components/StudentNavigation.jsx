@@ -10,15 +10,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User } from "lucide-react";
+import { Bell, ListCheck, LogOut, User } from "lucide-react";
 import useLogout from "../hooks/useLogout";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import RegisterDialog from "./RegisterDialog";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { SERVER_URL } from "../data/globals";
 
 function StudentNaviagtion() {
   const { user } = useUser();
   const logout = useLogout();
+  const navigate = useNavigate();
 
   const splitUsername = user?.nickname?.split(" ");
   let avatarAbriv = "";
@@ -27,6 +31,17 @@ function StudentNaviagtion() {
     if (splitUsername[0]) avatarAbriv += splitUsername[0][0];
     if (splitUsername[1]) avatarAbriv += splitUsername[1][0];
   }
+
+  const { data } = useQuery({
+    queryFn: () =>
+      axios({
+        url: `${SERVER_URL}/notifications`,
+        method: "get",
+      }),
+    queryKey: ["notifications"],
+  });
+
+  const notifications = data?.data?.data;
 
   return (
     <nav>
@@ -41,8 +56,34 @@ function StudentNaviagtion() {
           </NavLink>
           <RegisterDialog />
         </div>
-        <div className="flex gap-2">
-          <ModeToggle />
+        <div className="flex gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Bell />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuSeparator />
+              {notifications?.map((notif) => {
+                return (
+                  <>
+                    <DropdownMenuItem
+                      key={notif._id}
+                      onClick={() => {
+                        navigate(`/learn/learn-model?modelId=${notif.link}`);
+                      }}
+                      className="flex w-80 flex-col items-start gap-2 hover:bg-accent"
+                    >
+                      <span className="text-base font-semibold">
+                        {notif.title}
+                      </span>
+                      <p>{notif.description}</p>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
@@ -53,9 +94,23 @@ function StudentNaviagtion() {
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  navigate("/learn/update-profile");
+                }}
+              >
                 <User className="mr-2 h-4 w-4" /> Profile
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {user?.representing && (
+                <DropdownMenuItem
+                  onClick={() => {
+                    navigate("/learn/manage-section");
+                  }}
+                >
+                  <ListCheck className="mr-2 h-4 w-4" /> Manage section
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
@@ -66,6 +121,7 @@ function StudentNaviagtion() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <ModeToggle />
         </div>
       </div>
       <Separator />

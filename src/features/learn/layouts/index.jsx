@@ -10,16 +10,16 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MiniLeaderboard from "../components/MiniLeaderboard";
-import LeaderboardCard from "../components/LeaderboardCard";
 import QuestCard from "../components/QuestCard";
 import useUser from "../../../hooks/useUser";
 import useGetModels from "../../../hooks/useGetModels";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import NextToBeat from "../components/NextToBeat";
 
 function LearnLayout() {
   const [open, setOpen] = useState(false);
@@ -53,6 +53,7 @@ function LearnLayout() {
           <div className="sticky top-4 flex flex-col gap-4">
             <QuestCard />
             <MiniLeaderboard />
+            <NextToBeat />
             {/* <LeaderboardCard /> */}
           </div>
         </div>

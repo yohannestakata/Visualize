@@ -30,7 +30,7 @@ function Classrooms() {
               <img
                 src={classroom?.models[0]?.thumbnailUrl}
                 alt=""
-                className="aspect-photo rounded object-cover"
+                className="aspect-photo h-full w-full rounded object-cover"
               />
             </div>
             <div className="mt-2 flex items-center justify-between">

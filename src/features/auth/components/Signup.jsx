@@ -56,7 +56,6 @@ function Signup() {
   const { data: departments, isPending: isGettingDepartments } =
     useGetDepartments();
 
-  console.log(departments);
 
   return (
     <div className="flex flex-col">

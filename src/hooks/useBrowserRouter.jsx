@@ -34,6 +34,10 @@ import TakeExamLayout from "../features/take-exam/layout";
 import AccountsLayout from "../features/accounts/layout";
 import AnalyticsLayout from "../features/analytics/layouts";
 import AnalyticsDetailsLayout from "../features/analytics-details/layout";
+import BatchesLayout from "../features/batches-list/layout";
+import EditBatchLayout from "../features/edit-batch/layout";
+import ManageSectionLayout from "../features/manage-section/layout";
+import UpdateProfileLayout from "../features/update-profile/layouts";
 
 function useBrowserRouter() {
   const router = createBrowserRouter([
@@ -85,6 +89,14 @@ function useBrowserRouter() {
               path: "/learn/classroom/take-exam",
               element: <TakeExamLayout />,
             },
+            {
+              path: "/learn/manage-section",
+              element: <ManageSectionLayout />,
+            },
+            {
+              path: "/learn/update-profile",
+              element: <UpdateProfileLayout />,
+            },
           ],
         },
         {
@@ -120,6 +132,14 @@ function useBrowserRouter() {
             {
               path: "/admin/add-batches",
               element: <AddBatchesLayout />,
+            },
+            {
+              path: "/admin/batches",
+              element: <BatchesLayout />,
+            },
+            {
+              path: "/admin/edit-batch",
+              element: <EditBatchLayout />,
             },
             {
               path: "/admin/semesters",

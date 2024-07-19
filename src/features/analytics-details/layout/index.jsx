@@ -3,6 +3,7 @@ import Heading from "../../../components/Heading";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { SERVER_URL } from "../../../data/globals";
+import { Button } from "@/components/ui/button";
 import {
   Accordion,
   AccordionContent,
@@ -58,14 +59,26 @@ function AnalyticsDetailsLayout() {
                   <AccordionTrigger>{section.name}</AccordionTrigger>
                   <AccordionContent>All</AccordionContent>
                   <AccordionContent>
-                    {students?.map((student) => {
-                      if (
-                        student.sections.find(
-                          (studSection) => section._id === studSection._id,
+                    <div className="flex flex-col gap-1">
+                      {students?.map((student) => {
+                        if (
+                          student.sections.find(
+                            (studSection) => section._id === studSection._id,
+                          )
                         )
-                      )
-                        return student.nickname;
-                    })}
+                          return (
+                            <Button
+                              key={student._id}
+                              variant="secondary"
+                              size="sm"
+                              className="justify-start"
+                            >
+                              <span>{student.nickname}</span> &nbsp;-&nbsp;
+                              <span>{student.uniId}</span>
+                            </Button>
+                          );
+                      })}
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
               );

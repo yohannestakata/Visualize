@@ -31,10 +31,6 @@ function PrepareModelForm() {
   const [selectedButton, setSelectedButton] = useState("");
   const { user } = useUser();
 
-  
-
-  
-
   const form = useForm({
     resolver: zodResolver(UploadModelSchema),
     defaultValues: { modelTitle: "" },
@@ -67,7 +63,7 @@ function PrepareModelForm() {
     semester.batches.forEach((batch) =>
       batch.sections.forEach((section) => {
         user?.sections.forEach((userSection) => {
-          if (userSection === section._id) {
+          if (userSection._id === section._id) {
             teacherDepartments.add(batch.department);
           }
         });

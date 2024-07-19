@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { NavLink } from "react-router-dom";
-import { LogOut, User, UserPlus2 } from "lucide-react";
+import { FolderDot, LogOut, User, Users2 } from "lucide-react";
 import useLogout from "../hooks/useLogout";
 
 function AdminNavigation() {
@@ -44,10 +44,10 @@ function AdminNavigation() {
               className={
                 buttonVariants({ variant: "ghost" }) + " bg-background"
               }
-              to={"/admin/add-batches"}
+              to={"/admin/batches"}
             >
-              <UserPlus2 className="mr-2 h-4 w-4" />
-              <span>Add Batches</span>
+              <Users2 className="mr-2 h-4 w-4" />
+              <span>Batches</span>
             </NavLink>
             <NavLink
               className={
@@ -55,7 +55,7 @@ function AdminNavigation() {
               }
               to={"/admin/semesters"}
             >
-              <UserPlus2 className="mr-2 h-4 w-4" />
+              <FolderDot className="mr-2 h-4 w-4" />
               <span>Semesters</span>
             </NavLink>
           </div>
