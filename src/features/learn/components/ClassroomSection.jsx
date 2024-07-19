@@ -23,9 +23,6 @@ function ClassroomSection({ openCommand }) {
             <TabsTrigger value="my-classrooms">
               <BookOpenIcon className="mr-2 h-4 w-4" /> My Classrooms
             </TabsTrigger>
-            <TabsTrigger value="favorites">
-              <Star className="mr-2 h-4 w-4" /> Favorites
-            </TabsTrigger>
           </TabsList>
           <Button
             variant="outline"

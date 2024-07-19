@@ -9,17 +9,18 @@ export const Hero = () => {
       <div className="space-y-6 text-center lg:text-start">
         <main className="text-5xl font-semibold md:text-6xl">
           <h1 className="inline">
+            Shaping the
             <span className="inline bg-gradient-to-r from-[#F596D3]  to-[#D247BF] bg-clip-text text-transparent">
-              Shadcn
+              {" "}
+              Future
             </span>{" "}
-            landing page
+            of Education
           </h1>{" "}
           for{" "}
           <h2 className="inline">
             <span className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] bg-clip-text text-transparent">
-              React
+              Students
             </span>{" "}
-            developers
           </h2>
         </main>
 
