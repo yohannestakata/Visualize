@@ -77,7 +77,7 @@ function EditClassroomLayout() {
   function handleDeleteModel(id) {
     setInputs((prev) => ({
       ...prev,
-      models: [...prev.models].filter((model) => model !== id),
+      models: [...prev.models].filter((model) => model._id !== id),
     }));
   }
 
@@ -205,7 +205,9 @@ function EditClassroomLayout() {
           <div className="mt-4 grid grid-cols-2 gap-4">
             {models
               ?.filter((model) => {
-                if (inputs?.models?.find((modelId) => modelId === model._id))
+                if (
+                  inputs?.models?.find((modelId) => modelId._id === model._id)
+                )
                   return true;
               })
               .map((model) => {

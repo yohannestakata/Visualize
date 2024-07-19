@@ -22,7 +22,7 @@ function TakeExamLayout() {
   const exam = classroom?.exam;
 
   const [ansCheck, setAnsCheck] = useState([]);
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(60 * 5);
   const [startExam, setStartExam] = useState(false);
   const [finishExam, setFinishExam] = useState(false);
 

@@ -103,15 +103,6 @@ function TeacherNavigation() {
             <img src="../../../images/logo.svg" className="w-10" alt="" />
           </div>
           <div className="flex items-center gap-1">
-            <NavLink
-              className={
-                buttonVariants({ variant: "ghost" }) + " bg-background"
-              }
-              to={"/teacher/analytics"}
-            >
-              <Activity className="mr-2 h-4 w-4" />
-              <span>Activity</span>
-            </NavLink>
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -152,6 +143,15 @@ function TeacherNavigation() {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
+            <NavLink
+              className={
+                buttonVariants({ variant: "ghost" }) + " bg-background"
+              }
+              to={"/teacher/analytics"}
+            >
+              <Activity className="mr-2 h-4 w-4" />
+              <span>Activity</span>
+            </NavLink>
           </div>
         </div>
         <div className="flex gap-2">
