@@ -4,6 +4,7 @@ import Model from "../../../components/Model";
 import { Suspense, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
+import { buttonVariants } from "@/components/ui/button";
 
 import {
   ResizableHandle,
@@ -11,7 +12,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import Heading from "../../../components/Heading";
-import { Loader2, PencilLine, Volume2 } from "lucide-react";
+import { Download, Loader2, PencilLine, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -64,11 +65,20 @@ function LearnModelLayout() {
     <div className="mt-6 flex flex-1 flex-col">
       <div className="flex items-center justify-between">
         <Heading as={"h1"}>Chapter: {model?.modelTitle}</Heading>
-        <NavLink to={`/learn/take-test?modelId=${model?._id}`}>
-          <Button className="flex items-center gap-2">
-            <PencilLine className=" h-4 w-4" /> Take test
-          </Button>
-        </NavLink>
+        <div className="flex items-center gap-2">
+          <a
+            href={model?.modelUrl}
+            className={buttonVariants({ variant: "secondary" })}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Download model
+          </a>
+          <NavLink to={`/learn/take-test?modelId=${model?._id}`}>
+            <Button className="flex items-center gap-2">
+              <PencilLine className=" h-4 w-4" /> Take test
+            </Button>
+          </NavLink>
+        </div>
       </div>
       <ResizablePanelGroup
         direction="horizontal"
